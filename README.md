@@ -2,6 +2,7 @@
 Access all your favorite applications and files with only 2 clicks.
 No precise mouse movement required, no bloat, no extensions, just a simple launcher.
 
+![Launchbar in action](https://raw.githubusercontent.com/Mertsch/Launchbar/master/Screenshot%2001.png)
 
 ### What do others say?
 Check out these sites for a pretty accurate description of Launchbar.
