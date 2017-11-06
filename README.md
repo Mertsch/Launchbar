@@ -9,3 +9,6 @@ Check out these sites for a pretty accurate description of Launchbar.
 
 http://www.freewaregenius.com/looking-for-a-simple-practical-launcher-try-launchbar-4-for-windows
 http://www.addictivetips.com/windows-tips/launchbar-a-powerful-application-launcher-with-multi-monitor-support
+
+http://www.softpedia.com/get/System/Launchers-Shutdown-Tools/Launchbar.shtml
+https://www.windows7download.com/win7-launchbar/fqgtfajl.html
