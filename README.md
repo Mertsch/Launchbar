@@ -2,6 +2,8 @@
 Access all your favorite applications and files with only 2 clicks.
 No precise mouse movement required, no bloat, no extensions, just a simple launcher.
 
+**[Download Launchbar here](https://github.com/Mertsch/Launchbar/releases)**
+
 ![Launchbar in action](https://raw.githubusercontent.com/Mertsch/Launchbar/master/Screenshot%2001.png)
 
 ### What do others say?
