@@ -7,6 +7,10 @@ namespace Launchbar
     public static class MetaData
     {
         [NotNull]
-        public static Version Version => Assembly.GetExecutingAssembly().GetName().Version;
+        private static readonly Lazy<string> version = new Lazy<string>(() =>
+            Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion);
+
+        [NotNull]
+        public static string Version => version.Value;
     }
 }

@@ -2,7 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
-    xmlns:Launchbar="clr-namespace:Launchbar">
+    xmlns:local="clr-namespace:Launchbar">
 
     <Geometry x:Key="RightArrow">M 0,0 L 4,3.5 L 0,7 Z</Geometry>
 
@@ -47,7 +47,7 @@
             <Rectangle x:Name="InnerBorder"
                        Margin="2"/>
             <DockPanel>
-                <ContentPresenter x:Name="Icon" ContentTemplate="{TemplateBinding Launchbar:MenuItemExtensions.IconTemplate}"
+                <ContentPresenter x:Name="Icon" ContentTemplate="{TemplateBinding local:MenuItemExtensions.IconTemplate}"
                                   Margin="4,0,6,0"
                                   VerticalAlignment="Center"
                                   ContentSource="Icon"
@@ -132,7 +132,7 @@
             <Rectangle x:Name="InnerBorder"
                        Margin="2"/>
             <DockPanel>
-                <ContentPresenter x:Name="Icon" ContentTemplate="{TemplateBinding Launchbar:MenuItemExtensions.IconTemplate}"
+                <ContentPresenter x:Name="Icon" ContentTemplate="{TemplateBinding local:MenuItemExtensions.IconTemplate}"
                                   Margin="4,0,6,0"
                                   VerticalAlignment="Center"
                                   ContentSource="Icon"
@@ -278,7 +278,7 @@
                                       SharedSizeGroup="MenuItemIGTColumnGroup"/>
                     <ColumnDefinition Width="17"/>
                 </Grid.ColumnDefinitions>
-                <ContentPresenter x:Name="Icon" ContentTemplate="{TemplateBinding Launchbar:MenuItemExtensions.IconTemplate}"
+                <ContentPresenter x:Name="Icon" ContentTemplate="{TemplateBinding local:MenuItemExtensions.IconTemplate}"
                                   Margin="1"
                                   VerticalAlignment="Center"
                                   ContentSource="Icon"
@@ -380,7 +380,7 @@
                                       SharedSizeGroup="MenuItemIGTColumnGroup"/>
                     <ColumnDefinition Width="17"/>
                 </Grid.ColumnDefinitions>
-                <ContentPresenter x:Name="Icon" ContentTemplate="{TemplateBinding Launchbar:MenuItemExtensions.IconTemplate}"
+                <ContentPresenter x:Name="Icon" ContentTemplate="{TemplateBinding local:MenuItemExtensions.IconTemplate}"
                                   Margin="1"
                                   VerticalAlignment="Center"
                                   ContentSource="Icon"

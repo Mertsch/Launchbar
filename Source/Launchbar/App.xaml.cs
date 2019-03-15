@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Security;
@@ -81,8 +80,7 @@ namespace Launchbar
 
             #region Make sure that only one instance of the application is running at any given time.
 
-            bool instantiated;
-            instanceMutex = new Mutex(false, MutexName, out instantiated);
+            instanceMutex = new Mutex(false, MutexName, out bool instantiated);
             if (!instantiated)
             {
                 MessageBox.Show(Launchbar.Properties.Resources.SingleInstanceWarning,
@@ -92,7 +90,7 @@ namespace Launchbar
                 {
                     splashScreen.Close(TimeSpan.Zero);
                 }
-                catch (Win32Exception) {}
+                catch (Win32Exception) { }
                 this.Shutdown();
                 return;
             }
@@ -116,7 +114,7 @@ namespace Launchbar
             {
                 SystemEvents.DisplaySettingsChanged += this.displaySettingsChanged;
             }
-            catch (SecurityException) {}
+            catch (SecurityException) { }
             this.displaySettingsChanged(null, null); // Do primary initialization.
 
             setting.PropertyChanged += this.settingsPropertyChanged;

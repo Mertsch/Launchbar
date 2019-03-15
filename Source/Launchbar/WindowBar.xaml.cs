@@ -140,8 +140,7 @@ namespace Launchbar
                         MenuEntryCollection menuEntries = menu.Entries;
                         if (menuEntries != null && menuEntries.Count != 0)
                         {
-                            Program p = menuEntries[0] as Program;
-                            if (p != null)
+                            if (menuEntries[0] is Program p)
                             {
                                 p.TryRun();
                             }

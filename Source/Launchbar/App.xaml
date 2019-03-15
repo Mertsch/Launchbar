@@ -3,8 +3,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:lb="clr-namespace:Launchbar"
-    xmlns:Shapes="clr-namespace:Launchbar.Shapes"
-    xmlns:Properties="clr-namespace:Launchbar.Properties">
+    xmlns:shapes="clr-namespace:Launchbar.Shapes"
+    xmlns:p="clr-namespace:Launchbar.Properties">
 
     <Application.Resources>
         <ResourceDictionary>
@@ -13,7 +13,7 @@
                 <ResourceDictionary Source="Resources\Images.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <SolidColorBrush x:Key="BarBrush" Color="Red" Opacity="{Binding Source={x:Static Properties:Settings.Default}, Path=BarOpacity, Mode=OneWay}"/>
+            <SolidColorBrush x:Key="BarBrush" Color="Red" Opacity="{Binding Source={x:Static p:Settings.Default}, Path=BarOpacity, Mode=OneWay}"/>
 
             <Style x:Key="StyleIcon" TargetType="{x:Type FrameworkElement}">
                 <Setter Property="Width" Value="24"/>
@@ -23,7 +23,7 @@
 
             <!--MenuItem templates-->
             <DataTemplate x:Key="dataTemplateSubmenuIcon">
-                <Shapes:ShapeFolder Style="{StaticResource StyleIcon}"
+                <shapes:ShapeFolder Style="{StaticResource StyleIcon}"
                                     IsOpen="{Binding Path=(MenuItem.IsSubmenuOpen), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type MenuItem}}}"
                                     />
             </DataTemplate>
@@ -31,10 +31,10 @@
                 <Image Source="{Binding Path=Icon}" Style="{StaticResource StyleIcon}"/>
             </DataTemplate>
             <DataTemplate x:Key="dataTemplateWarningIcon">
-                <Shapes:ShapeWarning Style="{StaticResource StyleIcon}"/>
+                <shapes:ShapeWarning Style="{StaticResource StyleIcon}"/>
             </DataTemplate>
             <DataTemplate x:Key="dataTemplateFolderGoToIcon">
-                <Shapes:ShapeFolderGoTo Style="{StaticResource StyleIcon}"/>
+                <shapes:ShapeFolderGoTo Style="{StaticResource StyleIcon}"/>
             </DataTemplate>
             <DataTemplate x:Key="dataTemplateSettingsIcon">
                 <Image Source="{StaticResource imageSettings}" Style="{StaticResource StyleIcon}"/>
@@ -123,12 +123,12 @@
 
             <!--This template is used programmatically.-->
             <ContextMenu x:Key="contextMenuTemplate" KeyDown="contextMenuKeyDown" Margin="1"
-                         ItemsSource="{Binding Source={x:Static Properties:Settings.Default}, Path=Menu.Entries}"
+                         ItemsSource="{Binding Source={x:Static p:Settings.Default}, Path=Menu.Entries}"
                          MinWidth="125" MinHeight="25"
                          ItemContainerStyleSelector="{DynamicResource MenuItemStyleSelector}">
                 <ContextMenu.LayoutTransform>
-                    <ScaleTransform ScaleX="{Binding Source={x:Static Properties:Settings.Default}, Path=ContextMenuScale}"
-                                    ScaleY="{Binding Source={x:Static Properties:Settings.Default}, Path=ContextMenuScale}"/>
+                    <ScaleTransform ScaleX="{Binding Source={x:Static p:Settings.Default}, Path=ContextMenuScale}"
+                                    ScaleY="{Binding Source={x:Static p:Settings.Default}, Path=ContextMenuScale}"/>
                 </ContextMenu.LayoutTransform>
             </ContextMenu>
 

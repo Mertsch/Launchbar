@@ -180,8 +180,7 @@ namespace Launchbar
             }
             else
             {
-                Program p = this as Program;
-                if (p != null && p.IsValidFile) // When the program path is valid, use that path as default.
+                if (this is Program p && p.IsValidFile) // When the program path is valid, use that path as default.
                 {
                     path = p.Path;
                 }

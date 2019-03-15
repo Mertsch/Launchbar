@@ -132,7 +132,7 @@ namespace Launchbar
         private void buttonApplyClick(object sender, RoutedEventArgs e)
         {
             // Read the Menu property to force a settings file update on save.
-            if (Settings.Default.Menu == null) {}
+            if (Settings.Default.Menu == null) { }
 
             Settings.Default.Save();
         }
@@ -188,8 +188,7 @@ namespace Launchbar
             MenuEntry selected = this.SelectedMenuEntry;
             if (selected != null)
             {
-                Submenu submenu = selected as Submenu;
-                if (submenu != null)
+                if (selected is Submenu submenu)
                 {
                     if (submenu.MenuEntries == null)
                     {

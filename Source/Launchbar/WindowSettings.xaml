@@ -1,10 +1,10 @@
 ﻿<Window x:Class="Launchbar.WindowSettings" x:ClassModifier="internal"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Properties="clr-namespace:Launchbar.Properties"
+        xmlns:p="clr-namespace:Launchbar.Properties"
         xmlns:lb="clr-namespace:Launchbar"
-        xmlns:Diagnostics="clr-namespace:System.Diagnostics;assembly=System"
-        xmlns:Shapes="clr-namespace:Launchbar.Shapes"
+        xmlns:diag="clr-namespace:System.Diagnostics;assembly=System"
+        xmlns:shapes="clr-namespace:Launchbar.Shapes"
         xmlns:s="clr-namespace:System;assembly=mscorlib"
         Title="Launchbar Settings"
         MinHeight="550" MinWidth="400" Height="600" Width="450"
@@ -49,7 +49,7 @@
                                 <Setter Property="HorizontalAlignment" Value="Center"/>
                                 <Setter Property="Margin" Value="3"/>
                             </Style>
-                            <Style TargetType="{x:Type Shapes:ShapeMonitor}">
+                            <Style TargetType="{x:Type shapes:ShapeMonitor}">
                                 <Setter Property="Width" Value="40"/>
                                 <Setter Property="Height" Value="40"/>
                                 <Setter Property="Margin" Value="10"/>
@@ -71,25 +71,25 @@
 
                                 <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
                                     <TextBlock Text="Left"/>
-                                    <CheckBox IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=BarLeft}"/>
+                                    <CheckBox IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=BarLeft}"/>
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="0" Grid.Column="1">
                                     <TextBlock Text="Top"/>
-                                    <CheckBox IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=BarTop}"/>
+                                    <CheckBox IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=BarTop}"/>
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal">
-                                    <CheckBox IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=BarRight}"/>
+                                    <CheckBox IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=BarRight}"/>
                                     <TextBlock Text="Right"/>
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="2" Grid.Column="1">
-                                    <CheckBox IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=BarBottom}"/>
+                                    <CheckBox IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=BarBottom}"/>
                                     <TextBlock Text="Bottom"/>
                                 </StackPanel>
 
-                                <Shapes:ShapeMonitor Grid.Row="1" Grid.Column="1"/>
+                                <shapes:ShapeMonitor Grid.Row="1" Grid.Column="1"/>
                             </Grid>
                         </GroupBox>
 
@@ -108,25 +108,25 @@
 
                                 <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
                                     <TextBlock Text="Left"/>
-                                    <CheckBox IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=BarLeftSecondary}"/>
+                                    <CheckBox IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=BarLeftSecondary}"/>
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="0" Grid.Column="1">
                                     <TextBlock Text="Top"/>
-                                    <CheckBox IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=BarTopSecondary}"/>
+                                    <CheckBox IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=BarTopSecondary}"/>
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal">
-                                    <CheckBox IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=BarRightSecondary}"/>
+                                    <CheckBox IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=BarRightSecondary}"/>
                                     <TextBlock Text="Right"/>
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="2" Grid.Column="1">
-                                    <CheckBox IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=BarBottomSecondary}"/>
+                                    <CheckBox IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=BarBottomSecondary}"/>
                                     <TextBlock Text="Bottom"/>
                                 </StackPanel>
 
-                                <Shapes:ShapeMonitor Grid.Row="1" Grid.Column="1"/>
+                                <shapes:ShapeMonitor Grid.Row="1" Grid.Column="1"/>
                             </Grid>
                         </GroupBox>
                     </StackPanel>
@@ -150,17 +150,17 @@
                             <Slider Grid.Column="2" Grid.Row="0"
                                     Minimum="0.01" Maximum="1" SmallChange="0.01" LargeChange="0.1"
                                     IsSnapToTickEnabled="True" TickFrequency="0.01"
-                                    Value="{Binding Source={x:Static Properties:Settings.Default}, Path=BarOpacity}"/>
+                                    Value="{Binding Source={x:Static p:Settings.Default}, Path=BarOpacity}"/>
                             <TextBlock Grid.Column="4" Grid.Row="0"
-                                       Text="{Binding Source={x:Static Properties:Settings.Default}, Path=BarOpacity, Mode=OneWay, StringFormat='{}{0:f2}'}"/>
+                                       Text="{Binding Source={x:Static p:Settings.Default}, Path=BarOpacity, Mode=OneWay, StringFormat='{}{0:f2}'}"/>
 
                             <TextBlock Grid.Column="0" Grid.Row="2" Text="Menu scale:"/>
                             <Slider Grid.Column="2" Grid.Row="2"
                                     Minimum="1" Maximum="2" SmallChange="0.01" LargeChange="0.1"
                                     IsSnapToTickEnabled="True" TickFrequency="0.01"
-                                    Value="{Binding Source={x:Static Properties:Settings.Default}, Path=ContextMenuScale}"/>
+                                    Value="{Binding Source={x:Static p:Settings.Default}, Path=ContextMenuScale}"/>
                             <TextBlock Grid.Column="4" Grid.Row="2"
-                                       Text="{Binding Source={x:Static Properties:Settings.Default}, Path=ContextMenuScale, Mode=OneWay, StringFormat='{}{0:f2}x'}"/>
+                                       Text="{Binding Source={x:Static p:Settings.Default}, Path=ContextMenuScale, Mode=OneWay, StringFormat='{}{0:f2}x'}"/>
                         </Grid>
                     </GroupBox>
 
@@ -184,7 +184,7 @@
                                 </TextDecorationCollection>
                             </FrameworkElement.Resources>
                             
-                            <CheckBox Grid.Row="1" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=QuickLaunch, Mode=TwoWay}"
+                            <CheckBox Grid.Row="1" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=QuickLaunch, Mode=TwoWay}"
                                       VerticalContentAlignment="Center">
                                 <TextBlock>
                                     <TextBlock.Inlines>
@@ -265,7 +265,7 @@
                                             </Style.Triggers>
                                         </Style>
                                     </Button.Style>
-                                    <Shapes:ShapeDelete Width="16" Height="16"/>
+                                    <shapes:ShapeDelete Width="16" Height="16"/>
                                 </Button>
                             </StackPanel>
 
@@ -318,12 +318,12 @@
                                       SelectedItem="{Binding Path=SelectedProgram.Priority}"
                                       IsEnabled="{Binding Path=IsProgram, Mode=OneWay}">
                                 <ComboBox.ItemsSource>
-                                    <x:Array Type="{x:Type Diagnostics:ProcessPriorityClass}">
-                                        <x:Static Member="Diagnostics:ProcessPriorityClass.Idle"/>
-                                        <x:Static Member="Diagnostics:ProcessPriorityClass.BelowNormal"/>
-                                        <x:Static Member="Diagnostics:ProcessPriorityClass.Normal"/>
-                                        <x:Static Member="Diagnostics:ProcessPriorityClass.AboveNormal"/>
-                                        <x:Static Member="Diagnostics:ProcessPriorityClass.High"/>
+                                    <x:Array Type="{x:Type diag:ProcessPriorityClass}">
+                                        <x:Static Member="diag:ProcessPriorityClass.Idle"/>
+                                        <x:Static Member="diag:ProcessPriorityClass.BelowNormal"/>
+                                        <x:Static Member="diag:ProcessPriorityClass.Normal"/>
+                                        <x:Static Member="diag:ProcessPriorityClass.AboveNormal"/>
+                                        <x:Static Member="diag:ProcessPriorityClass.High"/>
                                     </x:Array>
                                 </ComboBox.ItemsSource>
                             </ComboBox>
@@ -332,7 +332,7 @@
 
                     <TreeView Grid.Column="0" Grid.Row="1" AllowDrop="True" Drop="treeViewDrop"
                               SelectedItemChanged="treeViewEntriesSelectedItemChanged"
-                              ItemsSource="{Binding Source={x:Static Properties:Settings.Default}, Path=Menu.Entries}"
+                              ItemsSource="{Binding Source={x:Static p:Settings.Default}, Path=Menu.Entries}"
                               Margin="0,3,3,0">
                         <FrameworkElement.Resources>
                             <!--TreeViewItem templates-->
@@ -346,7 +346,7 @@
                             </ControlTemplate>
                             <ControlTemplate x:Key="templateStandardSubmenu">
                                 <StackPanel Orientation="Horizontal" MinWidth="150">
-                                    <Shapes:ShapeFolder Style="{StaticResource StyleIcon}"
+                                    <shapes:ShapeFolder Style="{StaticResource StyleIcon}"
                                                         IsOpen="{Binding Path=IsExpanded, Mode=OneWay}"/>
                                     <TextBlock Text="{Binding Path=Text, Mode=OneWay}" VerticalAlignment="Center"/>
                                 </StackPanel>
@@ -362,7 +362,7 @@
                             </ControlTemplate>
                             <ControlTemplate x:Key="templateExit">
                                 <StackPanel Orientation="Horizontal" MinWidth="150">
-                                    <Shapes:ShapeClose Width="20" Height="20" Margin="2,3"/>
+                                    <shapes:ShapeClose Width="20" Height="20" Margin="2,3"/>
                                     <TextBlock Text="Exit" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ControlTemplate>
@@ -422,7 +422,7 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                            <Style x:Key="styleIconPlus" TargetType="{x:Type Shapes:ShapePlus}">
+                            <Style x:Key="styleIconPlus" TargetType="{x:Type shapes:ShapePlus}">
                                 <Setter Property="Width" Value="12"/>
                                 <Setter Property="Height" Value="12"/>
                                 <Setter Property="HorizontalAlignment" Value="Right"/>
@@ -432,26 +432,26 @@
 
                         <Button ToolTip="Move the selected entry upwards."
                                 Click="buttonMoveUpClick" Style="{StaticResource styleDisableOnNull}">
-                            <Shapes:ShapeNext Style="{StaticResource StyleIcon}">
-                                <Shapes:ShapeNext.LayoutTransform>
+                            <shapes:ShapeNext Style="{StaticResource StyleIcon}">
+                                <shapes:ShapeNext.LayoutTransform>
                                     <RotateTransform Angle="180"/>
-                                </Shapes:ShapeNext.LayoutTransform>
-                            </Shapes:ShapeNext>
+                                </shapes:ShapeNext.LayoutTransform>
+                            </shapes:ShapeNext>
                         </Button>
 
                         <Button ToolTip="Add a program."
                                 Click="buttonAddProgramClick" Style="{StaticResource styleButton}">
                             <Grid>
-                                <Shapes:ShapeApplication Style="{StaticResource StyleIcon}"/>
-                                <Shapes:ShapePlus Style="{StaticResource styleIconPlus}"/>
+                                <shapes:ShapeApplication Style="{StaticResource StyleIcon}"/>
+                                <shapes:ShapePlus Style="{StaticResource styleIconPlus}"/>
                             </Grid>
                         </Button>
 
                         <Button ToolTip="Add a sumenu."
                                 Click="buttonAddSubmenuClick" Style="{StaticResource styleButton}">
                             <Grid>
-                                <Shapes:ShapeFolder IsOpen="True" Style="{StaticResource StyleIcon}"/>
-                                <Shapes:ShapePlus Style="{StaticResource styleIconPlus}"/>
+                                <shapes:ShapeFolder IsOpen="True" Style="{StaticResource StyleIcon}"/>
+                                <shapes:ShapePlus Style="{StaticResource styleIconPlus}"/>
                             </Grid>
                         </Button>
 
@@ -469,7 +469,7 @@
                                         </LinearGradientBrush>
                                     </Path.Stroke>
                                 </Path>
-                                <Shapes:ShapePlus Style="{StaticResource styleIconPlus}"/>
+                                <shapes:ShapePlus Style="{StaticResource styleIconPlus}"/>
                             </Grid>
                         </Button>
 
@@ -477,27 +477,27 @@
                                 Click="buttonAddSettingsClick" Style="{StaticResource styleButton}">
                             <Grid>
                                 <Image Source="{StaticResource imageSettings}" Style="{StaticResource StyleIcon}"/>
-                                <Shapes:ShapePlus Style="{StaticResource styleIconPlus}"/>
+                                <shapes:ShapePlus Style="{StaticResource styleIconPlus}"/>
                             </Grid>
                         </Button>
 
                         <Button ToolTip="Add an entry to shutdown the application."
                                 Click="buttonAddExitClick" Style="{StaticResource styleButton}">
                             <Grid>
-                                <Shapes:ShapeClose Margin="2" Width="20" Height="20"
+                                <shapes:ShapeClose Margin="2" Width="20" Height="20"
                                                    IsHover="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}, Path=IsMouseOver}"/>
-                                <Shapes:ShapePlus Style="{StaticResource styleIconPlus}"/>
+                                <shapes:ShapePlus Style="{StaticResource styleIconPlus}"/>
                             </Grid>
                         </Button>
 
                         <Button ToolTip="Delete the currently selected entry."
                                 Click="buttonDeleteClick" Style="{StaticResource styleDisableOnNull}">
-                            <Shapes:ShapeDelete Style="{StaticResource StyleIcon}"/>
+                            <shapes:ShapeDelete Style="{StaticResource StyleIcon}"/>
                         </Button>
 
                         <Button ToolTip="Move the selected entry downwards."
                                 Click="buttonMoveDownClick" Style="{StaticResource styleDisableOnNull}">
-                            <Shapes:ShapeNext Style="{StaticResource StyleIcon}"/>
+                            <shapes:ShapeNext Style="{StaticResource StyleIcon}"/>
                         </Button>
                     </StackPanel>
                 </Grid>
@@ -532,7 +532,7 @@
 
                     <TextBlock Grid.Row="3" Margin="0,5,0,0" Text="Changelog:"/>
 
-                    <TextBox Grid.Row="4" Text="{Binding Source={x:Static Properties:Resources.Changelog}, Mode=OneTime}"
+                    <TextBox Grid.Row="4" Text="{Binding Source={x:Static p:Resources.Changelog}, Mode=OneTime}"
                              TextWrapping="Wrap" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
                 </Grid>
             </TabItem>

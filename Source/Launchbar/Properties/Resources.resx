@@ -84,7 +84,11 @@
     <comment>Message for first time users.</comment>
   </data>
   <data name="Changelog" xml:space="preserve">
-    <value>4.5.0 (2016-01-17)
+    <value>4.5.1 (2019-03-15)
+* Upgrade to .NET 4.7.2, built with Visual Studio 2017
+* Version number is now aligned with the changelog
+
+4.5.0 (2016-01-17)
 * Process priority will not be set when 'Normal' (setting the process priority may not be allowed by the OS)
 * Error message when starting a process provides more details
 

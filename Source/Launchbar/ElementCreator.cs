@@ -20,13 +20,11 @@ namespace Launchbar
         /// <returns>Objects described by the template.</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            ControlTemplate ct = parameter as ControlTemplate;
-            if (ct == null)
+            if (!(parameter is ControlTemplate ct))
             {
                 throw new ArgumentException("You must specify a ControlTemplate.", nameof(parameter));
             }
             return new Control { Template = ct };
-            //return ct.LoadContent();
         }
 
         /// <summary>

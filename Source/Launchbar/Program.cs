@@ -68,7 +68,7 @@ namespace Launchbar
         /// <summary>
         /// Arguments to pass when starting the file.
         /// </summary>
-        public String Arguments
+        public string Arguments
         {
             get { return this.arguments; }
             set
@@ -85,43 +85,6 @@ namespace Launchbar
                 this.OnPropertyChanged(nameof(this.Arguments));
             }
         }
-
-        #region Reserved for future use
-
-        ///// <summary>
-        ///// Get or set a working directory to be used when starting the program.
-        ///// </summary>
-        //public string UserWorkingDir { get; set; }
-
-        ///// <summary>
-        ///// Has the user chosen a 
-        ///// </summary>
-        //public bool HasUserWorkingDir
-        //{
-        //    get { return !string.IsNullOrEmpty(this.UserWorkingDir); }
-        //}
-
-        ///// <summary>
-        ///// Directory to start in.
-        ///// </summary>
-        //public String WorkingDir
-        //{
-        //    get
-        //    {
-        //        if (!string.IsNullOrEmpty(this.UserWorkingDir))
-        //        {
-        //            return this.UserWorkingDir;
-        //        }
-        //        try
-        //        {
-        //            return System.IO.Path.GetDirectoryName(this.Path);
-        //        }
-        //        catch (ArgumentException) {}
-        //        return null;
-        //    }
-        //}
-
-        #endregion
 
         /// <summary>
         /// Priority to start the program with.
@@ -143,12 +106,12 @@ namespace Launchbar
         /// <summary>
         /// Does the specified path point to an existing file?
         /// </summary>
-        public Boolean IsValidFile => File.Exists(this.pathAbsolute);
+        public bool IsValidFile => File.Exists(this.pathAbsolute);
 
         /// <summary>
         /// Does the specified path point to an existing directory?
         /// </summary>
-        public Boolean IsValidPath => Directory.Exists(this.pathAbsolute);
+        public bool IsValidPath => Directory.Exists(this.pathAbsolute);
 
         #endregion
 
