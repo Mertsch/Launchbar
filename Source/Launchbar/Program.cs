@@ -129,17 +129,20 @@ namespace Launchbar
         [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public void Run()
         {
-            Process process = new Process();
-            process.StartInfo.FileName = this.pathAbsolute;
-            process.StartInfo.Arguments = this.arguments;
+            ProcessStartInfo startInfo = new ProcessStartInfo
+                {
+                    UseShellExecute = true,
+                    FileName = this.pathAbsolute,
+                    Arguments = this.arguments
+                };
 
             string workingDir = System.IO.Path.GetDirectoryName(this.pathAbsolute);
             if (workingDir != null)
             {
-                process.StartInfo.WorkingDirectory = workingDir;
+                startInfo.WorkingDirectory = workingDir;
             }
 
-            if (process.Start()) // Start the process and set the priority (if a new process has been created).
+            if (Process.Start(startInfo) is Process process) // Start the process and set the priority (if a new process has been created).
             {
                 if (this.Priority != ProcessPriorityClass.Normal) // Only set priority if not default (as setting priority may cause an exception).
                 {

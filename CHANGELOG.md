@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Upgrade to .NET Core 3.1, built with Visual Studio 2019
 - Changelog is now rendered with Markdown
+### Removed
+- Assembly Strong Name
 
 ## [4.6.0] - 2019-08-28
 ### Changed
