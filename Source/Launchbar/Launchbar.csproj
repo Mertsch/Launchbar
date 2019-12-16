@@ -1,217 +1,50 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D057789D-742A-4738-A96A-954C84D2478E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Launchbar</RootNamespace>
-    <AssemblyName>Launchbar</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+
     <ApplicationIcon>Resources\Next.ico</ApplicationIcon>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+    <Version>5.0.0-preview.1</Version>
+    <Authors>Launchbar</Authors>
+    <Description>RunIT to the next level.</Description>
+    <Copyright>Copyright © Mertsch 2019</Copyright>
   </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="PresentationFramework.Aero" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
+    <PackageReference Include="fm.Extensions.Wpf" Version="2.4.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2019.1.3" />
+    <PackageReference Include="Markdig.Wpf" Version="0.3.1" />
+    <PackageReference Include="WpfScreenHelper" Version="0.4.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations">
-      <Version>2019.1.3</Version>
-    </PackageReference>
+    <None Remove="Resources\**\*.png;Resources\**\*.ico" />
+
+    <Resource Include="Resources\**\*.png;Resources\**\*.ico" />
+    <Resource Include="..\..\CHANGELOG.md" Link="CHANGELOG.md" />
   </ItemGroup>
+
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Area.cs" />
-    <Compile Include="ElementCreator.cs" />
-    <Compile Include="MetaData.cs" />
-    <Compile Include="Win32\ExtendedWindowStyles.cs" />
-    <Compile Include="Win32\GWL.cs" />
-    <Compile Include="IconType.cs" />
-    <Compile Include="Menu.cs" />
-    <Compile Include="MenuEntry.cs" />
-    <Compile Include="MenuEntryAdvanced.cs" />
-    <Compile Include="MenuEntryCollection.cs" />
-    <Compile Include="MenuEntryExit.cs" />
-    <Compile Include="MenuEntrySettings.cs" />
-    <Compile Include="MenuItemExtensions.cs" />
-    <Compile Include="MenuItemStyleSelector.cs" />
-    <Compile Include="NotifyBase.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Win32\SafeNativeMethods.cs" />
-    <Compile Include="Separator.cs" />
-    <Compile Include="Shapes\ShapeApplication.xaml.cs">
-      <DependentUpon>ShapeApplication.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Shapes\ShapeClose.xaml.cs">
-      <DependentUpon>ShapeClose.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Shapes\ShapeDelete.xaml.cs">
-      <DependentUpon>ShapeDelete.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Shapes\ShapeFolder.xaml.cs">
-      <DependentUpon>ShapeFolder.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Shapes\ShapeFolderGoTo.xaml.cs">
-      <DependentUpon>ShapeFolderGoTo.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Shapes\ShapeMonitor.xaml.cs">
-      <DependentUpon>ShapeMonitor.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Shapes\ShapeNext.xaml.cs">
-      <DependentUpon>ShapeNext.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Shapes\ShapePlus.xaml.cs">
-      <DependentUpon>ShapePlus.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Shapes\ShapeWarning.xaml.cs">
-      <DependentUpon>ShapeWarning.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Submenu.cs" />
-    <Compile Include="WindowBar.xaml.cs">
-      <DependentUpon>WindowBar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WindowSettings.xaml.cs">
-      <DependentUpon>WindowSettings.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Win32\WinHelper.cs" />
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="key.snk" />
-    <None Include="Properties\Settings.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <AppDesigner Include="Properties\" />
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Next.ico" />
-    <Resource Include="Resources\Settings.ico" />
-    <Resource Include="Resources\SplashScreen.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Resources\Aero.Extended.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Images.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Shapes\ShapeApplication.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Shapes\ShapeClose.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Shapes\ShapeDelete.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Shapes\ShapeFolder.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Shapes\ShapeFolderGoTo.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Shapes\ShapeMonitor.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Shapes\ShapeNext.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Shapes\ShapePlus.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Shapes\ShapeWarning.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="WindowBar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="WindowSettings.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>

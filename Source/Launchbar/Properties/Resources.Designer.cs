@@ -61,6 +61,17 @@ namespace Launchbar.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to # Launchbar {0}
+        ///## Based on RUNit by [Andreas Hoeller](http://www.magister-lex.at)
+        ///* Note: Nearly all icons used in this application are made by [Arvid Axelsson](http://arvidaxelsson.se) released under the [Creative Commons Attribution-Share Alike License](http://creativecommons.org/licenses/by-sa/3.0).
+        /// </summary>
+        public static string AboutTextFormat {
+            get {
+                return ResourceManager.GetString("AboutTextFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Launchbar.
         /// </summary>
         public static string ApplicationName {
@@ -70,20 +81,21 @@ namespace Launchbar.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 4.6.0 (2019-08-28)
-        ///* Upgrade to .NET 4.8, built with Visual Studio 2019
-        ///* Disable DPI awareness, as it breaks right-click behaviour.
+        ///   Looks up a localized string similar to # Changelog
+        ///All notable changes to this project will be documented in this file.
         ///
-        ///4.5.1 (2019-03-15)
-        ///* Upgrade to .NET 4.7.2, built with Visual Studio 2017
-        ///* Version number is now aligned with the changelog
+        ///The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+        ///and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
         ///
-        ///4.5.0 (2016-01-17)
-        ///* Process priority will not be set when &apos;Normal&apos; (setting the process priority may not be allowed by the OS)
-        ///* Error message when starting a process provides more details
+        ///## [Unreleased]
+        ///### Changed
+        ///- Upgrade to .NET Core 3.1, built with Visual Studio 2019
+        ///- Changelog is now rendered with Markdown
         ///
-        ///4.4.1 (2015-08-02)
-        ///* Upgrade to .NET 4.6, built with Visual S [rest of string was truncated]&quot;;.
+        ///## [4.6.0] - 2019-08-28
+        ///### Changed
+        ///- Upgrade to .NET 4.8, built with Visual Studio 2019
+        ///- Disable DPI awareness, as  [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Changelog {
             get {

@@ -3,14 +3,18 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:p="clr-namespace:Launchbar.Properties"
         xmlns:lb="clr-namespace:Launchbar"
-        xmlns:diag="clr-namespace:System.Diagnostics;assembly=System"
+        xmlns:diag="clr-namespace:System.Diagnostics;assembly=System.Diagnostics.Process"
         xmlns:shapes="clr-namespace:Launchbar.Shapes"
-        xmlns:s="clr-namespace:System;assembly=mscorlib"
+        xmlns:s="clr-namespace:System;assembly=System.Runtime"
+        xmlns:md="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
         Title="Launchbar Settings"
         MinHeight="550" MinWidth="400" Height="600" Width="450"
         Icon="Resources/Settings.ico"
         DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}"
-        Hyperlink.RequestNavigate="hyperlinkRequestNavigate">
+        Hyperlink.RequestNavigate="requestNavigateHyperlink">
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static md:Commands.Hyperlink}" Executed="requestNavigateCommand"/>
+    </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -183,7 +187,7 @@
                                     </TextDecoration>
                                 </TextDecorationCollection>
                             </FrameworkElement.Resources>
-                            
+
                             <CheckBox Grid.Row="1" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=QuickLaunch, Mode=TwoWay}"
                                       VerticalContentAlignment="Center">
                                 <TextBlock>
@@ -341,7 +345,7 @@
                                     <Image Style="{StaticResource StyleIcon}"
                                            Source="{Binding Path=Icon, Mode=OneWay}"/>
                                     <TextBlock Text="{Binding Path=Text, Mode=OneWay}"
-                                               Margin="3,0,0,0"  VerticalAlignment="Center"/>
+                                               Margin="3,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ControlTemplate>
                             <ControlTemplate x:Key="templateStandardSubmenu">
@@ -403,10 +407,10 @@
 
                         <TreeView.ItemContainerStyleSelector>
                             <lb:MenuItemStyleSelector ProgramStyle="{StaticResource styleProgram}"
-                                                             SubmenuStyle="{StaticResource styleSubmenu}"
-                                                             SeparatorStyle="{StaticResource styleSearator}"
-                                                             SettingsStyle="{StaticResource styleSettings}"
-                                                             ExitStyle="{StaticResource styleExit}"/>
+                                                      SubmenuStyle="{StaticResource styleSubmenu}"
+                                                      SeparatorStyle="{StaticResource styleSearator}"
+                                                      SettingsStyle="{StaticResource styleSettings}"
+                                                      ExitStyle="{StaticResource styleExit}"/>
                         </TreeView.ItemContainerStyleSelector>
                     </TreeView>
 
@@ -415,7 +419,7 @@
                             <Style x:Key="styleButton" TargetType="{x:Type Button}">
                                 <Setter Property="Margin" Value="3"/>
                             </Style>
-                            <Style x:Key="styleDisableOnNull" TargetType="{x:Type Button}" BasedOn="{StaticResource styleButton}" >
+                            <Style x:Key="styleDisableOnNull" TargetType="{x:Type Button}" BasedOn="{StaticResource styleButton}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=SelectedMenuEntry, Mode=OneWay}" Value="{x:Null}">
                                         <Setter Property="IsEnabled" Value="false"/>
@@ -525,15 +529,14 @@
 
                     <TextBlock Grid.Row="2" Margin="0,5,0,0" TextWrapping="Wrap">
                             Note: Nearly all icons used in this application are made by
-                        <Hyperlink NavigateUri="http://arvidaxelsson.se">Arvid Axelsson</Hyperlink>
-                        released under the <Hyperlink NavigateUri="http://creativecommons.org/licenses/by-sa/3.0">
+<Hyperlink NavigateUri="http://arvidaxelsson.se">Arvid Axelsson</Hyperlink>
+released under the <Hyperlink NavigateUri="http://creativecommons.org/licenses/by-sa/3.0">
                             Creative Commons Attribution-Share Alike License</Hyperlink>.
                     </TextBlock>
 
-                    <TextBlock Grid.Row="3" Margin="0,5,0,0" Text="Changelog:"/>
+                    <Rectangle Grid.Row="3" Margin="4,2" Height="2" Fill="CornflowerBlue"/>
 
-                    <TextBox Grid.Row="4" Text="{Binding Source={x:Static p:Resources.Changelog}, Mode=OneTime}"
-                             TextWrapping="Wrap" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
+                    <md:MarkdownViewer Grid.Row="4" Markdown="{Binding Source={x:Static p:Resources.Changelog}, Mode=OneTime}"/>
                 </Grid>
             </TabItem>
         </TabControl>

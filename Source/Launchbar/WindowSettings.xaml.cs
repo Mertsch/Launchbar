@@ -2,7 +2,10 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Navigation;
+using fm.Extensions;
 using JetBrains.Annotations;
 using Launchbar.Properties;
 using Microsoft.Win32;
@@ -18,7 +21,7 @@ namespace Launchbar
         /// </summary>
         public MenuEntry SelectedMenuEntry
         {
-            get { return (MenuEntry)this.GetValue(SelectedMenuEntryProperty); }
+            get { return this.GetValue<MenuEntry>(SelectedMenuEntryProperty); }
             set { this.SetValue(SelectedMenuEntryProperty, value); }
         }
 
@@ -26,29 +29,29 @@ namespace Launchbar
         /// Identifies the <see cref="SelectedMenuEntry"/> property.
         /// </summary>
         public static readonly DependencyProperty SelectedMenuEntryProperty = DependencyProperty.Register(
-            @"SelectedMenuEntry", typeof(MenuEntry), typeof(WindowSettings));
+            nameof(SelectedMenuEntry), typeof(MenuEntry), typeof(WindowSettings));
 
         /// <summary>
         /// Gets whether the currently selected item is of type <see cref="Program"/>.
         /// </summary>
         public bool IsProgram
         {
-            get { return (bool)this.GetValue(IsProgramProperty); }
-            private set { this.SetValue(IsProgramProperty, value); }
+            get { return this.GetValue<bool>(IsProgramProperty); }
+            private set { this.SetValueBox(IsProgramProperty, value); }
         }
 
         /// <summary>
         /// Identifies the <see cref="IsProgram"/> property.
         /// </summary>
         public static readonly DependencyProperty IsProgramProperty = DependencyProperty.Register(
-            @"IsProgram", typeof(bool), typeof(WindowSettings));
+            nameof(IsProgram), typeof(bool), typeof(WindowSettings));
 
         /// <summary>
         /// Gets the currently selected object.
         /// </summary>
         public Program SelectedProgram
         {
-            get { return (Program)this.GetValue(SelectedProgramProperty); }
+            get { return this.GetValue<Program>(SelectedProgramProperty); }
             private set { this.SetValue(SelectedProgramProperty, value); }
         }
 
@@ -56,29 +59,29 @@ namespace Launchbar
         /// Identifies the <see cref="SelectedProgram"/> property.
         /// </summary>
         public static readonly DependencyProperty SelectedProgramProperty = DependencyProperty.Register(
-            @"SelectedProgram", typeof(Program), typeof(WindowSettings));
+            nameof(SelectedProgram), typeof(Program), typeof(WindowSettings));
 
         /// <summary>
         /// Gets whether the currently selected item is of type <see cref="MenuEntryAdvanced"/>.
         /// </summary>
         public bool IsMenuEntryAdvanced
         {
-            get { return (bool)this.GetValue(IsMenuEntryAdvancedProperty); }
-            private set { this.SetValue(IsMenuEntryAdvancedProperty, value); }
+            get { return this.GetValue<bool>(IsMenuEntryAdvancedProperty); }
+            private set { this.SetValueBox(IsMenuEntryAdvancedProperty, value); }
         }
 
         /// <summary>
         /// Identifies the <see cref="IsMenuEntryAdvanced"/> property.
         /// </summary>
         public static readonly DependencyProperty IsMenuEntryAdvancedProperty = DependencyProperty.Register(
-            @"IsMenuEntryAdvanced", typeof(bool), typeof(WindowSettings));
+            nameof(IsMenuEntryAdvanced), typeof(bool), typeof(WindowSettings));
 
         /// <summary>
         /// Gets the currently selected object.
         /// </summary>
         public MenuEntryAdvanced SelectedMenuEntryAdvanced
         {
-            get { return (MenuEntryAdvanced)this.GetValue(SelectedMenuEntryAdvancedProperty); }
+            get { return this.GetValue<MenuEntryAdvanced>(SelectedMenuEntryAdvancedProperty); }
             private set { this.SetValue(SelectedMenuEntryAdvancedProperty, value); }
         }
 
@@ -86,7 +89,7 @@ namespace Launchbar
         /// Identifies the <see cref="SelectedMenuEntryAdvanced"/> property.
         /// </summary>
         public static readonly DependencyProperty SelectedMenuEntryAdvancedProperty = DependencyProperty.Register(
-            @"SelectedMenuEntryAdvanced", typeof(MenuEntryAdvanced), typeof(WindowSettings));
+            nameof(SelectedMenuEntryAdvanced), typeof(MenuEntryAdvanced), typeof(WindowSettings));
 
         #endregion
 
@@ -110,9 +113,56 @@ namespace Launchbar
             this.IsProgram = program != null;
         }
 
-        private void hyperlinkRequestNavigate([CanBeNull] object sender, [NotNull] RequestNavigateEventArgs e)
+        private void requestNavigateHyperlink([CanBeNull] object sender, [NotNull] RequestNavigateEventArgs e)
         {
-            Process.Start(e.Uri.ToString());
+            requestNavigate(e);
+        }
+
+        private void requestNavigateCommand([CanBeNull] object sender, [NotNull] ExecutedRoutedEventArgs e)
+        {
+            requestNavigate(e);
+        }
+
+        private static void requestNavigate([NotNull] RoutedEventArgs e)
+        {
+            string uri = null;
+            switch (e)
+            {
+                case RequestNavigateEventArgs en:
+                    uri = en.Uri.ToString();
+                    break;
+                case ExecutedRoutedEventArgs er:
+                    switch (er.Parameter)
+                    {
+                        case Uri u:
+                            uri = u.ToString();
+                            break;
+                        case string s:
+                            uri = s;
+                            break;
+                    }
+                    break;
+                default:
+                    if (e.OriginalSource is Hyperlink hyperlink &&
+                        hyperlink.NavigateUri is Uri navUri)
+                    {
+                        uri = navUri.ToString();
+                    }
+                    break;
+            }
+            if (string.IsNullOrEmpty(uri))
+            {
+                return;
+            }
+            try
+            {
+                Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true });
+                e.Handled = true;
+            }
+            catch
+            {
+                // We do not care if this crashes
+            }
         }
 
         #region Buttons

@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using fm.Extensions;
 using Launchbar.Properties;
 using Launchbar.Win32;
 
@@ -25,24 +26,24 @@ namespace Launchbar
         /// </summary>
         public Dock Dock
         {
-            get { return (Dock)this.GetValue(DockProperty); }
+            get { return this.GetValue<Dock>(DockProperty); }
             private set { this.SetValue(DockProperty, value); }
         }
 
         public static readonly DependencyProperty DockProperty = DependencyProperty.Register(
-            "Dock", typeof(Dock), typeof(WindowBar));
+            nameof(Dock), typeof(Dock), typeof(WindowBar));
 
         /// <summary>
         /// Gets the working area (desktop without task bar).
         /// </summary>
         public Area WorkArea
         {
-            get { return (Area)this.GetValue(WorkAreaProperty); }
+            get { return this.GetValue<Area>(WorkAreaProperty); }
             private set { this.SetValue(WorkAreaProperty, value); }
         }
 
         public static readonly DependencyProperty WorkAreaProperty = DependencyProperty.Register(
-            "WorkArea", typeof(Area), typeof(WindowBar));
+            nameof(WorkArea), typeof(Area), typeof(WindowBar));
 
         #endregion
 

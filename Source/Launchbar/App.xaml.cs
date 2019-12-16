@@ -1,20 +1,16 @@
 ﻿using System;
+using System.Collections.Immutable;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
 using System.Security;
 using System.Security.Permissions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Input;
 using Launchbar.Properties;
 using Microsoft.Win32;
-using Application = System.Windows.Application;
-using ContextMenu = System.Windows.Controls.ContextMenu;
-using KeyEventArgs = System.Windows.Input.KeyEventArgs;
-using MessageBox = System.Windows.MessageBox;
+using WpfScreenHelper;
 
 namespace Launchbar
 {
@@ -199,12 +195,12 @@ namespace Launchbar
 
         private void displaySettingsChanged(object sender, EventArgs e)
         {
-            Screen[] screens = Screen.AllScreens;
+            ImmutableArray<Screen> screens = Screen.AllScreens.ToImmutableArray();
             int count = screens.Length;
 
             if (count > 0)
             {
-                Rectangle area = screens[0].WorkingArea;
+                Rect area = screens[0].WorkingArea;
                 this.primaryArea.Update(area.X, area.Y, area.Width, area.Height);
 
                 if (this.currentDisplayCount < 1)
@@ -226,7 +222,7 @@ namespace Launchbar
 
             if (count > 1)
             {
-                Rectangle area = screens[1].WorkingArea;
+                Rect area = screens[1].WorkingArea;
                 this.secondaryArea.Update(area.X, area.Y, area.Width, area.Height);
 
                 if (this.currentDisplayCount < 2)

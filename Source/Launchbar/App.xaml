@@ -11,6 +11,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources\Aero.Extended.xaml"/>
                 <ResourceDictionary Source="Resources\Images.xaml"/>
+                <ResourceDictionary Source="Resources\Styles.MarkDown.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <SolidColorBrush x:Key="BarBrush" Color="Red" Opacity="{Binding Source={x:Static p:Settings.Default}, Path=BarOpacity, Mode=OneWay}"/>
