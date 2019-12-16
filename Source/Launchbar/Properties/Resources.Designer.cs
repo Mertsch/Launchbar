@@ -19,7 +19,7 @@ namespace Launchbar.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -70,7 +70,11 @@ namespace Launchbar.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 4.5.1 (2019-03-15)
+        ///   Looks up a localized string similar to 4.6.0 (2019-08-28)
+        ///* Upgrade to .NET 4.8, built with Visual Studio 2019
+        ///* Disable DPI awareness, as it breaks right-click behaviour.
+        ///
+        ///4.5.1 (2019-03-15)
         ///* Upgrade to .NET 4.7.2, built with Visual Studio 2017
         ///* Version number is now aligned with the changelog
         ///
@@ -79,14 +83,7 @@ namespace Launchbar.Properties {
         ///* Error message when starting a process provides more details
         ///
         ///4.4.1 (2015-08-02)
-        ///* Upgrade to .NET 4.6, built with Visual Studio 2015
-        ///
-        ///4.3.0 (2013-10-05)
-        ///* New Splash Screen
-        ///* Upgrade to .NET 4.5.1, built with Visual Studio 2013
-        ///
-        ///4.2.2 (2012-11-02)
-        ///* Improv [rest of string was truncated]&quot;;.
+        ///* Upgrade to .NET 4.6, built with Visual S [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Changelog {
             get {

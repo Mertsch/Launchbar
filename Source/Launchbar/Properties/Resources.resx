@@ -84,7 +84,11 @@
     <comment>Message for first time users.</comment>
   </data>
   <data name="Changelog" xml:space="preserve">
-    <value>4.5.1 (2019-03-15)
+    <value>4.6.0 (2019-08-28)
+* Upgrade to .NET 4.8, built with Visual Studio 2019
+* Disable DPI awareness, as it breaks right-click behaviour.
+
+4.5.1 (2019-03-15)
 * Upgrade to .NET 4.7.2, built with Visual Studio 2017
 * Version number is now aligned with the changelog
 
