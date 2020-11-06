@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using JetBrains.Annotations;
 
 namespace Launchbar
 {
@@ -7,8 +8,13 @@ namespace Launchbar
     {
         public Submenu Parent { get; set; }
 
-        protected override void InsertItem(int index, MenuEntry item)
+        // ReSharper disable once AnnotationConflictInHierarchy
+        protected override void InsertItem(int index, [NotNull] MenuEntry item)
         {
+            if (item is null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
             item.Parent = this;
             base.InsertItem(index, item);
             item.IsSelected = true;
@@ -37,8 +43,13 @@ namespace Launchbar
             }
         }
 
-        protected override void SetItem(int index, MenuEntry item)
+        // ReSharper disable once AnnotationConflictInHierarchy
+        protected override void SetItem(int index, [NotNull] MenuEntry item)
         {
+            if (item is null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
             this[index].Parent = null;
             item.Parent = this;
             base.SetItem(index, item);

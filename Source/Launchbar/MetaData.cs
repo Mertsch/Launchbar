@@ -8,7 +8,7 @@ namespace Launchbar
     {
         [NotNull]
         private static readonly Lazy<string> version = new Lazy<string>(() =>
-            Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion);
+            Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "Unknown");
 
         [NotNull]
         public static string Version => version.Value;

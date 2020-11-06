@@ -264,7 +264,7 @@ namespace Launchbar
         public static void OpenOrActivateSettings()
         {
             WindowCollection wc = Current.Windows;
-            lock (wc.SyncRoot)
+            lock (wc.SyncRoot!)
             {
                 foreach (Window w in wc)
                 {
