@@ -27,7 +27,7 @@ namespace Launchbar
         public Dock Dock
         {
             get { return this.GetValue<Dock>(DockProperty); }
-            private set { this.SetValue(DockProperty, value); }
+            private init { this.SetValue(DockProperty, value); }
         }
 
         public static readonly DependencyProperty DockProperty = DependencyProperty.Register(
@@ -39,7 +39,7 @@ namespace Launchbar
         public Area WorkArea
         {
             get { return this.GetValue<Area>(WorkAreaProperty); }
-            private set { this.SetValue(WorkAreaProperty, value); }
+            private init { this.SetValue(WorkAreaProperty, value); }
         }
 
         public static readonly DependencyProperty WorkAreaProperty = DependencyProperty.Register(
@@ -136,15 +136,11 @@ namespace Launchbar
                 if (Settings.Default.QuickLaunch)
                 {
                     Menu menu = Settings.Default.Menu;
-                    if (menu != null)
+                    if (menu?.Entries is { Count: > 0 } menuEntries)
                     {
-                        MenuEntryCollection menuEntries = menu.Entries;
-                        if (menuEntries != null && menuEntries.Count != 0)
+                        if (menuEntries[0] is Program p)
                         {
-                            if (menuEntries[0] is Program p)
-                            {
-                                p.TryRun();
-                            }
+                            p.TryRun();
                         }
                     }
                 }
@@ -182,10 +178,7 @@ namespace Launchbar
         /// <param name="e"></param>
         protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
         {
-            if (this.ContextMenu == null)
-            {
-                this.ContextMenu = App.RequestContextMenu();
-            }
+            this.ContextMenu ??= App.RequestContextMenu();
             base.OnMouseRightButtonDown(e);
         }
 

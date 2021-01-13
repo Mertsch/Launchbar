@@ -25,21 +25,15 @@ namespace Launchbar
         [CanBeNull, MustUseReturnValue]
         public override Style SelectStyle([CanBeNull] object item, [CanBeNull] DependencyObject container)
         {
-            switch (item)
-            {
-                case Program _:
-                    return this.ProgramStyle;
-                case Submenu _:
-                    return this.SubmenuStyle;
-                case Separator _:
-                    return this.SeparatorStyle;
-                case MenuEntrySettings _:
-                    return this.SettingsStyle;
-                case MenuEntryExit _:
-                    return this.ExitStyle;
-                default:
-                    return null;
-            }
+            return item switch
+                {
+                    Program => this.ProgramStyle,
+                    Submenu => this.SubmenuStyle,
+                    Separator => this.SeparatorStyle,
+                    MenuEntrySettings => this.SettingsStyle,
+                    MenuEntryExit => this.ExitStyle,
+                    _ => null
+                };
         }
     }
 }

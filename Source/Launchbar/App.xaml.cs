@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Immutable;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Security;
-using System.Security.Permissions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,8 +28,9 @@ namespace Launchbar
         private static SplashScreen splashScreen;
 
         // ReSharper disable NotAccessedField.Local
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+#pragma warning disable IDE0052 // Remove unread private members - We need to keep the mutex alive during the lifetime of the app.
         private static Mutex instanceMutex;
+#pragma warning restore IDE0052 // Remove unread private members
         // ReSharper restore NotAccessedField.Local
 
         private WindowBar barLeft;
@@ -69,7 +68,6 @@ namespace Launchbar
         /// <summary>
         /// Create a new instance of this class and upgrade application settings if possible.
         /// </summary>
-        [PermissionSet(SecurityAction.LinkDemand)]
         public App()
         {
             this.InitializeComponent();
@@ -94,14 +92,11 @@ namespace Launchbar
             #endregion
 
             Settings setting = Settings.Default;
-            if (setting.Menu == null)
+            if (setting.Menu is null)
             {
                 setting.Upgrade();
 
-                if (setting.Menu == null)
-                {
-                    setting.Menu = Menu.CreateDefault();
-                }
+                setting.Menu ??= Menu.CreateDefault();
             }
 
             setting.Menu.FillIconCacheAsync(this.Dispatcher);

@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed
-- Upgrade to .NET Core 3.1, built with Visual Studio 2019
+- Upgrade to .NET 5.0, built with Visual Studio 2019
 - Changelog is now rendered with Markdown
 ### Removed
 - Assembly Strong Name

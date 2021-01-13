@@ -1,8 +1,9 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Threading;
+using JetBrains.Annotations;
 
 namespace Launchbar
 {
@@ -13,10 +14,6 @@ namespace Launchbar
     public class Menu : NotifyBase
     {
         #region Fields
-
-        private readonly object lockThread = new object();
-
-        private Thread threadCacheIcons;
 
         private MenuEntryCollection entries;
 
@@ -42,35 +39,26 @@ namespace Launchbar
         public static Menu CreateDefault()
         {
             return new Menu
-            {
-                entries = new MenuEntryCollection
                 {
-                    new MenuEntrySettings(),
-                    new MenuEntryExit(),
-                }
-            };
+                    entries = new MenuEntryCollection
+                        {
+                            new MenuEntrySettings(),
+                            new MenuEntryExit(),
+                        }
+                };
         }
 
-        public void FillIconCacheAsync(Dispatcher dispatcher)
+        public void FillIconCacheAsync([NotNull] Dispatcher dispatcher)
         {
             if (dispatcher == null)
             {
                 throw new ArgumentNullException(nameof(dispatcher));
             }
 
-            lock (this.lockThread)
-            {
-                if (this.threadCacheIcons != null && this.threadCacheIcons.IsAlive)
-                {
-                    this.threadCacheIcons.Abort();
-                    this.threadCacheIcons.Join();
-                }
-                this.threadCacheIcons = new Thread(new ThreadStart(() => getIcons(this.Entries, dispatcher)));
-                this.threadCacheIcons.Start();
-            }
+            Task.Run(() => getIcons(this.Entries, dispatcher));
         }
 
-        private static void getIcons(ObservableCollection<MenuEntry> entries, Dispatcher dispatcher)
+        private static async Task getIcons([CanBeNull, ItemNotNull] ObservableCollection<MenuEntry> entries, [NotNull] Dispatcher dispatcher)
         {
             if (entries == null)
             {
@@ -79,17 +67,15 @@ namespace Launchbar
             MenuEntry[] entriesa = entries.ToArray();
             for (int i = 0; i < entriesa.Length; i++)
             {
-                MenuEntryAdvanced mea = entriesa[i] as MenuEntryAdvanced;
-                if (mea != null)
+                if (entriesa[i] is MenuEntryAdvanced mea)
                 {
                     // We are not interested in the actual value, but getting it will fill the cache.
-                    dispatcher.BeginInvoke(new Action(mea.UpdateIcon), DispatcherPriority.ApplicationIdle, null);
+                    await dispatcher.InvokeAsync(mea.UpdateIcon, DispatcherPriority.ApplicationIdle);
 
                     // Also Refresh sub entries.
-                    Submenu submenu = mea as Submenu;
-                    if (submenu != null)
+                    if (mea is Submenu submenu)
                     {
-                        getIcons(submenu.MenuEntries, dispatcher);
+                        await getIcons(submenu.MenuEntries, dispatcher);
                     }
                 }
             }

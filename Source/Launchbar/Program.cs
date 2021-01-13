@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Security.Permissions;
 using System.Windows;
 using System.Windows.Input;
 using JetBrains.Annotations;
@@ -126,7 +125,6 @@ namespace Launchbar
         /// <summary>
         /// Run the specified application with its arguments, working directory and priority
         /// </summary>
-        [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public void Run()
         {
             ProcessStartInfo startInfo = new ProcessStartInfo
@@ -154,7 +152,6 @@ namespace Launchbar
         /// <summary>
         /// Calls <see cref="Run"/> and display <see cref="MessageBox"/> if there is a failure.
         /// </summary>
-        [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public void TryRun()
         {
             try

@@ -75,8 +75,8 @@ namespace Launchbar.Win32
         public static IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong)
         {
             return IntPtr.Size == 8
-                       ? SetWindowLongPtr64(hWnd, nIndex, dwNewLong)
-                       : new IntPtr(SetWindowLong32(hWnd, nIndex, dwNewLong.ToInt32()));
+                ? SetWindowLongPtr64(hWnd, nIndex, dwNewLong)
+                : new IntPtr(SetWindowLong32(hWnd, nIndex, dwNewLong.ToInt32()));
         }
 
         #endregion
@@ -96,7 +96,7 @@ namespace Launchbar.Win32
         /// the initial selection. On exit, the integer specifies the index of the icon that was selected.</param>
         /// <returns>Returns 1 if successful; otherwise, 0.</returns>
         [DllImport(Shell32, EntryPoint = "PickIconDlg", CharSet = CharSet.Unicode)]
-        public static extern Int32 PickIconDlg(IntPtr hwnd, StringBuilder pszIconPath, UInt32 cchIconPath, ref Int32 piIconIndex);
+        public static extern int PickIconDlg(IntPtr hwnd, StringBuilder pszIconPath, uint cchIconPath, ref int piIconIndex);
 
         /// <summary>
         /// Destroys an icon and frees any memory the icon occupied.
@@ -122,7 +122,7 @@ namespace Launchbar.Win32
         /// <returns>The return value is a handle to an icon. If the file specified was not an executable file, DLL, or icon file, the return is 1.
         /// If no icons were found in the file, the return value is NULL.</returns>
         [DllImport(Shell32, EntryPoint = "ExtractIcon", CharSet = CharSet.Unicode)]
-        internal static extern IntPtr ExtractIcon(IntPtr hInst, String lpszExeFileName, UInt32 nIconIndex);
+        internal static extern IntPtr ExtractIcon(IntPtr hInst, string lpszExeFileName, uint nIconIndex);
 
         /// <summary>
         /// The ExtractAssociatedIcon function returns a handle to an indexed icon found in a file or an icon found in an associated executable file.
@@ -142,7 +142,7 @@ namespace Launchbar.Win32
         /// identifier in the WORD pointed to by <paramref name="lpiIcon"/>. If the function fails, the
         /// return value is NULL.</returns>
         [DllImport(Shell32, EntryPoint = "ExtractAssociatedIcon", CharSet = CharSet.Unicode)]
-        internal static extern IntPtr ExtractAssociatedIcon(IntPtr hInst, String lpIconPath, ref Int32 lpiIcon);
+        internal static extern IntPtr ExtractAssociatedIcon(IntPtr hInst, string lpIconPath, ref int lpiIcon);
 
         #region SendInput
 

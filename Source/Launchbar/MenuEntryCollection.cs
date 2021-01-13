@@ -35,7 +35,7 @@ namespace Launchbar
             }
             else if (index >= this.Count)
             {
-                this[this.Count - 1].IsSelected = true;
+                this[^1].IsSelected = true;
             }
             else
             {
