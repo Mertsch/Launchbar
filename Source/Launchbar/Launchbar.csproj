@@ -7,17 +7,17 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 
     <ApplicationIcon>Resources\Next.ico</ApplicationIcon>
-    <Version>5.0.0-preview.2</Version>
+    <Version>5.0.0-preview.3</Version>
     <Authors>Launchbar</Authors>
     <Description>RunIT to the next level.</Description>
     <Copyright>Copyright © Mertsch $([System.DateTime]::UtcNow.Year)</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="fm.Extensions.Wpf" Version="3.0.0" />
-    <PackageReference Include="JetBrains.Annotations" Version="2020.3.0" />
+    <PackageReference Include="fm.Extensions.Wpf" Version="3.2.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2021.2.0" />
     <PackageReference Include="Markdig.Wpf" Version="0.5.0.1" />
-    <PackageReference Include="WpfScreenHelper" Version="1.0.0" />
+    <PackageReference Include="WpfScreenHelper" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
