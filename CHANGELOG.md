@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [5.0.0] - 2021-12-15
 ### Changed
-- Upgrade to .NET 6.0
+- Upgrade to .NET 6.0, requires the [.NET Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/6.0/runtime) to run
 - Changelog is now rendered with Markdown
 ### Removed
 - Assembly Strong Name
