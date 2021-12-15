@@ -6,19 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed
-- Upgrade to .NET 5.0, built with Visual Studio 2019
+- Upgrade to .NET 6.0
 - Changelog is now rendered with Markdown
 ### Removed
 - Assembly Strong Name
 
 ## [4.6.0] - 2019-08-28
 ### Changed
-- Upgrade to .NET 4.8, built with Visual Studio 2019
+- Upgrade to .NET 4.8
 - Disable DPI awareness, as it breaks right-click behaviour.
 
 ## [4.5.1] - 2019-03-15
 ### Changed
-- Upgrade to .NET 4.7.2, built with Visual Studio 2017
+- Upgrade to .NET 4.7.2
 - Version number is now aligned with the changelog
 
 ## [4.5.0] - 2016-01-17
@@ -28,12 +28,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [4.4.1] - 2015-08-02
 ### Changed
-- Upgrade to .NET 4.6, built with Visual Studio 2015
+- Upgrade to .NET 4.6
 
 ## [4.3.0] - 2013-10-05
 ### Changed
 - New Splash Screen
-- Upgrade to .NET 4.5.1, built with Visual Studio 2013
+- Upgrade to .NET 4.5.1
 
 ## [4.2.2] - 2012-11-02
 ### Changed
