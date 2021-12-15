@@ -20,11 +20,11 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore Source/Launchbar.sln
     - name: Build
-      run: dotnet build Source/Launchbar.sln --no-restore --configuration Releasee
+      run: dotnet build Source/Launchbar.sln --no-restore --configuration Release
     - name: Test
       run: dotnet test Source/Launchbar.sln --no-build --verbosity normal
     - name: Publish
-      run: dotnet publish Source/Launchbar.sln --no-build --configuration Releasee
+      run: dotnet publish Source/Launchbar.sln --no-build --configuration Release
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
