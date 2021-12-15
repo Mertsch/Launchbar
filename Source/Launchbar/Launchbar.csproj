@@ -7,7 +7,7 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 
     <ApplicationIcon>Resources\Next.ico</ApplicationIcon>
-    <Version>5.0.0-preview.4</Version>
+    <Version>5.0.0</Version>
     <Authors>Launchbar</Authors>
     <Description>RunIT to the next level.</Description>
     <Copyright>Copyright © Mertsch $([System.DateTime]::UtcNow.Year)</Copyright>
