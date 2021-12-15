@@ -20,6 +20,14 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore Source/Launchbar.sln
     - name: Build
-      run: dotnet build Source/Launchbar.sln --no-restore
+      run: dotnet build Source/Launchbar.sln --no-restore --configuration Releasee
     - name: Test
       run: dotnet test Source/Launchbar.sln --no-build --verbosity normal
+    - name: Publish
+      run: dotnet publish Source/Launchbar.sln --no-build --configuration Releasee
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: Launchbar
+        path: Source/Launchbar/bin/Release/publish/**
+        if-no-files-found: error
