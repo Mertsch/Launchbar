@@ -1,16 +1,14 @@
-﻿using System;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
-namespace Launchbar.Shapes
+namespace Launchbar.Shapes;
+
+/// <summary>
+/// Interaction logic for ShapePlus.xaml
+/// </summary>
+public sealed partial class ShapePlus : UserControl
 {
-    /// <summary>
-    /// Interaction logic for ShapePlus.xaml
-    /// </summary>
-    public sealed partial class ShapePlus : UserControl
+    public ShapePlus()
     {
-        public ShapePlus()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }

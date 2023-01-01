@@ -1,21 +1,19 @@
-using System;
 using System.Windows;
 
-namespace Launchbar
+namespace Launchbar;
+
+public static class MenuItemExtensions
 {
-    public static class MenuItemExtensions
+    public static void SetIconTemplate(DependencyObject d, DataTemplate value)
     {
-        public static void SetIconTemplate(DependencyObject d, DataTemplate value)
-        {
-            d.SetValue(IconTemplateProperty, value);
-        }
-
-        public static DataTemplate GetIconTemplate(DependencyObject d)
-        {
-            return (DataTemplate)d.GetValue(IconTemplateProperty);
-        }
-
-        public static readonly DependencyProperty IconTemplateProperty = DependencyProperty.RegisterAttached(
-            "IconTemplate", typeof(DataTemplate), typeof(MenuItemExtensions), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.Inherits));
+        d.SetValue(IconTemplateProperty, value);
     }
+
+    public static DataTemplate GetIconTemplate(DependencyObject d)
+    {
+        return (DataTemplate)d.GetValue(IconTemplateProperty);
+    }
+
+    public static readonly DependencyProperty IconTemplateProperty = DependencyProperty.RegisterAttached(
+        "IconTemplate", typeof(DataTemplate), typeof(MenuItemExtensions), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.Inherits));
 }

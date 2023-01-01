@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.1.0] - 2023-01-01
+### Changed
+- Upgrade to .NET 7.0, requires the [.NET Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/7.0/runtime) to run
+
 ## [5.0.0] - 2021-12-15
 ### Changed
 - Upgrade to .NET 6.0, requires the [.NET Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/6.0/runtime) to run

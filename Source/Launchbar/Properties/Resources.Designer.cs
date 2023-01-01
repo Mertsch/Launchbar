@@ -19,7 +19,7 @@ namespace Launchbar.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -87,15 +87,14 @@ namespace Launchbar.Properties {
         ///The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
         ///and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
         ///
-        ///## [Unreleased]
+        ///## [5.0.0] - 2021-12-15
         ///### Changed
-        ///- Upgrade to .NET Core 3.1, built with Visual Studio 2019
+        ///- Upgrade to .NET 6.0, requires the [.NET Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/6.0/runtime) to run
         ///- Changelog is now rendered with Markdown
+        ///### Removed
+        ///- Assembly Strong Name
         ///
-        ///## [4.6.0] - 2019-08-28
-        ///### Changed
-        ///- Upgrade to .NET 4.8, built with Visual Studio 2019
-        ///- Disable DPI awareness, as  [rest of string was truncated]&quot;;.
+        ///## [4.6.0 [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Changelog {
             get {
