@@ -1,11 +1,8 @@
-using System;
+namespace Launchbar;
 
-namespace Launchbar
+public enum IconType
 {
-    public enum IconType
-    {
-        Warning,
-        Default,
-        Custom,
-    }
+    Warning,
+    Default,
+    Custom,
 }

@@ -1,9 +1,6 @@
-using System;
+namespace Launchbar;
 
-namespace Launchbar
-{
-    /// <summary>
-    /// This class represents a separator.
-    /// </summary>
-    public sealed class Separator : MenuEntry { }
-}
+/// <summary>
+/// This class represents a separator.
+/// </summary>
+public sealed class Separator : MenuEntry { }
