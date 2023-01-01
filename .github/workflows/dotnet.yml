@@ -2,21 +2,22 @@ name: Build Launchbar
 
 on:
   push:
-    branches: [ main ]
+    branches:
+    - '*'
   pull_request:
-    branches: [ main ]
+    branches:
+    - '*'
 
 jobs:
   build:
-
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Setup .NET
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.x
+        dotnet-version: 7.x
     - name: Restore dependencies
       run: dotnet restore Source/Launchbar.sln
     - name: Build
@@ -26,7 +27,7 @@ jobs:
     - name: Publish
       run: dotnet publish Source/Launchbar.sln --no-build --configuration Release
     - name: Upload
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: Launchbar
         path: Source/Launchbar/bin/Release/publish/**
