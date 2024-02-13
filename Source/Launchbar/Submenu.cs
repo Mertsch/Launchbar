@@ -41,19 +41,13 @@ public sealed class Submenu : MenuEntryAdvanced
         get { return this.entries; }
         set
         {
-            if (this.entries == value)
+            if (ReferenceEquals(this.entries, value))
             {
                 return;
             }
-            if (this.entries != null)
-            {
-                this.entries.Parent = null;
-            }
+            this.entries.Parent = null;
             this.entries = value;
-            if (this.entries != null)
-            {
-                this.entries.Parent = this;
-            }
+            this.entries.Parent = this;
 
             this.OnPropertyChanged(nameof(this.MenuEntries));
         }

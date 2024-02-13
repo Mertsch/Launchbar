@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using fm;
+using fm.Extensions;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Launchbar.Shapes;
@@ -13,15 +15,12 @@ public sealed partial class ShapeFolder : UserControl
     /// </summary>
     public bool IsOpen
     {
-        get { return (bool)this.GetValue(IsOpenProperty); }
-        set { this.SetValue(IsOpenProperty, value); }
+        get { return this.GetValue<bool>(IsOpenProperty); }
+        set { this.SetValueBox(IsOpenProperty, value); }
     }
 
-    /// <summary>
-    /// Identifies the <see cref="IsOpen"/> property.
-    /// </summary>
-    public static readonly DependencyProperty IsOpenProperty =
-        DependencyProperty.Register("IsOpen", typeof(bool), typeof(ShapeFolder));
+    public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register(
+        nameof(IsOpen), typeof(bool), typeof(ShapeFolder), new PropertyMetadata(Boxes.False));
 
     public ShapeFolder()
     {

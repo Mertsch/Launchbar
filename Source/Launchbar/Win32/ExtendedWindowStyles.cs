@@ -1,8 +1,8 @@
-﻿
-
-// ReSharper disable InconsistentNaming
+﻿// ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Global
-#pragma warning disable 169
+
+#pragma warning disable CA1805 // Do not initialize unnecessarily
+#pragma warning disable CS0414 // Field is assigned but its value is never used
 
 namespace Launchbar.Win32;
 

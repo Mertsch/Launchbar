@@ -14,13 +14,13 @@ public class MenuEntryAdvanced : MenuEntry
 {
     #region Fields
 
-    private string text;
+    private string? text;
 
-    private string iconPath;
+    private string? iconPath;
 
     private int iconIndex;
 
-    private ImageSource icon;
+    private ImageSource? icon;
 
     private IconType iconType = IconType.Default;
 
@@ -31,7 +31,7 @@ public class MenuEntryAdvanced : MenuEntry
     /// <summary>
     /// Get or set the text to be shown for this entry.
     /// </summary>
-    public string Text
+    public string? Text
     {
         get { return this.text; }
         set
@@ -48,7 +48,7 @@ public class MenuEntryAdvanced : MenuEntry
     /// <summary>
     /// Path to a file that contains an icon at the specified icon index
     /// </summary>
-    public string IconPath
+    public string? IconPath
     {
         get { return this.iconPath; }
         set
@@ -107,7 +107,7 @@ public class MenuEntryAdvanced : MenuEntry
     /// Gets the icon to display when <see cref="IconType"/> is set to <see cref="Launchbar.IconType.Custom"/>.
     /// </summary>
     [XmlIgnore]
-    public ImageSource Icon
+    public ImageSource? Icon
     {
         get { return this.icon; }
         private set
@@ -128,7 +128,7 @@ public class MenuEntryAdvanced : MenuEntry
     /// </summary>
     public void UpdateIcon()
     {
-        ImageSource newIcon = null;
+        ImageSource? newIcon = null;
         IconType newType = IconType.Warning;
 
         if (!string.IsNullOrEmpty(this.iconPath))
@@ -141,7 +141,7 @@ public class MenuEntryAdvanced : MenuEntry
         }
         else
         {
-            Program p = this as Program;
+            Program? p = this as Program;
             if (p == null) // Not a program - use the default icon.
             {
                 newType = IconType.Default;
@@ -179,7 +179,7 @@ public class MenuEntryAdvanced : MenuEntry
         }
         else
         {
-            if (this is Program p && p.IsValidFile) // When the program path is valid, use that path as default.
+            if (this is Program { IsValidFile: true } p) // When the program path is valid, use that path as default.
             {
                 path = p.Path;
             }

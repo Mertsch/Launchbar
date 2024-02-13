@@ -37,7 +37,7 @@ public class MenuEntry : NotifyBase
     /// Gets or sets the parent of this object.
     /// </summary>
     [XmlIgnore]
-    public MenuEntryCollection Parent { get; set; }
+    public MenuEntryCollection? Parent { get; set; }
 
     /// <summary>
     /// Move this item upwards in the parent collection.
@@ -57,7 +57,7 @@ public class MenuEntry : NotifyBase
 
     private void move(bool up)
     {
-        MenuEntryCollection parent = this.Parent;
+        MenuEntryCollection? parent = this.Parent;
         if (parent == null)
         {
             return; // Unable to do anything
@@ -71,7 +71,7 @@ public class MenuEntry : NotifyBase
             {
                 return; // We can't move the element any further.
             }
-            MenuEntryCollection parentParent = parent.Parent.Parent;
+            MenuEntryCollection? parentParent = parent.Parent.Parent;
             if (parentParent == null)
             {
                 return; // There is nothing we can do.
@@ -97,7 +97,7 @@ public class MenuEntry : NotifyBase
                 delta = -1; // Decrease the index by one.
             }
 
-            Submenu moveInto = parent[index + delta] as Submenu;
+            Submenu? moveInto = parent[index + delta] as Submenu;
             if (moveInto == null)
             {
                 parent.Move(index, index + delta);

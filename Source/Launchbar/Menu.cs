@@ -1,9 +1,5 @@
-using System;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Threading;
-using JetBrains.Annotations;
 
 namespace Launchbar;
 
@@ -11,7 +7,7 @@ namespace Launchbar;
 /// Dummy class.
 /// This class contains the menu entries and will be saved with the application settings.
 /// </summary>
-public class Menu : NotifyBase
+public sealed class Menu : NotifyBase
 {
     #region Fields
 
@@ -36,31 +32,29 @@ public class Menu : NotifyBase
         }
     }
 
+    [MustUseReturnValue]
     public static Menu CreateDefault()
     {
         return new Menu
             {
-                entries = new MenuEntryCollection
-                    {
+                entries =
+                    [
                         new MenuEntrySettings(),
                         new MenuEntryExit(),
-                    }
+                    ],
             };
     }
 
-    public void FillIconCacheAsync([NotNull] Dispatcher dispatcher)
+    public void FillIconCacheAsync(Dispatcher dispatcher)
     {
-        if (dispatcher == null)
-        {
-            throw new ArgumentNullException(nameof(dispatcher));
-        }
+        ArgumentNullException.ThrowIfNull(dispatcher);
 
         Task.Run(() => getIcons(this.Entries, dispatcher));
     }
 
-    private static async Task getIcons([CanBeNull, ItemNotNull] ObservableCollection<MenuEntry> entries, [NotNull] Dispatcher dispatcher)
+    private static async Task getIcons(ObservableCollection<MenuEntry>? entries, Dispatcher dispatcher)
     {
-        if (entries == null)
+        if (entries is null)
         {
             return; // Nothing to do
         }

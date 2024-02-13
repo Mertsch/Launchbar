@@ -1,9 +1,7 @@
-using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
-using JetBrains.Annotations;
 
 namespace Launchbar;
 
@@ -14,11 +12,11 @@ public sealed class Program : MenuEntryAdvanced, ICommand
 {
     #region Fields
 
-    private string path;
+    private string? path;
 
-    private string pathAbsolute;
+    private string? pathAbsolute;
 
-    private string arguments;
+    private string? arguments;
 
     private ProcessPriorityClass priority = ProcessPriorityClass.Normal;
 
@@ -29,7 +27,7 @@ public sealed class Program : MenuEntryAdvanced, ICommand
     /// <summary>
     /// Path to the file to start.
     /// </summary>
-    public string Path
+    public string? Path
     {
         get { return this.path; }
         set
@@ -62,12 +60,12 @@ public sealed class Program : MenuEntryAdvanced, ICommand
     /// <summary>
     /// Absolute path to the file to start (resolves environment variables).
     /// </summary>
-    public string PathAbsolute => this.pathAbsolute;
+    public string? PathAbsolute => this.pathAbsolute;
 
     /// <summary>
     /// Arguments to pass when starting the file.
     /// </summary>
-    public string Arguments
+    public string? Arguments
     {
         get { return this.arguments; }
         set
@@ -134,15 +132,15 @@ public sealed class Program : MenuEntryAdvanced, ICommand
                 Arguments = this.arguments
             };
 
-        string workingDir = System.IO.Path.GetDirectoryName(this.pathAbsolute);
-        if (workingDir != null)
+        string? workingDir = System.IO.Path.GetDirectoryName(this.pathAbsolute);
+        if (workingDir is { })
         {
             startInfo.WorkingDirectory = workingDir;
         }
 
-        if (Process.Start(startInfo) is Process process) // Start the process and set the priority (if a new process has been created).
+        if (Process.Start(startInfo) is { } process) // Start the process and set the priority (if a new process has been created).
         {
-            if (this.Priority != ProcessPriorityClass.Normal) // Only set priority if not default (as setting priority may cause an exception).
+            if (this.Priority is not ProcessPriorityClass.Normal) // Only set priority if not default (as setting priority may cause an exception).
             {
                 process.PriorityClass = this.Priority;
             }
@@ -164,18 +162,18 @@ public sealed class Program : MenuEntryAdvanced, ICommand
         }
     }
 
-    public event EventHandler CanExecuteChanged
+    public event EventHandler? CanExecuteChanged
     {
         add { }
         remove { }
     }
 
-    public bool CanExecute([CanBeNull] object parameter)
+    public bool CanExecute(object? parameter)
     {
         return true;
     }
 
-    public void Execute([CanBeNull] object parameter)
+    public void Execute(object? parameter)
     {
         this.TryRun();
     }

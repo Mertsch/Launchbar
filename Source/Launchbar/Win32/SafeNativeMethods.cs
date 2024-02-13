@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
 
@@ -11,7 +10,7 @@ using System.Text;
 namespace Launchbar.Win32;
 
 [SuppressUnmanagedCodeSecurity]
-internal static class SafeNativeMethods
+internal static partial class SafeNativeMethods
 {
     internal const string User32 = @"user32.dll";
 
@@ -19,11 +18,11 @@ internal static class SafeNativeMethods
 
     #region SetWindowLongPtr
 
-    [DllImport(User32, EntryPoint = "GetWindowLong")]
-    private static extern int GetWindowLongPtr32(nint hWnd, int nIndex);
+    [LibraryImport(User32, EntryPoint = "GetWindowLongW")]
+    private static partial int GetWindowLongPtr32(nint hWnd, int nIndex);
 
-    [DllImport(User32, EntryPoint = "GetWindowLongPtr")]
-    private static extern nint GetWindowLongPtr64(nint hWnd, int nIndex);
+    [LibraryImport(User32, EntryPoint = "GetWindowLongPtrW")]
+    private static partial nint GetWindowLongPtr64(nint hWnd, int nIndex);
 
     /// <summary>
     /// The GetWindowLongPtr function retrieves information about the specified window.
@@ -39,18 +38,18 @@ internal static class SafeNativeMethods
     /// for values in the extra window or class memory.</returns>
     public static nint GetWindowLongPtr(nint hWnd, int nIndex)
     {
-        return nint.Size == 8 ? GetWindowLongPtr64(hWnd, nIndex) : new nint(GetWindowLongPtr32(hWnd, nIndex));
+        return nint.Size is 8 ? GetWindowLongPtr64(hWnd, nIndex) : new nint(GetWindowLongPtr32(hWnd, nIndex));
     }
 
     #endregion
 
     #region SetWindowLongPtr
 
-    [DllImport(User32, EntryPoint = "SetWindowLong")]
-    private static extern int SetWindowLong32(nint hWnd, int nIndex, int dwNewLong);
+    [LibraryImport(User32, EntryPoint = "SetWindowLongW")]
+    private static partial int SetWindowLong32(nint hWnd, int nIndex, int dwNewLong);
 
-    [DllImport(User32, EntryPoint = "SetWindowLongPtr")]
-    private static extern nint SetWindowLongPtr64(nint hWnd, int nIndex, nint dwNewLong);
+    [LibraryImport(User32, EntryPoint = "SetWindowLongPtrW")]
+    private static partial nint SetWindowLongPtr64(nint hWnd, int nIndex, nint dwNewLong);
 
     /// <summary>
     /// The SetWindowLongPtr function changes an attribute of the specified window.
@@ -74,7 +73,7 @@ internal static class SafeNativeMethods
     /// Function failure will be indicated by a return value of zero and a GetLastError result that is nonzero.</returns>
     public static nint SetWindowLongPtr(nint hWnd, int nIndex, nint dwNewLong)
     {
-        return nint.Size == 8
+        return nint.Size is 8
             ? SetWindowLongPtr64(hWnd, nIndex, dwNewLong)
             : new nint(SetWindowLong32(hWnd, nIndex, dwNewLong.ToInt32()));
     }
@@ -104,9 +103,9 @@ internal static class SafeNativeMethods
     /// <param name="hIcon">[in] Handle to the icon to be destroyed. The icon must not be in use.</param>
     /// <returns>If the function succeeds, the return value is nonzero. If the function fails,
     /// the return value is zero. To get extended error information, call GetLastError.</returns>
-    [DllImport(User32, EntryPoint = "DestroyIcon", CharSet = CharSet.Auto, SetLastError = true)]
+    [LibraryImport(User32, EntryPoint = "DestroyIcon", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern bool DestroyIcon(nint hIcon);
+    public static partial bool DestroyIcon(nint hIcon);
 
     /// <summary>
     /// The ExtractIcon function retrieves a handle to an icon from the specified executable file, DLL, or icon file.
@@ -121,8 +120,8 @@ internal static class SafeNativeMethods
     /// If the file is an .ICO file, the return value is 1.</param>
     /// <returns>The return value is a handle to an icon. If the file specified was not an executable file, DLL, or icon file, the return is 1.
     /// If no icons were found in the file, the return value is NULL.</returns>
-    [DllImport(Shell32, EntryPoint = "ExtractIcon", CharSet = CharSet.Unicode)]
-    internal static extern nint ExtractIcon(nint hInst, string lpszExeFileName, uint nIconIndex);
+    [LibraryImport(Shell32, EntryPoint = "ExtractIconW", StringMarshalling = StringMarshalling.Utf16)]
+    internal static partial nint ExtractIcon(nint hInst, string lpszExeFileName, uint nIconIndex);
 
     /// <summary>
     /// The ExtractAssociatedIcon function returns a handle to an indexed icon found in a file or an icon found in an associated executable file.
@@ -141,8 +140,8 @@ internal static class SafeNativeMethods
     /// executable file in the string pointed to by <paramref name="lpIconPath"/>, and stores the icon's
     /// identifier in the WORD pointed to by <paramref name="lpiIcon"/>. If the function fails, the
     /// return value is NULL.</returns>
-    [DllImport(Shell32, EntryPoint = "ExtractAssociatedIcon", CharSet = CharSet.Unicode)]
-    internal static extern nint ExtractAssociatedIcon(nint hInst, string lpIconPath, ref int lpiIcon);
+    [LibraryImport(Shell32, EntryPoint = "ExtractAssociatedIconW", StringMarshalling = StringMarshalling.Utf16)]
+    internal static partial nint ExtractAssociatedIcon(nint hInst, string lpIconPath, ref int lpiIcon);
 
     #region SendInput
 
@@ -237,8 +236,8 @@ internal static class SafeNativeMethods
         public MOUSEKEYBDHARDWAREINPUT mkhi;
     }
 
-    [DllImport(User32, SetLastError = true)]
-    internal static extern uint SendInput(uint nInputs, ref INPUT pInputs, int cbSize);
+    [LibraryImport(User32, SetLastError = true)]
+    internal static partial uint SendInput(uint nInputs, ref INPUT pInputs, int cbSize);
 
     #endregion
 }

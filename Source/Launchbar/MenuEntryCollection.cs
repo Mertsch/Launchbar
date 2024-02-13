@@ -1,20 +1,16 @@
-using System;
 using System.Collections.ObjectModel;
-using JetBrains.Annotations;
 
 namespace Launchbar;
 
-public class MenuEntryCollection : ObservableCollection<MenuEntry>
+public sealed class MenuEntryCollection : ObservableCollection<MenuEntry>
 {
-    public Submenu Parent { get; set; }
+    public Submenu? Parent { get; set; }
 
     // ReSharper disable once AnnotationConflictInHierarchy
-    protected override void InsertItem(int index, [NotNull] MenuEntry item)
+    protected override void InsertItem(int index, MenuEntry item)
     {
-        if (item is null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
+        ArgumentNullException.ThrowIfNull(item);
+
         item.Parent = this;
         base.InsertItem(index, item);
         item.IsSelected = true;
@@ -25,7 +21,7 @@ public class MenuEntryCollection : ObservableCollection<MenuEntry>
         this[index].IsSelected = false;
         this[index].Parent = null;
         base.RemoveItem(index);
-        if (index == 0)
+        if (index <= 0)
         {
             if (this.Parent == null)
             {
@@ -44,12 +40,10 @@ public class MenuEntryCollection : ObservableCollection<MenuEntry>
     }
 
     // ReSharper disable once AnnotationConflictInHierarchy
-    protected override void SetItem(int index, [NotNull] MenuEntry item)
+    protected override void SetItem(int index, MenuEntry item)
     {
-        if (item is null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
+        ArgumentNullException.ThrowIfNull(item);
+
         this[index].Parent = null;
         item.Parent = this;
         base.SetItem(index, item);

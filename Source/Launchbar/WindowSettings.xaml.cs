@@ -1,14 +1,12 @@
-﻿using System;
+﻿using fm.Extensions;
+using Launchbar.Properties;
+using Microsoft.Win32;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Navigation;
-using fm.Extensions;
-using JetBrains.Annotations;
-using Launchbar.Properties;
-using Microsoft.Win32;
 
 namespace Launchbar;
 
@@ -19,9 +17,9 @@ internal sealed partial class WindowSettings : Window
     /// <summary>
     /// Gets the currently selected <see cref="MenuEntry"/>.
     /// </summary>
-    public MenuEntry SelectedMenuEntry
+    public MenuEntry? SelectedMenuEntry
     {
-        get { return this.GetValue<MenuEntry>(SelectedMenuEntryProperty); }
+        get { return this.GetValue<MenuEntry?>(SelectedMenuEntryProperty); }
         set { this.SetValue(SelectedMenuEntryProperty, value); }
     }
 
@@ -49,9 +47,9 @@ internal sealed partial class WindowSettings : Window
     /// <summary>
     /// Gets the currently selected object.
     /// </summary>
-    public Program SelectedProgram
+    public Program? SelectedProgram
     {
-        get { return this.GetValue<Program>(SelectedProgramProperty); }
+        get { return this.GetValue<Program?>(SelectedProgramProperty); }
         private set { this.SetValue(SelectedProgramProperty, value); }
     }
 
@@ -79,9 +77,9 @@ internal sealed partial class WindowSettings : Window
     /// <summary>
     /// Gets the currently selected object.
     /// </summary>
-    public MenuEntryAdvanced SelectedMenuEntryAdvanced
+    public MenuEntryAdvanced? SelectedMenuEntryAdvanced
     {
-        get { return this.GetValue<MenuEntryAdvanced>(SelectedMenuEntryAdvancedProperty); }
+        get { return this.GetValue<MenuEntryAdvanced?>(SelectedMenuEntryAdvancedProperty); }
         private set { this.SetValue(SelectedMenuEntryAdvancedProperty, value); }
     }
 
@@ -104,47 +102,43 @@ internal sealed partial class WindowSettings : Window
 
         this.SelectedMenuEntry = newValue as MenuEntry;
 
-        MenuEntryAdvanced mea = newValue as MenuEntryAdvanced;
-        Program program = newValue as Program;
+        MenuEntryAdvanced? mea = newValue as MenuEntryAdvanced;
+        Program? program = newValue as Program;
 
         this.SelectedMenuEntryAdvanced = mea;
-        this.IsMenuEntryAdvanced = mea != null;
+        this.IsMenuEntryAdvanced = mea is { };
         this.SelectedProgram = program;
-        this.IsProgram = program != null;
+        this.IsProgram = program is { };
     }
 
-    private void requestNavigateHyperlink([CanBeNull] object sender, [NotNull] RequestNavigateEventArgs e)
+    private void requestNavigateHyperlink(object? sender, RequestNavigateEventArgs e)
     {
         requestNavigate(e);
     }
 
-    private void requestNavigateCommand([CanBeNull] object sender, [NotNull] ExecutedRoutedEventArgs e)
+    private void requestNavigateCommand(object? sender, ExecutedRoutedEventArgs e)
     {
         requestNavigate(e);
     }
 
-    private static void requestNavigate([NotNull] RoutedEventArgs e)
+    private static void requestNavigate(RoutedEventArgs e)
     {
-        string uri = null;
+        string? uri = null;
         switch (e)
         {
             case RequestNavigateEventArgs en:
                 uri = en.Uri.ToString();
                 break;
             case ExecutedRoutedEventArgs er:
-                switch (er.Parameter)
-                {
-                    case Uri u:
-                        uri = u.ToString();
-                        break;
-                    case string s:
-                        uri = s;
-                        break;
-                }
+                uri = er.Parameter switch
+                    {
+                        Uri u => u.ToString(),
+                        string s => s,
+                        _ => uri,
+                    };
                 break;
             default:
-                if (e.OriginalSource is Hyperlink hyperlink &&
-                    hyperlink.NavigateUri is Uri navUri)
+                if (e.OriginalSource is Hyperlink { NavigateUri: { } navUri })
                 {
                     uri = navUri.ToString();
                 }
@@ -167,19 +161,19 @@ internal sealed partial class WindowSettings : Window
 
     #region Buttons
 
-    private void buttonOkClick(object sender, RoutedEventArgs e)
+    private void buttonOkClick(object? sender, RoutedEventArgs? e)
     {
         this.buttonApplyClick(null, null);
         this.Close();
     }
 
-    private void buttonCancelClick(object sender, RoutedEventArgs e)
+    private void buttonCancelClick(object? sender, RoutedEventArgs? e)
     {
         Settings.Default.Reload();
         this.Close();
     }
 
-    private void buttonApplyClick(object sender, RoutedEventArgs e)
+    private void buttonApplyClick(object? sender, RoutedEventArgs? e)
     {
         // Read the Menu property to force a settings file update on save.
         if (Settings.Default.Menu == null) { }
@@ -187,7 +181,7 @@ internal sealed partial class WindowSettings : Window
         Settings.Default.Save();
     }
 
-    private void buttonShutdownClick(object sender, RoutedEventArgs e)
+    private void buttonShutdownClick(object? sender, RoutedEventArgs? e)
     {
         Application.Current.Shutdown();
     }
@@ -198,12 +192,12 @@ internal sealed partial class WindowSettings : Window
 
     private void buttonMoveUpClick(object sender, RoutedEventArgs e)
     {
-        this.SelectedMenuEntry.MoveUp();
+        this.SelectedMenuEntry?.MoveUp();
     }
 
     private void buttonMoveDownClick(object sender, RoutedEventArgs e)
     {
-        this.SelectedMenuEntry.MoveDown();
+        this.SelectedMenuEntry?.MoveDown();
     }
 
     private void buttonAddProgramClick(object sender, RoutedEventArgs e)
@@ -235,20 +229,16 @@ internal sealed partial class WindowSettings : Window
 
     private void addMenuEntry(MenuEntry newEntry)
     {
-        MenuEntry selected = this.SelectedMenuEntry;
-        if (selected != null)
+        MenuEntry? selected = this.SelectedMenuEntry;
+        if (selected is { })
         {
             if (selected is Submenu submenu)
             {
-                if (submenu.MenuEntries == null)
-                {
-                    submenu.MenuEntries = new MenuEntryCollection();
-                }
                 submenu.MenuEntries.Add(newEntry);
             }
             else
             {
-                selected.Parent.Insert(selected.Parent.IndexOf(selected) + 1, newEntry);
+                selected.Parent?.Insert(selected.Parent.IndexOf(selected) + 1, newEntry);
             }
         }
         else
@@ -259,10 +249,7 @@ internal sealed partial class WindowSettings : Window
 
     private void buttonDeleteClick(object sender, RoutedEventArgs e)
     {
-        if (this.SelectedMenuEntry != null)
-        {
-            this.SelectedMenuEntry.Parent.Remove(this.SelectedMenuEntry);
-        }
+        this.SelectedMenuEntry?.Parent?.Remove(this.SelectedMenuEntry);
     }
 
     private void selectTextTextBox()
@@ -277,12 +264,12 @@ internal sealed partial class WindowSettings : Window
 
     private void buttonChooseIconClick(object sender, RoutedEventArgs e)
     {
-        this.SelectedMenuEntryAdvanced.ChooseIcon();
+        this.SelectedMenuEntryAdvanced?.ChooseIcon();
     }
 
     private void buttonClearIconClick(object sender, RoutedEventArgs e)
     {
-        this.SelectedMenuEntryAdvanced.ClearIcon();
+        this.SelectedMenuEntryAdvanced?.ClearIcon();
     }
 
     #endregion
@@ -301,7 +288,7 @@ internal sealed partial class WindowSettings : Window
                 // Text to be displayed in the file textbox.
                 FileName = "Use this directory.",
                 // Do not check for valid filename because we also want to accept directories.
-                CheckFileExists = false
+                CheckFileExists = false,
             };
 
         if (ofd.ShowDialog() != true)
@@ -314,37 +301,25 @@ internal sealed partial class WindowSettings : Window
 
     private void treeViewDrop(object sender, DragEventArgs e)
     {
-        string[] files = e.Data.GetData(DataFormats.FileDrop) as string[];
+        string[]? files = e.Data.GetData(DataFormats.FileDrop) as string[];
 
-        if (files == null || files.Length == 0)
+        if (files.IsNullOrEmpty())
         {
             return; // Nothing to add;
         }
 
-        MenuEntry selected = this.SelectedMenuEntry;
-        MenuEntryCollection parent;
-        if (selected == null)
-        {
-            parent = Settings.Default.Menu.Entries;
-        }
-        else
-        {
-            Submenu submenu = selected as Submenu;
-            if (submenu == null)
+        MenuEntryCollection? parent = this.SelectedMenuEntry switch
             {
-                parent = selected.Parent;
-            }
-            else
-            {
-                parent = submenu.MenuEntries;
-            }
-        }
+                null => Settings.Default.Menu.Entries,
+                Submenu submenu => submenu.MenuEntries,
+                    { } selectedMenu => selectedMenu.Parent,
+            };
         foreach (string file in files)
         {
-            parent.Add(new Program
+            parent?.Add(new Program
                 {
                     Text = Path.GetFileNameWithoutExtension(file),
-                    Path = file
+                    Path = file,
                 });
         }
     }

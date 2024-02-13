@@ -1,8 +1,6 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows.Controls;
 using System.Windows.Data;
-using JetBrains.Annotations;
 
 namespace Launchbar;
 
@@ -19,12 +17,12 @@ public sealed class ElementCreator : IValueConverter
     /// <param name="parameter">A <see cref="ControlTemplate"/>.</param>
     /// <param name="culture"></param>
     /// <returns>Objects described by the template.</returns>
-    public object Convert([CanBeNull] object value, Type targetType, object parameter, CultureInfo culture)
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo? culture)
     {
         return parameter switch
             {
                 ControlTemplate ct => new Control { Template = ct },
-                _ => throw new ArgumentException("You must specify a ControlTemplate.", nameof(parameter))
+                _ => throw new ArgumentException(@"You must specify a ControlTemplate.", nameof(parameter)),
             };
     }
 
@@ -36,7 +34,7 @@ public sealed class ElementCreator : IValueConverter
     /// <param name="parameter"></param>
     /// <param name="culture"></param>
     /// <returns></returns>
-    public object ConvertBack([CanBeNull] object value, Type targetType, object parameter, CultureInfo culture)
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         throw new NotSupportedException();
     }

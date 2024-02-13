@@ -1,0 +1,130 @@
+﻿[*.cs]
+# IDE0028: Simplify collection initialization
+dotnet_diagnostic.IDE0028.severity = silent
+# IDE0037: Use inferred member name
+dotnet_diagnostic.IDE0037.severity = none
+# IDE0063: Use simple 'using' statement
+csharp_prefer_simple_using_statement = true:none
+# IDE0090: Use 'new(...)'
+dotnet_diagnostic.IDE0090.severity = silent
+
+# CA1024: Use properties where appropriate
+dotnet_diagnostic.CA1024.severity = none
+# CA1062: Validate arguments of public methods
+dotnet_diagnostic.CA1062.severity = silent
+# CA1304: Specify CultureInfo
+dotnet_diagnostic.CA1304.severity = none
+# CA1305: Specify IFormatProvider
+dotnet_diagnostic.CA1305.severity = none
+# CA1309: Use ordinal string comparison
+dotnet_diagnostic.CA1309.severity = none 
+# CA1507: Use nameof to express symbol names
+dotnet_diagnostic.CA1507.severity = suggestion
+# CA1716: Identifiers should not match keywords
+dotnet_diagnostic.CA1716.severity = none
+# CA1720: Identifier contains type name
+dotnet_diagnostic.CA1720.severity = none
+# CA1725: Parameter names should match base declaration
+dotnet_diagnostic.CA1725.severity = silent
+# CA1806: Do not ignore method results
+dotnet_diagnostic.CA1806.severity = silent
+# CA1815: Override equals and operator equals on value types
+dotnet_diagnostic.CA1815.severity = silent
+# CA1819: Properties should not return arrays
+dotnet_diagnostic.CA1819.severity = none
+# CA1822: Mark members as static
+dotnet_diagnostic.CA1822.severity = silent
+# CA1847: Use char literal for a single character lookup
+dotnet_diagnostic.CA1847.severity = warning
+# CA1848: Use the LoggerMessage delegates
+dotnet_diagnostic.CA1848.severity = silent
+# CA2007: Consider calling ConfigureAwait on the awaited task
+dotnet_diagnostic.CA2007.severity = none
+# CA2201: Do not raise reserved exception types
+dotnet_diagnostic.CA2201.severity = error
+# CA2234: Pass system uri objects instead of strings
+dotnet_diagnostic.CA2234.severity = none
+
+# CS8602: Dereference of a possibly null reference.
+dotnet_diagnostic.CS8602.severity = error
+
+[*.{cs,vb}]
+dotnet_style_qualification_for_field=true:silent
+dotnet_style_qualification_for_property=true:silent
+dotnet_style_qualification_for_method=true:silent
+dotnet_style_qualification_for_event=true:silent
+
+# ■■■ Naming rules ■■■
+
+# Dependency Property backend field - public static readonly DependencyProperty MyProperty = DependencyProperty.Register(...)
+dotnet_naming_rule.PublicStaticReadonlyField.severity = warning
+dotnet_naming_rule.PublicStaticReadonlyField.symbols = public_static_readonly_field
+dotnet_naming_rule.PublicStaticReadonlyField.style = PascalCaseProperty
+# Public static readonly field (Default) - public static readonly TypeOfField MyFieldName = ...
+dotnet_naming_rule.PublicStaticReadonlyField.severity = warning
+dotnet_naming_rule.PublicStaticReadonlyField.symbols = public_static_readonly_field
+dotnet_naming_rule.PublicStaticReadonlyField.style = PascalCase
+
+# Dependency Property backend field - private static readonly DependencyPropertyKey MyPropertyKey = DependencyProperty.RegisterReadOnly(...)
+dotnet_naming_rule.PrivateStaticReadonlyField.severity = warning # Should be warning
+dotnet_naming_rule.PrivateStaticReadonlyField.symbols = private_static_readonly_field
+dotnet_naming_rule.PrivateStaticReadonlyField.style = PascalCasePropertyKey
+# Private static readonly field (Default) - private static readonly TypeOfField myFieldName = ...
+dotnet_naming_rule.PrivateStaticReadonlyField.severity = information # Should be warning
+dotnet_naming_rule.PrivateStaticReadonlyField.symbols = private_static_readonly_field
+dotnet_naming_rule.PrivateStaticReadonlyField.style = CamelCase
+
+dotnet_naming_rule.InstanceField.severity = suggestion
+dotnet_naming_rule.InstanceField.symbols = instance_fields
+dotnet_naming_rule.InstanceField.style = CamelCase
+
+dotnet_naming_rule.ConstantField.severity = suggestion
+dotnet_naming_rule.ConstantField.symbols = const_fields
+dotnet_naming_rule.ConstantField.style = PascalCase
+
+# ■■■ Symbol specifications ■■■
+
+dotnet_naming_symbols.instance_fields.applicable_kinds = field
+
+dotnet_naming_symbols.const_fields.applicable_kinds = field
+dotnet_naming_symbols.const_fields.required_modifiers = const
+
+dotnet_naming_symbols.public_field.applicable_kinds = field
+dotnet_naming_symbols.public_field.applicable_accessibilities = public
+
+dotnet_naming_symbols.private_static_readonly_field.applicable_kinds = field
+dotnet_naming_symbols.private_static_readonly_field.applicable_accessibilities = private
+dotnet_naming_symbols.private_static_readonly_field.required_modifiers = readonly, static
+
+dotnet_naming_symbols.public_static_readonly_field.applicable_kinds = field
+dotnet_naming_symbols.public_static_readonly_field.applicable_accessibilities = public
+dotnet_naming_symbols.public_static_readonly_field.required_modifiers = readonly, static
+
+# ■■■ Naming styles ■■■
+
+dotnet_naming_style.PascalCase.required_prefix = 
+dotnet_naming_style.PascalCase.required_suffix = 
+dotnet_naming_style.PascalCase.word_separator = 
+dotnet_naming_style.PascalCase.capitalization = pascal_case
+
+dotnet_naming_style.CamelCase.required_prefix = 
+dotnet_naming_style.CamelCase.required_suffix = 
+dotnet_naming_style.CamelCase.word_separator = 
+dotnet_naming_style.CamelCase.capitalization = camel_case
+
+dotnet_naming_style.IPascalCase.required_prefix = I
+dotnet_naming_style.IPascalCase.required_suffix = 
+dotnet_naming_style.IPascalCase.word_separator = 
+dotnet_naming_style.IPascalCase.capitalization = pascal_case
+
+dotnet_naming_style.PascalCaseProperty.required_suffix = Property
+dotnet_naming_style.PascalCaseProperty.capitalization = pascal_case
+
+dotnet_naming_style.PascalCasePropertyKey.required_suffix = PropertyKey
+dotnet_naming_style.PascalCasePropertyKey.capitalization = pascal_case
+
+[*.resx]
+resx_formatter_sort_entries=true
+resx_formatter_remove_xsd_schema=false
+resx_formatter_remove_documentation_comment=true
+resx_formatter_sort_comparer=OrdinalIgnoreCase

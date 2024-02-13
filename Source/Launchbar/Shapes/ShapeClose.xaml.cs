@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using fm;
+using fm.Extensions;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Launchbar.Shapes;
@@ -13,15 +15,12 @@ public sealed partial class ShapeClose : UserControl
     /// </summary>
     public bool IsHover
     {
-        get { return (bool)this.GetValue(IsHoverProperty); }
-        set { this.SetValue(IsHoverProperty, value); }
+        get { return this.GetValue<bool>(IsHoverProperty); }
+        set { this.SetValueBox(IsHoverProperty, value); }
     }
 
-    /// <summary>
-    /// Identifies the <see cref="IsHover"/> property.
-    /// </summary>
-    public static readonly DependencyProperty IsHoverProperty =
-        DependencyProperty.Register("IsHover", typeof(bool), typeof(ShapeClose));
+    public static readonly DependencyProperty IsHoverProperty = DependencyProperty.Register(
+        nameof(IsHover), typeof(bool), typeof(ShapeClose), new PropertyMetadata(Boxes.False));
 
     public ShapeClose()
     {

@@ -1,10 +1,8 @@
-using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
-using JetBrains.Annotations;
 
 namespace Launchbar.Win32;
 
@@ -19,7 +17,7 @@ internal static class WinHelper
     /// <param name="path">Path to the file or directory to extract the icon from.
     /// <remarks>Does NOT support environment variables.</remarks></param>
     /// <returns>The extracted icon as <see cref="BitmapSource"/>.</returns>
-    public static BitmapSource ExtractAssociatedIcon([NotNull] string path)
+    public static BitmapSource? ExtractAssociatedIcon(string path)
     {
         int i = 0;
         nint hIcon = SafeNativeMethods.ExtractAssociatedIcon(nint.Zero, path, ref i);
@@ -39,7 +37,7 @@ internal static class WinHelper
     /// <remarks>Supports environment variables.</remarks></param>
     /// <param name="index">A zero-based index of the icon.</param>
     /// <returns>The extracted icon as <see cref="BitmapSource"/>.</returns>
-    public static BitmapSource ExtractIcon([NotNull] string path, int index)
+    public static BitmapSource? ExtractIcon(string path, int index)
     {
         nint hIcon = SafeNativeMethods.ExtractIcon(nint.Zero, path, (uint)index);
         if (hIcon != nint.Zero)
@@ -57,19 +55,16 @@ internal static class WinHelper
     /// </summary>
     public static void SendMouseButtonDown(MouseButton button)
     {
-        SafeNativeMethods.MOUSEINPUT mi = new SafeNativeMethods.MOUSEINPUT();
+        SafeNativeMethods.MOUSEINPUT mi = new SafeNativeMethods.MOUSEINPUT
+            {
+                dwFlags = button switch
+                    {
+                        MouseButton.Left => SafeNativeMethods.MOUSEINPUTFLAGS.MOUSEEVENTF_LEFTDOWN,
+                        MouseButton.Right => SafeNativeMethods.MOUSEINPUTFLAGS.MOUSEEVENTF_RIGHTDOWN,
+                        _ => throw new NotSupportedException(),
+                    },
+            };
 
-        switch (button)
-        {
-            case MouseButton.Left:
-                mi.dwFlags = SafeNativeMethods.MOUSEINPUTFLAGS.MOUSEEVENTF_LEFTDOWN;
-                break;
-            case MouseButton.Right:
-                mi.dwFlags = SafeNativeMethods.MOUSEINPUTFLAGS.MOUSEEVENTF_RIGHTDOWN;
-                break;
-            default:
-                throw new NotSupportedException();
-        }
         SafeNativeMethods.MOUSEKEYBDHARDWAREINPUT mkhInput = new SafeNativeMethods.MOUSEKEYBDHARDWAREINPUT { mi = mi };
 
         SafeNativeMethods.INPUT input = new SafeNativeMethods.INPUT { type = SafeNativeMethods.INPUT_TYPE.MOUSE, mkhi = mkhInput };
@@ -83,19 +78,15 @@ internal static class WinHelper
     /// </summary>
     public static void SendMouseButtonUp(MouseButton button)
     {
-        SafeNativeMethods.MOUSEINPUT mi = new SafeNativeMethods.MOUSEINPUT();
-
-        switch (button)
-        {
-            case MouseButton.Left:
-                mi.dwFlags = SafeNativeMethods.MOUSEINPUTFLAGS.MOUSEEVENTF_LEFTUP;
-                break;
-            case MouseButton.Right:
-                mi.dwFlags = SafeNativeMethods.MOUSEINPUTFLAGS.MOUSEEVENTF_RIGHTUP;
-                break;
-            default:
-                throw new NotSupportedException();
-        }
+        SafeNativeMethods.MOUSEINPUT mi = new SafeNativeMethods.MOUSEINPUT
+            {
+                dwFlags = button switch
+                    {
+                        MouseButton.Left => SafeNativeMethods.MOUSEINPUTFLAGS.MOUSEEVENTF_LEFTUP,
+                        MouseButton.Right => SafeNativeMethods.MOUSEINPUTFLAGS.MOUSEEVENTF_RIGHTUP,
+                        _ => throw new NotSupportedException(),
+                    },
+            };
 
         SafeNativeMethods.MOUSEKEYBDHARDWAREINPUT mkhInput = new SafeNativeMethods.MOUSEKEYBDHARDWAREINPUT { mi = mi };
 
@@ -114,24 +105,24 @@ internal static class WinHelper
             {
                 dwFlags = SafeNativeMethods.MOUSEINPUTFLAGS.MOUSEEVENTF_MOVE,
                 dx = x,
-                dy = y
+                dy = y,
             };
 
         SafeNativeMethods.MOUSEKEYBDHARDWAREINPUT mkhInput = new SafeNativeMethods.MOUSEKEYBDHARDWAREINPUT
             {
-                mi = mi
+                mi = mi,
             };
 
         SafeNativeMethods.INPUT input = new SafeNativeMethods.INPUT
             {
                 type = SafeNativeMethods.INPUT_TYPE.MOUSE,
-                mkhi = mkhInput
+                mkhi = mkhInput,
             };
 
         SafeNativeMethods.SendInput(1, ref input, Marshal.SizeOf(input));
     }
 
-    public static void SetAsToolWindow([NotNull] this Window window)
+    public static void SetAsToolWindow(this Window window)
     {
         nint handle = new WindowInteropHelper(window).EnsureHandle();
         nint oldFlags = SafeNativeMethods.GetWindowLongPtr(handle, GWL.GWL_EXSTYLE);

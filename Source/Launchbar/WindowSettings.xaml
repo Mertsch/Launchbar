@@ -1,6 +1,7 @@
 ﻿<Window x:Class="Launchbar.WindowSettings" x:ClassModifier="internal"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
         xmlns:p="clr-namespace:Launchbar.Properties"
         xmlns:lb="clr-namespace:Launchbar"
         xmlns:diag="clr-namespace:System.Diagnostics;assembly=System.Diagnostics.Process"
@@ -340,7 +341,7 @@
                               Margin="0,3,3,0">
                         <FrameworkElement.Resources>
                             <!--TreeViewItem templates-->
-                            <ControlTemplate x:Key="templateProgram">
+                            <ControlTemplate x:Key="templateProgram" d:DataContext="{x:Static lb:Design.Program}">
                                 <StackPanel Orientation="Horizontal" MinWidth="150">
                                     <Image Style="{StaticResource StyleIcon}"
                                            Source="{Binding Path=Icon, Mode=OneWay}"/>
@@ -348,23 +349,23 @@
                                                Margin="3,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ControlTemplate>
-                            <ControlTemplate x:Key="templateStandardSubmenu">
+                            <ControlTemplate x:Key="templateStandardSubmenu" d:DataContext="{x:Static lb:Design.Submenu}">
                                 <StackPanel Orientation="Horizontal" MinWidth="150">
                                     <shapes:ShapeFolder Style="{StaticResource StyleIcon}"
                                                         IsOpen="{Binding Path=IsExpanded, Mode=OneWay}"/>
                                     <TextBlock Text="{Binding Path=Text, Mode=OneWay}" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ControlTemplate>
-                            <ControlTemplate x:Key="templateSeparator">
+                            <ControlTemplate x:Key="templateSeparator" d:DataContext="{x:Static lb:Design.Separator}">
                                 <Separator Width="150" Height="10"/>
                             </ControlTemplate>
-                            <ControlTemplate x:Key="templateSettings">
+                            <ControlTemplate x:Key="templateSettings" d:DataContext="{x:Static lb:Design.Settings}">
                                 <StackPanel Orientation="Horizontal" MinWidth="150">
-                                    <Image Source="{StaticResource imageSettings}" Style="{StaticResource StyleIcon}"/>
+                                    <Image Source="{StaticResource ImageSettings}" Style="{StaticResource StyleIcon}"/>
                                     <TextBlock Text="Settings" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ControlTemplate>
-                            <ControlTemplate x:Key="templateExit">
+                            <ControlTemplate x:Key="templateExit" d:DataContext="{x:Static lb:Design.Exit}">
                                 <StackPanel Orientation="Horizontal" MinWidth="150">
                                     <shapes:ShapeClose Width="20" Height="20" Margin="2,3"/>
                                     <TextBlock Text="Exit" VerticalAlignment="Center"/>
@@ -374,17 +375,19 @@
                             <lb:ElementCreator x:Key="creator"/>
 
                             <!--TreeViewItem styles-->
-                            <Style x:Key="styleMenuEntry" TargetType="{x:Type TreeViewItem}">
+                            <Style x:Key="styleMenuEntry" TargetType="{x:Type TreeViewItem}" d:DataContext="{x:Static lb:Design.MenuEntry}">
                                 <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}"/>
                             </Style>
                             <Style x:Key="styleProgram" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource styleMenuEntry}">
-                                <Setter Property="Header" Value="{Binding Converter={StaticResource creator},
+                                <Setter Property="Header"
+                                        Value="{Binding Converter={StaticResource creator},
                                                                           ConverterParameter={StaticResource templateProgram}, Mode=OneTime}"/>
                             </Style>
-                            <Style x:Key="styleSubmenu" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource styleProgram}">
+                            <Style x:Key="styleSubmenu" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource styleProgram}" d:DataContext="{x:Static lb:Design.Submenu}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=IconType}" Value="{x:Static lb:IconType.Default}">
-                                        <Setter Property="Header" Value="{Binding Converter={StaticResource creator},
+                                        <Setter Property="Header"
+                                                Value="{Binding Converter={StaticResource creator},
                                                                           ConverterParameter={StaticResource templateStandardSubmenu}, Mode=OneTime}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -392,11 +395,13 @@
                                 <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}"/>
                             </Style>
                             <Style x:Key="styleSearator" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource styleMenuEntry}">
-                                <Setter Property="Header" Value="{Binding Converter={StaticResource creator},
+                                <Setter Property="Header"
+                                        Value="{Binding Converter={StaticResource creator},
                                                                           ConverterParameter={StaticResource templateSeparator}, Mode=OneTime}"/>
                             </Style>
                             <Style x:Key="styleSettings" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource styleMenuEntry}">
-                                <Setter Property="Header" Value="{Binding Converter={StaticResource creator},
+                                <Setter Property="Header"
+                                        Value="{Binding Converter={StaticResource creator},
                                                                           ConverterParameter={StaticResource templateSettings}, Mode=OneTime}"/>
                             </Style>
                             <Style x:Key="styleExit" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource styleMenuEntry}">
@@ -480,7 +485,7 @@
                         <Button ToolTip="Add an entry to open the Launchbar settings dialog."
                                 Click="buttonAddSettingsClick" Style="{StaticResource styleButton}">
                             <Grid>
-                                <Image Source="{StaticResource imageSettings}" Style="{StaticResource StyleIcon}"/>
+                                <Image Source="{StaticResource ImageSettings}" Style="{StaticResource StyleIcon}"/>
                                 <shapes:ShapePlus Style="{StaticResource styleIconPlus}"/>
                             </Grid>
                         </Button>

@@ -1,5 +1,3 @@
-using System;
-
 namespace Launchbar;
 
 public sealed class Area

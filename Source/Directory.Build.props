@@ -1,0 +1,25 @@
+<Project>
+  <PropertyGroup>
+    <!-- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/language#langversion -->
+    <LangVersion>12.0</LangVersion>
+    <!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#analysislevel -->
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <!-- https://learn.microsoft.com/en-us/dotnet/csharp/nullable-references#nullable-contexts -->
+    <Nullable>enable</Nullable>
+
+    <NeutralLanguage>en</NeutralLanguage>
+
+    <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+    <UseArtifactsOutput>true</UseArtifactsOutput>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#enforcecodestyleinbuild -->
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DefaultItemExcludes>$(DefaultItemExcludes);**\*.DotSettings</DefaultItemExcludes>
+  </PropertyGroup>
+</Project>

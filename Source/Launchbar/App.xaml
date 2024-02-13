@@ -38,16 +38,16 @@
                 <shapes:ShapeFolderGoTo Style="{StaticResource StyleIcon}"/>
             </DataTemplate>
             <DataTemplate x:Key="dataTemplateSettingsIcon">
-                <Image Source="{StaticResource imageSettings}" Style="{StaticResource StyleIcon}"/>
+                <Image Source="{StaticResource ImageSettings}" Style="{StaticResource StyleIcon}"/>
             </DataTemplate>
             <DataTemplate x:Key="dataTemplateExitIcon">
                 <Image Width="20" Height="20" Margin="2">
                     <Image.Style>
                         <Style TargetType="Image">
-                            <Setter Property="Source" Value="{StaticResource imageClose}"/>
+                            <Setter Property="Source" Value="{StaticResource ImageClose}"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Path=(MenuItem.IsMouseOver), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type MenuItem}}}" Value="True">
-                                    <Setter Property="Source" Value="{StaticResource imageCloseHover}"/>
+                                    <Setter Property="Source" Value="{StaticResource ImageCloseHover}"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>

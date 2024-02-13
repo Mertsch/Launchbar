@@ -30,7 +30,7 @@
                           Offset="1"/>
         </LinearGradientBrush.GradientStops>
     </LinearGradientBrush>
-  
+
     <ControlTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type MenuItem}, ResourceId=TopLevelItemTemplateKey}"
                      TargetType="{x:Type MenuItem}">
         <Grid SnapsToDevicePixels="true">
@@ -290,7 +290,7 @@
                         CornerRadius="3"
                         Margin="1"
                         Visibility="Hidden"
-                        Width="22" 
+                        Width="22"
                         Height="22">
                     <Path Name="Glyph"
                           Width="9"
@@ -392,7 +392,7 @@
                         CornerRadius="3"
                         Margin="1"
                         Visibility="Hidden"
-                        Width="22" 
+                        Width="22"
                         Height="22">
                     <Path Name="Glyph"
                           Width="9"
@@ -504,7 +504,7 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
-    
+
     <Style x:Key="{x:Type MenuItem}"
            TargetType="{x:Type MenuItem}">
         <Setter Property="HorizontalContentAlignment"
@@ -544,6 +544,5 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-
 
 </ResourceDictionary>

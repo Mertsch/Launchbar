@@ -1,0 +1,31 @@
+<!--EXTERNAL_PROPERTIES: TF_BUILD;MSBuildThisFileDirectory-->
+<Project>
+
+  <PropertyGroup>
+    <IsPublishable>false</IsPublishable>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="JetBrains.Annotations"/>
+    <Using Include="System"/>
+    <Using Include="System.Collections.Generic"/>
+    <Using Include="System.Linq"/>
+    <Using Include="System.Threading"/>
+    <Using Include="System.Threading.Tasks"/>
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
+    <!-- https://github.com/dotnet/sourcelink/blob/main/docs/README.md#continuousintegrationbuild -->
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- https://github.com/dotnet/sourcelink/blob/main/docs/README.md#sourceroot -->
+    <SourceRoot Include="$(MSBuildThisFileDirectory)/"/>
+  </ItemGroup>
+
+</Project>
