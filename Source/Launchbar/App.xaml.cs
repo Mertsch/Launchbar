@@ -84,6 +84,7 @@ public sealed partial class App : Application
             }
             catch (Win32Exception) { }
             this.Shutdown();
+            this.contextMenu = default!;
             return;
         }
 

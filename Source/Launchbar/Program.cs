@@ -41,14 +41,7 @@ public sealed class Program : MenuEntryAdvanced, ICommand
                 return;
             }
             this.path = value;
-            if (value == null)
-            {
-                this.pathAbsolute = null;
-            }
-            else
-            {
-                this.pathAbsolute = Environment.ExpandEnvironmentVariables(value);
-            }
+            this.pathAbsolute = value == null ? null : Environment.ExpandEnvironmentVariables(value);
 
             this.OnPropertyChanged(nameof(this.Path));
             this.OnPropertyChanged(nameof(this.IsValidFile));

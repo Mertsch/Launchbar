@@ -341,7 +341,7 @@
                               Margin="0,3,3,0">
                         <FrameworkElement.Resources>
                             <!--TreeViewItem templates-->
-                            <ControlTemplate x:Key="templateProgram" d:DataContext="{x:Static lb:Design.Program}">
+                            <ControlTemplate x:Key="TemplateProgram" d:DataContext="{x:Static lb:Design.Program}">
                                 <StackPanel Orientation="Horizontal" MinWidth="150">
                                     <Image Style="{StaticResource StyleIcon}"
                                            Source="{Binding Path=Icon, Mode=OneWay}"/>
@@ -349,89 +349,89 @@
                                                Margin="3,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ControlTemplate>
-                            <ControlTemplate x:Key="templateStandardSubmenu" d:DataContext="{x:Static lb:Design.Submenu}">
+                            <ControlTemplate x:Key="TemplateStandardSubmenu" d:DataContext="{x:Static lb:Design.Submenu}">
                                 <StackPanel Orientation="Horizontal" MinWidth="150">
                                     <shapes:ShapeFolder Style="{StaticResource StyleIcon}"
                                                         IsOpen="{Binding Path=IsExpanded, Mode=OneWay}"/>
                                     <TextBlock Text="{Binding Path=Text, Mode=OneWay}" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ControlTemplate>
-                            <ControlTemplate x:Key="templateSeparator" d:DataContext="{x:Static lb:Design.Separator}">
+                            <ControlTemplate x:Key="TemplateSeparator" d:DataContext="{x:Static lb:Design.Separator}">
                                 <Separator Width="150" Height="10"/>
                             </ControlTemplate>
-                            <ControlTemplate x:Key="templateSettings" d:DataContext="{x:Static lb:Design.Settings}">
+                            <ControlTemplate x:Key="TemplateSettings" d:DataContext="{x:Static lb:Design.Settings}">
                                 <StackPanel Orientation="Horizontal" MinWidth="150">
                                     <Image Source="{StaticResource ImageSettings}" Style="{StaticResource StyleIcon}"/>
                                     <TextBlock Text="Settings" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ControlTemplate>
-                            <ControlTemplate x:Key="templateExit" d:DataContext="{x:Static lb:Design.Exit}">
+                            <ControlTemplate x:Key="TemplateExit" d:DataContext="{x:Static lb:Design.Exit}">
                                 <StackPanel Orientation="Horizontal" MinWidth="150">
                                     <shapes:ShapeClose Width="20" Height="20" Margin="2,3"/>
                                     <TextBlock Text="Exit" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ControlTemplate>
 
-                            <lb:ElementCreator x:Key="creator"/>
+                            <lb:ElementCreator x:Key="Creator"/>
 
                             <!--TreeViewItem styles-->
-                            <Style x:Key="styleMenuEntry" TargetType="{x:Type TreeViewItem}" d:DataContext="{x:Static lb:Design.MenuEntry}">
+                            <Style x:Key="StyleMenuEntry" TargetType="{x:Type TreeViewItem}" d:DataContext="{x:Static lb:Design.MenuEntry}">
                                 <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}"/>
                             </Style>
-                            <Style x:Key="styleProgram" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource styleMenuEntry}">
+                            <Style x:Key="StyleProgram" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource StyleMenuEntry}">
                                 <Setter Property="Header"
-                                        Value="{Binding Converter={StaticResource creator},
-                                                                          ConverterParameter={StaticResource templateProgram}, Mode=OneTime}"/>
+                                        Value="{Binding Converter={StaticResource Creator},
+                                                                          ConverterParameter={StaticResource TemplateProgram}, Mode=OneTime}"/>
                             </Style>
-                            <Style x:Key="styleSubmenu" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource styleProgram}" d:DataContext="{x:Static lb:Design.Submenu}">
+                            <Style x:Key="StyleSubmenu" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource StyleProgram}" d:DataContext="{x:Static lb:Design.Submenu}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=IconType}" Value="{x:Static lb:IconType.Default}">
                                         <Setter Property="Header"
-                                                Value="{Binding Converter={StaticResource creator},
-                                                                          ConverterParameter={StaticResource templateStandardSubmenu}, Mode=OneTime}"/>
+                                                Value="{Binding Converter={StaticResource Creator},
+                                                                          ConverterParameter={StaticResource TemplateStandardSubmenu}, Mode=OneTime}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                                 <Setter Property="ItemsSource" Value="{Binding Path=MenuEntries, Mode=OneWay}"/>
                                 <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}"/>
                             </Style>
-                            <Style x:Key="styleSearator" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource styleMenuEntry}">
+                            <Style x:Key="StyleSearator" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource StyleMenuEntry}">
                                 <Setter Property="Header"
-                                        Value="{Binding Converter={StaticResource creator},
-                                                                          ConverterParameter={StaticResource templateSeparator}, Mode=OneTime}"/>
+                                        Value="{Binding Converter={StaticResource Creator},
+                                                                          ConverterParameter={StaticResource TemplateSeparator}, Mode=OneTime}"/>
                             </Style>
-                            <Style x:Key="styleSettings" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource styleMenuEntry}">
+                            <Style x:Key="StyleSettings" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource StyleMenuEntry}">
                                 <Setter Property="Header"
-                                        Value="{Binding Converter={StaticResource creator},
-                                                                          ConverterParameter={StaticResource templateSettings}, Mode=OneTime}"/>
+                                        Value="{Binding Converter={StaticResource Creator},
+                                                                          ConverterParameter={StaticResource TemplateSettings}, Mode=OneTime}"/>
                             </Style>
-                            <Style x:Key="styleExit" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource styleMenuEntry}">
-                                <Setter Property="Header" Value="{Binding Converter={StaticResource creator},
-                                                                          ConverterParameter={StaticResource templateExit}, Mode=OneTime}"/>
+                            <Style x:Key="StyleExit" TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource StyleMenuEntry}">
+                                <Setter Property="Header" Value="{Binding Converter={StaticResource Creator},
+                                                                          ConverterParameter={StaticResource TemplateExit}, Mode=OneTime}"/>
                             </Style>
                         </FrameworkElement.Resources>
 
                         <TreeView.ItemContainerStyleSelector>
-                            <lb:MenuItemStyleSelector ProgramStyle="{StaticResource styleProgram}"
-                                                      SubmenuStyle="{StaticResource styleSubmenu}"
-                                                      SeparatorStyle="{StaticResource styleSearator}"
-                                                      SettingsStyle="{StaticResource styleSettings}"
-                                                      ExitStyle="{StaticResource styleExit}"/>
+                            <lb:MenuItemStyleSelector ProgramStyle="{StaticResource StyleProgram}"
+                                                      SubmenuStyle="{StaticResource StyleSubmenu}"
+                                                      SeparatorStyle="{StaticResource StyleSearator}"
+                                                      SettingsStyle="{StaticResource StyleSettings}"
+                                                      ExitStyle="{StaticResource StyleExit}"/>
                         </TreeView.ItemContainerStyleSelector>
                     </TreeView>
 
                     <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
                         <FrameworkElement.Resources>
-                            <Style x:Key="styleButton" TargetType="{x:Type Button}">
+                            <Style x:Key="StyleButton" TargetType="{x:Type Button}">
                                 <Setter Property="Margin" Value="3"/>
                             </Style>
-                            <Style x:Key="styleDisableOnNull" TargetType="{x:Type Button}" BasedOn="{StaticResource styleButton}">
+                            <Style x:Key="StyleDisableOnNull" TargetType="{x:Type Button}" BasedOn="{StaticResource StyleButton}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=SelectedMenuEntry, Mode=OneWay}" Value="{x:Null}">
                                         <Setter Property="IsEnabled" Value="false"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                            <Style x:Key="styleIconPlus" TargetType="{x:Type shapes:ShapePlus}">
+                            <Style x:Key="StyleIconPlus" TargetType="{x:Type shapes:ShapePlus}">
                                 <Setter Property="Width" Value="12"/>
                                 <Setter Property="Height" Value="12"/>
                                 <Setter Property="HorizontalAlignment" Value="Right"/>
@@ -440,7 +440,7 @@
                         </FrameworkElement.Resources>
 
                         <Button ToolTip="Move the selected entry upwards."
-                                Click="buttonMoveUpClick" Style="{StaticResource styleDisableOnNull}">
+                                Click="buttonMoveUpClick" Style="{StaticResource StyleDisableOnNull}">
                             <shapes:ShapeNext Style="{StaticResource StyleIcon}">
                                 <shapes:ShapeNext.LayoutTransform>
                                     <RotateTransform Angle="180"/>
@@ -449,23 +449,23 @@
                         </Button>
 
                         <Button ToolTip="Add a program."
-                                Click="buttonAddProgramClick" Style="{StaticResource styleButton}">
+                                Click="buttonAddProgramClick" Style="{StaticResource StyleButton}">
                             <Grid>
                                 <shapes:ShapeApplication Style="{StaticResource StyleIcon}"/>
-                                <shapes:ShapePlus Style="{StaticResource styleIconPlus}"/>
+                                <shapes:ShapePlus Style="{StaticResource StyleIconPlus}"/>
                             </Grid>
                         </Button>
 
                         <Button ToolTip="Add a sumenu."
-                                Click="buttonAddSubmenuClick" Style="{StaticResource styleButton}">
+                                Click="buttonAddSubmenuClick" Style="{StaticResource StyleButton}">
                             <Grid>
                                 <shapes:ShapeFolder IsOpen="True" Style="{StaticResource StyleIcon}"/>
-                                <shapes:ShapePlus Style="{StaticResource styleIconPlus}"/>
+                                <shapes:ShapePlus Style="{StaticResource StyleIconPlus}"/>
                             </Grid>
                         </Button>
 
                         <Button ToolTip="Add a separator."
-                                Click="buttonAddSeparatorClick" Style="{StaticResource styleButton}">
+                                Click="buttonAddSeparatorClick" Style="{StaticResource StyleButton}">
                             <Grid>
                                 <Path Style="{StaticResource StyleIcon}" Data="M2,12 h20" StrokeThickness="3">
                                     <Path.Stroke>
@@ -478,34 +478,34 @@
                                         </LinearGradientBrush>
                                     </Path.Stroke>
                                 </Path>
-                                <shapes:ShapePlus Style="{StaticResource styleIconPlus}"/>
+                                <shapes:ShapePlus Style="{StaticResource StyleIconPlus}"/>
                             </Grid>
                         </Button>
 
                         <Button ToolTip="Add an entry to open the Launchbar settings dialog."
-                                Click="buttonAddSettingsClick" Style="{StaticResource styleButton}">
+                                Click="buttonAddSettingsClick" Style="{StaticResource StyleButton}">
                             <Grid>
                                 <Image Source="{StaticResource ImageSettings}" Style="{StaticResource StyleIcon}"/>
-                                <shapes:ShapePlus Style="{StaticResource styleIconPlus}"/>
+                                <shapes:ShapePlus Style="{StaticResource StyleIconPlus}"/>
                             </Grid>
                         </Button>
 
                         <Button ToolTip="Add an entry to shutdown the application."
-                                Click="buttonAddExitClick" Style="{StaticResource styleButton}">
+                                Click="buttonAddExitClick" Style="{StaticResource StyleButton}">
                             <Grid>
                                 <shapes:ShapeClose Margin="2" Width="20" Height="20"
                                                    IsHover="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}, Path=IsMouseOver}"/>
-                                <shapes:ShapePlus Style="{StaticResource styleIconPlus}"/>
+                                <shapes:ShapePlus Style="{StaticResource StyleIconPlus}"/>
                             </Grid>
                         </Button>
 
                         <Button ToolTip="Delete the currently selected entry."
-                                Click="buttonDeleteClick" Style="{StaticResource styleDisableOnNull}">
+                                Click="buttonDeleteClick" Style="{StaticResource StyleDisableOnNull}">
                             <shapes:ShapeDelete Style="{StaticResource StyleIcon}"/>
                         </Button>
 
                         <Button ToolTip="Move the selected entry downwards."
-                                Click="buttonMoveDownClick" Style="{StaticResource styleDisableOnNull}">
+                                Click="buttonMoveDownClick" Style="{StaticResource StyleDisableOnNull}">
                             <shapes:ShapeNext Style="{StaticResource StyleIcon}"/>
                         </Button>
                     </StackPanel>

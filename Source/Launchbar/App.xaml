@@ -23,24 +23,24 @@
             </Style>
 
             <!--MenuItem templates-->
-            <DataTemplate x:Key="dataTemplateSubmenuIcon">
+            <DataTemplate x:Key="DataTemplateSubmenuIcon">
                 <shapes:ShapeFolder Style="{StaticResource StyleIcon}"
                                     IsOpen="{Binding Path=(MenuItem.IsSubmenuOpen), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type MenuItem}}}"
                                     />
             </DataTemplate>
-            <DataTemplate x:Key="dataTemplateCustomIcon" DataType="{x:Type lb:MenuEntryAdvanced}">
+            <DataTemplate x:Key="DataTemplateCustomIcon" DataType="{x:Type lb:MenuEntryAdvanced}">
                 <Image Source="{Binding Path=Icon}" Style="{StaticResource StyleIcon}"/>
             </DataTemplate>
-            <DataTemplate x:Key="dataTemplateWarningIcon">
+            <DataTemplate x:Key="DataTemplateWarningIcon">
                 <shapes:ShapeWarning Style="{StaticResource StyleIcon}"/>
             </DataTemplate>
-            <DataTemplate x:Key="dataTemplateFolderGoToIcon">
+            <DataTemplate x:Key="DataTemplateFolderGoToIcon">
                 <shapes:ShapeFolderGoTo Style="{StaticResource StyleIcon}"/>
             </DataTemplate>
-            <DataTemplate x:Key="dataTemplateSettingsIcon">
+            <DataTemplate x:Key="DataTemplateSettingsIcon">
                 <Image Source="{StaticResource ImageSettings}" Style="{StaticResource StyleIcon}"/>
             </DataTemplate>
-            <DataTemplate x:Key="dataTemplateExitIcon">
+            <DataTemplate x:Key="DataTemplateExitIcon">
                 <Image Width="20" Height="20" Margin="2">
                     <Image.Style>
                         <Style TargetType="Image">
@@ -55,42 +55,42 @@
                 </Image>
             </DataTemplate>
 
-            <DataTemplate x:Key="templateHeader" DataType="{x:Type lb:MenuEntryAdvanced}">
+            <DataTemplate x:Key="TemplateHeader" DataType="{x:Type lb:MenuEntryAdvanced}">
                 <TextBlock Text="{Binding Mode=OneWay}" VerticalAlignment="Center"/>
             </DataTemplate>
 
             <!--MenuItem styles-->
-            <Style x:Key="styleMEA" TargetType="{x:Type MenuItem}">
+            <Style x:Key="StyleMea" TargetType="{x:Type MenuItem}">
                 <Setter Property="Icon" Value="{Binding Mode=OneTime}"/>
-                <Setter Property="lb:MenuItemExtensions.IconTemplate" Value="{StaticResource dataTemplateCustomIcon}"/>
-                <Setter Property="HeaderTemplate" Value="{StaticResource templateHeader}"/>
+                <Setter Property="lb:MenuItemExtensions.IconTemplate" Value="{StaticResource DataTemplateCustomIcon}"/>
+                <Setter Property="HeaderTemplate" Value="{StaticResource TemplateHeader}"/>
             </Style>
 
-            <Style x:Key="styleProgram" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource styleMEA}">
+            <Style x:Key="StyleProgram" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource StyleMea}">
                 <Setter Property="Header" Value="{Binding Path=Text, Mode=OneWay}"/>
                 <Setter Property="Command" Value="{Binding Mode=OneTime}"/>
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Path=IconType, Mode=OneWay}" Value="{x:Static lb:IconType.Warning}">
-                        <Setter Property="lb:MenuItemExtensions.IconTemplate" Value="{StaticResource dataTemplateWarningIcon}"/>
+                        <Setter Property="lb:MenuItemExtensions.IconTemplate" Value="{StaticResource DataTemplateWarningIcon}"/>
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Path=IconType, Mode=OneWay}" Value="{x:Static lb:IconType.Default}">
-                        <Setter Property="lb:MenuItemExtensions.IconTemplate" Value="{StaticResource dataTemplateFolderGoToIcon}"/>
+                        <Setter Property="lb:MenuItemExtensions.IconTemplate" Value="{StaticResource DataTemplateFolderGoToIcon}"/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
 
 
-            <Style x:Key="styleSubmenu" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource styleMEA}">
+            <Style x:Key="StyleSubmenu" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource StyleMea}">
                 <Setter Property="Header" Value="{Binding Path=Text, Mode=OneWay}"/>
                 <Setter Property="ItemsSource" Value="{Binding Path=MenuEntries, Mode=OneWay}"/>
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Path=IconType, Mode=OneWay}" Value="{x:Static lb:IconType.Default}">
-                        <Setter Property="lb:MenuItemExtensions.IconTemplate" Value="{StaticResource dataTemplateSubmenuIcon}"/>
+                        <Setter Property="lb:MenuItemExtensions.IconTemplate" Value="{StaticResource DataTemplateSubmenuIcon}"/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
 
-            <Style x:Key="styleSeparator" TargetType="{x:Type MenuItem}">
+            <Style x:Key="StyleSeparator" TargetType="{x:Type MenuItem}">
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type MenuItem}">
@@ -103,27 +103,27 @@
                 <Setter Property="IsTabStop" Value="false"/>
             </Style>
 
-            <Style x:Key="styleSettings" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource styleMEA}">
-                <Setter Property="lb:MenuItemExtensions.IconTemplate" Value="{StaticResource dataTemplateSettingsIcon}"/>
+            <Style x:Key="StyleSettings" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource StyleMea}">
+                <Setter Property="lb:MenuItemExtensions.IconTemplate" Value="{StaticResource DataTemplateSettingsIcon}"/>
                 <Setter Property="Header" Value="Setting"/>
                 <Setter Property="Command" Value="{Binding Mode=OneTime}"/>
             </Style>
 
-            <Style x:Key="styleExit" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource styleMEA}">
-                <Setter Property="lb:MenuItemExtensions.IconTemplate" Value="{StaticResource dataTemplateExitIcon}"/>
+            <Style x:Key="StyleExit" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource StyleMea}">
+                <Setter Property="lb:MenuItemExtensions.IconTemplate" Value="{StaticResource DataTemplateExitIcon}"/>
                 <Setter Property="Header" Value="Exit"/>
                 <Setter Property="Command" Value="{Binding Mode=OneTime}"/>
             </Style>
 
             <lb:MenuItemStyleSelector x:Key="MenuItemStyleSelector"
-                ProgramStyle="{StaticResource styleProgram}"
-                SubmenuStyle="{StaticResource styleSubmenu}"
-                SeparatorStyle="{StaticResource styleSeparator}"
-                SettingsStyle="{StaticResource styleSettings}"
-                ExitStyle="{StaticResource styleExit}"/>
+                ProgramStyle="{StaticResource StyleProgram}"
+                SubmenuStyle="{StaticResource StyleSubmenu}"
+                SeparatorStyle="{StaticResource StyleSeparator}"
+                SettingsStyle="{StaticResource StyleSettings}"
+                ExitStyle="{StaticResource StyleExit}"/>
 
             <!--This template is used programmatically.-->
-            <ContextMenu x:Key="contextMenuTemplate" KeyDown="contextMenuKeyDown" Margin="1"
+            <ContextMenu x:Key="ContextMenuTemplate" KeyDown="contextMenuKeyDown" Margin="1"
                          ItemsSource="{Binding Source={x:Static p:Settings.Default}, Path=Menu.Entries}"
                          MinWidth="125" MinHeight="25"
                          ItemContainerStyleSelector="{DynamicResource MenuItemStyleSelector}">

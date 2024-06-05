@@ -20,8 +20,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="fm.Extensions.Wpf" Version="5.0.0-preview.1" />
-    <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
+    <PackageReference Include="fm.Extensions.Wpf" Version="5.0.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2024.2.0-eap1" />
     <PackageReference Include="Markdig.Wpf" Version="0.5.0.1" />
     <PackageReference Include="WpfScreenHelper" Version="2.1.0" />
   </ItemGroup>
