@@ -1,6 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-using System.Security;
-using System.Text;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Global
@@ -9,8 +7,7 @@ using System.Text;
 
 namespace Launchbar.Win32;
 
-[SuppressUnmanagedCodeSecurity]
-internal static partial class SafeNativeMethods
+internal static partial class LibraryImport
 {
     internal const string User32 = @"user32.dll";
 
@@ -94,8 +91,8 @@ internal static partial class SafeNativeMethods
     /// <param name="piIconIndex">[in, out] A pointer to an integer that, on entry, specified the index of
     /// the initial selection. On exit, the integer specifies the index of the icon that was selected.</param>
     /// <returns>Returns 1 if successful; otherwise, 0.</returns>
-    [DllImport(Shell32, EntryPoint = "PickIconDlg", CharSet = CharSet.Unicode)]
-    public static extern int PickIconDlg(nint hwnd, StringBuilder pszIconPath, uint cchIconPath, ref int piIconIndex);
+    [LibraryImport(Shell32, EntryPoint = "PickIconDlg", StringMarshalling = StringMarshalling.Utf16)]
+    public static partial int PickIconDlg(nint hwnd, [In, Out] char[] pszIconPath, uint cchIconPath, ref int piIconIndex);
 
     /// <summary>
     /// Destroys an icon and frees any memory the icon occupied.

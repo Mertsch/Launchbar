@@ -11,14 +11,14 @@ public sealed class Menu : NotifyBase
 {
     #region Fields
 
-    private MenuEntryCollection entries;
+    private MenuEntryCollection? entries;
 
     #endregion
 
     /// <summary>
     /// Gets or sets a list of menu entries.
     /// </summary>
-    public MenuEntryCollection Entries
+    public MenuEntryCollection? Entries
     {
         get { return this.entries; }
         set

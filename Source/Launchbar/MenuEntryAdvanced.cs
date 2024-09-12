@@ -1,7 +1,6 @@
-using System.Text;
+using Launchbar.Win32;
 using System.Windows.Media;
 using System.Xml.Serialization;
-using Launchbar.Win32;
 
 namespace Launchbar;
 
@@ -150,7 +149,7 @@ public class MenuEntryAdvanced : MenuEntry
             {
                 if (p.IsValidFile) // Valid file?
                 {
-                    newIcon = WinHelper.ExtractAssociatedIcon(p.PathAbsolute);
+                    newIcon = WinHelper.ExtractAssociatedIcon(p.PathAbsolute!); // IsValidFile tests the path
                     newType = IconType.Custom;
                 }
                 else if (p.IsValidPath) // Valid dictionary?
@@ -181,18 +180,13 @@ public class MenuEntryAdvanced : MenuEntry
         {
             if (this is Program { IsValidFile: true } p) // When the program path is valid, use that path as default.
             {
-                path = p.Path;
+                path = p.Path!; // IsValidFile tests the path
             }
         }
 
-        // We need to have a string that is long enough to handle a more complex path than
-        // the default one (more characters in length).
-        StringBuilder sb = new StringBuilder(path, 4096); // 4095 + null-char should be enough
-
-        // Methods returns one when pressing OK in the dialog.
-        if (SafeNativeMethods.PickIconDlg(nint.Zero, sb, (uint)sb.Capacity, ref index) == 1)
+        if (WinHelper.PickIconDialog(ref path, ref index))
         {
-            this.IconPath = sb.ToString(); //save the information
+            this.IconPath = path;
             this.IconIndex = index;
         }
         this.UpdateIcon();

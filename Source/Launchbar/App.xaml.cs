@@ -10,10 +10,7 @@ using WpfScreenHelper;
 
 namespace Launchbar;
 
-/// <summary>
-/// Interaction logic for App.xaml
-/// </summary>
-public sealed partial class App : Application
+public sealed partial class App : Application, IDisposable
 {
 #if DEBUG
     private const string MutexName = @"Global\LaunchbarSingleInstanceMutex(Debug)";
@@ -25,11 +22,7 @@ public sealed partial class App : Application
 
     private static SplashScreen? splashScreen;
 
-    // ReSharper disable NotAccessedField.Local
-#pragma warning disable IDE0052 // Remove unread private members - We need to keep the mutex alive during the lifetime of the app.
     private readonly Mutex instanceMutex;
-#pragma warning restore IDE0052 // Remove unread private members
-    // ReSharper restore NotAccessedField.Local
 
     private WindowBar? barLeft;
 
@@ -109,7 +102,7 @@ public sealed partial class App : Application
 
         setting.PropertyChanged += this.settingsPropertyChanged;
 
-        this.contextMenu = this.FindResource("contextMenuTemplate") as ContextMenu ?? throw new InvalidOperationException("Missing 'contextMenuTemplate'.");
+        this.contextMenu = this.FindResource("ContextMenuTemplate") as ContextMenu ?? throw new InvalidOperationException("Missing 'contextMenuTemplate'.");
         this.forceContextMenuLayout();
 
         try
@@ -285,5 +278,17 @@ public sealed partial class App : Application
         ((FrameworkElement)app.contextMenu.Parent).ContextMenu = null;
         // Attach to this object.
         return app.contextMenu;
+    }
+
+    protected override void OnExit(ExitEventArgs e)
+    {
+        base.OnExit(e);
+
+        this.instanceMutex.Dispose();
+    }
+
+    public void Dispose()
+    {
+        this.instanceMutex.Dispose();
     }
 }

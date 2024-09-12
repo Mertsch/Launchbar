@@ -243,7 +243,7 @@ internal sealed partial class WindowSettings : Window
         }
         else
         {
-            Settings.Default.Menu.Entries.Add(newEntry);
+            Settings.Default.Menu.Entries?.Add(newEntry);
         }
     }
 

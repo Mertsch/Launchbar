@@ -16,8 +16,7 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#enforcecodestyleinbuild -->
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <!-- TODO: enable this -->
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <PropertyGroup>
