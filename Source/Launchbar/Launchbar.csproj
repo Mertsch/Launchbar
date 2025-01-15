@@ -1,38 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <Import Project="..\Common.props" />
-
   <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <OutputType>WinExe</OutputType>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-
     <ApplicationIcon>Resources\Next.ico</ApplicationIcon>
-    <Version>5.2.0-preview.2</Version>
+    <Version>5.2.0-preview.3</Version>
     <Authors>Launchbar</Authors>
     <Description>RunIT to the next level.</Description>
     <Copyright>Copyright © Mertsch $([System.DateTime]::UtcNow.Year)</Copyright>
-
     <IsPublishable>true</IsPublishable>
     <!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#generateassemblyinfo -->
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="fm.Extensions.Wpf" Version="5.0.1" />
-    <PackageReference Include="JetBrains.Annotations" Version="2024.2.0" />
-    <PackageReference Include="Markdig.Wpf" Version="0.5.0.1" />
-    <PackageReference Include="WpfScreenHelper" Version="2.1.1" />
+    <PackageReference Include="fm.Extensions.Wpf" />
+    <PackageReference Include="JetBrains.Annotations" />
+    <PackageReference Include="Markdig.Wpf" />
+    <PackageReference Include="WpfScreenHelper" />
   </ItemGroup>
-
   <ItemGroup>
     <None Remove="Resources\**\*.png;Resources\**\*.ico" />
-
     <Resource Include="Resources\**\*.png;Resources\**\*.ico" />
     <Resource Include="..\..\CHANGELOG.md" Link="CHANGELOG.md" />
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -53,5 +45,4 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
   </ItemGroup>
-
 </Project>
