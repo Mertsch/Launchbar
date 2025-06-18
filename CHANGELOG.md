@@ -3,9 +3,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [5.2.0] - 2025-01-15
+## [5.2.0] - 2026-06-18
 ### Changed
 - Upgrade to .NET 9.0, requires the [.NET Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/9.0/runtime) to run
+- A lot of internal refactoring to use modern .NET 8.0 and .NET 9.0 features.
 
 ## [5.1.0] - 2023-01-01
 ### Changed
