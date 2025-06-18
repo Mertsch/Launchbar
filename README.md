@@ -1,4 +1,5 @@
-# Launchbar
+﻿Launchbar
+===
 Access all your favorite applications and files with only 2 clicks.
 No precise mouse movement required, no bloat, no extensions, just a simple launcher.
 
@@ -9,8 +10,6 @@ No precise mouse movement required, no bloat, no extensions, just a simple launc
 ### What do others say?
 Check out these sites for a pretty accurate description of Launchbar.
 
-http://www.freewaregenius.com/looking-for-a-simple-practical-launcher-try-launchbar-4-for-windows
-http://www.addictivetips.com/windows-tips/launchbar-a-powerful-application-launcher-with-multi-monitor-support
-
-http://www.softpedia.com/get/System/Launchers-Shutdown-Tools/Launchbar.shtml
-https://www.windows7download.com/win7-launchbar/fqgtfajl.html
+- [Looking for a simple, practical launcher? Try Launchbar 4 for Windows](https://www.freewaregenius.com/looking-for-a-simple-practical-launcher-try-launchbar-4-for-windows)
+- [Launchbar: A Powerful Application Launcher With Multi-Monitor Support](https://www.addictivetips.com/windows-tips/launchbar-a-powerful-application-launcher-with-multi-monitor-support)
+- [An efficient and intuitive Windows 7 software for lightning-fast app launching.](https://www.windows7download.com/win7-launchbar/fqgtfajl.html)
