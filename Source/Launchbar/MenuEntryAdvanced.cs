@@ -1,4 +1,4 @@
-using Launchbar.Win32;
+﻿using Launchbar.Win32;
 using System.Windows.Media;
 using System.Xml.Serialization;
 
@@ -13,15 +13,9 @@ public class MenuEntryAdvanced : MenuEntry
 {
     #region Fields
 
-    private string? text;
-
     private string? iconPath;
 
     private int iconIndex;
-
-    private ImageSource? icon;
-
-    private IconType iconType = IconType.Default;
 
     #endregion
 
@@ -32,14 +26,14 @@ public class MenuEntryAdvanced : MenuEntry
     /// </summary>
     public string? Text
     {
-        get { return this.text; }
+        get;
         set
         {
-            if (this.text == value)
+            if (field == value)
             {
                 return;
             }
-            this.text = value;
+            field = value;
             this.OnPropertyChanged(nameof(this.Text));
         }
     }
@@ -49,7 +43,7 @@ public class MenuEntryAdvanced : MenuEntry
     /// </summary>
     public string? IconPath
     {
-        get { return this.iconPath; }
+        get => this.iconPath;
         set
         {
             if (value == string.Empty)
@@ -71,7 +65,7 @@ public class MenuEntryAdvanced : MenuEntry
     /// </summary>
     public int IconIndex
     {
-        get { return this.iconIndex; }
+        get => this.iconIndex;
         set
         {
             if (this.iconIndex == value)
@@ -90,17 +84,17 @@ public class MenuEntryAdvanced : MenuEntry
     [XmlIgnore]
     public IconType IconType
     {
-        get { return this.iconType; }
+        get;
         private set
         {
-            if (this.iconType == value)
+            if (field == value)
             {
                 return;
             }
-            this.iconType = value;
+            field = value;
             this.OnPropertyChanged(nameof(this.IconType));
         }
-    }
+    } = IconType.Default;
 
     /// <summary>
     /// Gets the icon to display when <see cref="IconType"/> is set to <see cref="Launchbar.IconType.Custom"/>.
@@ -108,14 +102,14 @@ public class MenuEntryAdvanced : MenuEntry
     [XmlIgnore]
     public ImageSource? Icon
     {
-        get { return this.icon; }
+        get;
         private set
         {
-            if (this.icon == value)
+            if (field == value)
             {
                 return;
             }
-            this.icon = value;
+            field = value;
             this.OnPropertyChanged(nameof(this.Icon));
         }
     }

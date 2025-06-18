@@ -1,4 +1,4 @@
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace Launchbar;
 
@@ -11,8 +11,6 @@ public sealed class Submenu : MenuEntryAdvanced
 
     private MenuEntryCollection entries;
 
-    private bool isExpanded;
-
     #endregion
 
     /// <summary>
@@ -21,14 +19,14 @@ public sealed class Submenu : MenuEntryAdvanced
     [XmlIgnore]
     public bool IsExpanded
     {
-        get { return this.isExpanded; }
+        get;
         set
         {
-            if (this.isExpanded == value)
+            if (field == value)
             {
                 return;
             }
-            this.isExpanded = value;
+            field = value;
             this.OnPropertyChanged(nameof(this.IsExpanded));
         }
     }

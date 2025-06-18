@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
@@ -12,13 +12,9 @@ public sealed class Program : MenuEntryAdvanced, ICommand
 {
     #region Fields
 
-    private string? path;
-
     private string? pathAbsolute;
 
     private string? arguments;
-
-    private ProcessPriorityClass priority = ProcessPriorityClass.Normal;
 
     #endregion
 
@@ -29,18 +25,18 @@ public sealed class Program : MenuEntryAdvanced, ICommand
     /// </summary>
     public string? Path
     {
-        get { return this.path; }
+        get;
         set
         {
             if (value == string.Empty)
             {
                 value = null;
             }
-            if (this.path == value)
+            if (field == value)
             {
                 return;
             }
-            this.path = value;
+            field = value;
             this.pathAbsolute = value == null ? null : Environment.ExpandEnvironmentVariables(value);
 
             this.OnPropertyChanged(nameof(this.Path));
@@ -81,17 +77,17 @@ public sealed class Program : MenuEntryAdvanced, ICommand
     /// </summary>
     public ProcessPriorityClass Priority
     {
-        get { return this.priority; }
+        get;
         set
         {
-            if (this.priority == value)
+            if (field == value)
             {
                 return;
             }
-            this.priority = value;
+            field = value;
             this.OnPropertyChanged(nameof(this.Priority));
         }
-    }
+    } = ProcessPriorityClass.Normal;
 
     /// <summary>
     /// Does the specified path point to an existing file?

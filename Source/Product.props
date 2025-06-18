@@ -1,0 +1,11 @@
+﻿<Project>
+
+  <PropertyGroup>
+    <Product>Launchbar</Product>
+    <Version>5.2.0-preview.4</Version>
+    <FileVersion>5.2.0.4</FileVersion>
+
+    <Copyright>Copyright © Mertsch $([System.DateTime]::UtcNow.Year)</Copyright>
+  </PropertyGroup>
+
+</Project>

@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Threading;
 
 namespace Launchbar;
@@ -20,7 +20,7 @@ public sealed class Menu : NotifyBase
     /// </summary>
     public MenuEntryCollection? Entries
     {
-        get { return this.entries; }
+        get => this.entries;
         set
         {
             if (this.entries == value)

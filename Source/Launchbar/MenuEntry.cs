@@ -1,4 +1,4 @@
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace Launchbar;
 
@@ -13,22 +13,20 @@ public class MenuEntry : NotifyBase
 {
     public const string IsSelectedProperty = "IsSelected";
 
-    private bool isSelected;
-
     /// <summary>
     /// Gets or sets whether this object is selected.
     /// </summary>
     [XmlIgnore]
     public bool IsSelected
     {
-        get { return this.isSelected; }
+        get;
         set
         {
-            if (this.isSelected == value)
+            if (field == value)
             {
                 return;
             }
-            this.isSelected = value;
+            field = value;
             this.OnPropertyChanged(IsSelectedProperty);
         }
     }
