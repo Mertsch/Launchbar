@@ -1,4 +1,4 @@
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace Launchbar;
 
@@ -13,22 +13,20 @@ public class MenuEntry : NotifyBase
 {
     public const string IsSelectedProperty = "IsSelected";
 
-    private bool isSelected;
-
     /// <summary>
     /// Gets or sets whether this object is selected.
     /// </summary>
     [XmlIgnore]
     public bool IsSelected
     {
-        get { return this.isSelected; }
+        get;
         set
         {
-            if (this.isSelected == value)
+            if (field == value)
             {
                 return;
             }
-            this.isSelected = value;
+            field = value;
             this.OnPropertyChanged(IsSelectedProperty);
         }
     }
@@ -37,7 +35,7 @@ public class MenuEntry : NotifyBase
     /// Gets or sets the parent of this object.
     /// </summary>
     [XmlIgnore]
-    public MenuEntryCollection Parent { get; set; }
+    public MenuEntryCollection? Parent { get; set; }
 
     /// <summary>
     /// Move this item upwards in the parent collection.
@@ -57,7 +55,7 @@ public class MenuEntry : NotifyBase
 
     private void move(bool up)
     {
-        MenuEntryCollection parent = this.Parent;
+        MenuEntryCollection? parent = this.Parent;
         if (parent == null)
         {
             return; // Unable to do anything
@@ -71,7 +69,7 @@ public class MenuEntry : NotifyBase
             {
                 return; // We can't move the element any further.
             }
-            MenuEntryCollection parentParent = parent.Parent.Parent;
+            MenuEntryCollection? parentParent = parent.Parent.Parent;
             if (parentParent == null)
             {
                 return; // There is nothing we can do.
@@ -97,7 +95,7 @@ public class MenuEntry : NotifyBase
                 delta = -1; // Decrease the index by one.
             }
 
-            Submenu moveInto = parent[index + delta] as Submenu;
+            Submenu? moveInto = parent[index + delta] as Submenu;
             if (moveInto == null)
             {
                 parent.Move(index, index + delta);

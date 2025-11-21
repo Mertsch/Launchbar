@@ -1,17 +1,28 @@
 ﻿# Changelog
 All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [5.3.0] - 2025-11-21
+### Changed
+- Re-enabled DPI awareness. Launchbar now looks sharp and natural on high-DPI displays.
+- Increased the maximum menu scale from **2** to **4**.
+- Upgrade to .NET 10.0, requires the [.NET Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0/runtime) to run.
+
+## [5.2.0] - 2025-06-18
+### Changed
+- Upgrade to .NET 9.0, requires the [.NET Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/9.0/runtime) to run.
+- A lot of internal refactoring to use modern .NET 8.0 and .NET 9.0 features.
 
 ## [5.1.0] - 2023-01-01
 ### Changed
-- Upgrade to .NET 7.0, requires the [.NET Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/7.0/runtime) to run
+- Upgrade to .NET 7.0, requires the [.NET Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/7.0/runtime) to run.
 
 ## [5.0.0] - 2021-12-15
 ### Changed
-- Upgrade to .NET 6.0, requires the [.NET Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/6.0/runtime) to run
-- Changelog is now rendered with Markdown
+- Upgrade to .NET 6.0, requires the [.NET Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/6.0/runtime) to run.
+- Changelog is now rendered with Markdown.
+
 ### Removed
 - Assembly Strong Name
 

@@ -1,10 +1,8 @@
-using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
-using JetBrains.Annotations;
 
 namespace Launchbar.Win32;
 
@@ -19,14 +17,14 @@ internal static class WinHelper
     /// <param name="path">Path to the file or directory to extract the icon from.
     /// <remarks>Does NOT support environment variables.</remarks></param>
     /// <returns>The extracted icon as <see cref="BitmapSource"/>.</returns>
-    public static BitmapSource ExtractAssociatedIcon([NotNull] string path)
+    public static BitmapSource? ExtractAssociatedIcon(string path)
     {
         int i = 0;
-        nint hIcon = SafeNativeMethods.ExtractAssociatedIcon(nint.Zero, path, ref i);
+        nint hIcon = LibraryImport.ExtractAssociatedIcon(nint.Zero, path, ref i);
         if (hIcon != nint.Zero)
         {
             BitmapSource bms = Imaging.CreateBitmapSourceFromHIcon(hIcon, Int32Rect.Empty, null);
-            SafeNativeMethods.DestroyIcon(hIcon);
+            LibraryImport.DestroyIcon(hIcon);
             return bms;
         }
         return null;
@@ -39,13 +37,13 @@ internal static class WinHelper
     /// <remarks>Supports environment variables.</remarks></param>
     /// <param name="index">A zero-based index of the icon.</param>
     /// <returns>The extracted icon as <see cref="BitmapSource"/>.</returns>
-    public static BitmapSource ExtractIcon([NotNull] string path, int index)
+    public static BitmapSource? ExtractIcon(string path, int index)
     {
-        nint hIcon = SafeNativeMethods.ExtractIcon(nint.Zero, path, (uint)index);
+        nint hIcon = LibraryImport.ExtractIcon(nint.Zero, path, (uint)index);
         if (hIcon != nint.Zero)
         {
             BitmapSource bms = Imaging.CreateBitmapSourceFromHIcon(hIcon, Int32Rect.Empty, null);
-            SafeNativeMethods.DestroyIcon(hIcon);
+            LibraryImport.DestroyIcon(hIcon);
             return bms;
         }
         return null;
@@ -57,24 +55,21 @@ internal static class WinHelper
     /// </summary>
     public static void SendMouseButtonDown(MouseButton button)
     {
-        SafeNativeMethods.MOUSEINPUT mi = new SafeNativeMethods.MOUSEINPUT();
+        LibraryImport.MOUSEINPUT mi = new LibraryImport.MOUSEINPUT
+            {
+                dwFlags = button switch
+                    {
+                        MouseButton.Left => LibraryImport.MOUSEINPUTFLAGS.MOUSEEVENTF_LEFTDOWN,
+                        MouseButton.Right => LibraryImport.MOUSEINPUTFLAGS.MOUSEEVENTF_RIGHTDOWN,
+                        _ => throw new NotSupportedException(),
+                    },
+            };
 
-        switch (button)
-        {
-            case MouseButton.Left:
-                mi.dwFlags = SafeNativeMethods.MOUSEINPUTFLAGS.MOUSEEVENTF_LEFTDOWN;
-                break;
-            case MouseButton.Right:
-                mi.dwFlags = SafeNativeMethods.MOUSEINPUTFLAGS.MOUSEEVENTF_RIGHTDOWN;
-                break;
-            default:
-                throw new NotSupportedException();
-        }
-        SafeNativeMethods.MOUSEKEYBDHARDWAREINPUT mkhInput = new SafeNativeMethods.MOUSEKEYBDHARDWAREINPUT { mi = mi };
+        LibraryImport.MOUSEKEYBDHARDWAREINPUT mkhInput = new LibraryImport.MOUSEKEYBDHARDWAREINPUT { mi = mi };
 
-        SafeNativeMethods.INPUT input = new SafeNativeMethods.INPUT { type = SafeNativeMethods.INPUT_TYPE.MOUSE, mkhi = mkhInput };
+        LibraryImport.INPUT input = new LibraryImport.INPUT { type = LibraryImport.INPUT_TYPE.MOUSE, mkhi = mkhInput };
 
-        SafeNativeMethods.SendInput(1, ref input, Marshal.SizeOf(input));
+        LibraryImport.SendInput(1, ref input, Marshal.SizeOf(input));
     }
 
     /// <summary>
@@ -83,25 +78,21 @@ internal static class WinHelper
     /// </summary>
     public static void SendMouseButtonUp(MouseButton button)
     {
-        SafeNativeMethods.MOUSEINPUT mi = new SafeNativeMethods.MOUSEINPUT();
+        LibraryImport.MOUSEINPUT mi = new LibraryImport.MOUSEINPUT
+            {
+                dwFlags = button switch
+                    {
+                        MouseButton.Left => LibraryImport.MOUSEINPUTFLAGS.MOUSEEVENTF_LEFTUP,
+                        MouseButton.Right => LibraryImport.MOUSEINPUTFLAGS.MOUSEEVENTF_RIGHTUP,
+                        _ => throw new NotSupportedException(),
+                    },
+            };
 
-        switch (button)
-        {
-            case MouseButton.Left:
-                mi.dwFlags = SafeNativeMethods.MOUSEINPUTFLAGS.MOUSEEVENTF_LEFTUP;
-                break;
-            case MouseButton.Right:
-                mi.dwFlags = SafeNativeMethods.MOUSEINPUTFLAGS.MOUSEEVENTF_RIGHTUP;
-                break;
-            default:
-                throw new NotSupportedException();
-        }
+        LibraryImport.MOUSEKEYBDHARDWAREINPUT mkhInput = new LibraryImport.MOUSEKEYBDHARDWAREINPUT { mi = mi };
 
-        SafeNativeMethods.MOUSEKEYBDHARDWAREINPUT mkhInput = new SafeNativeMethods.MOUSEKEYBDHARDWAREINPUT { mi = mi };
+        LibraryImport.INPUT input = new LibraryImport.INPUT { type = LibraryImport.INPUT_TYPE.MOUSE, mkhi = mkhInput };
 
-        SafeNativeMethods.INPUT input = new SafeNativeMethods.INPUT { type = SafeNativeMethods.INPUT_TYPE.MOUSE, mkhi = mkhInput };
-
-        SafeNativeMethods.SendInput(1, ref input, Marshal.SizeOf(input));
+        LibraryImport.SendInput(1, ref input, Marshal.SizeOf(input));
     }
 
     /// <summary>
@@ -110,35 +101,50 @@ internal static class WinHelper
     /// </summary>
     public static void SendMouseMoveRelative(int x, int y)
     {
-        SafeNativeMethods.MOUSEINPUT mi = new SafeNativeMethods.MOUSEINPUT
+        LibraryImport.MOUSEINPUT mi = new LibraryImport.MOUSEINPUT
             {
-                dwFlags = SafeNativeMethods.MOUSEINPUTFLAGS.MOUSEEVENTF_MOVE,
+                dwFlags = LibraryImport.MOUSEINPUTFLAGS.MOUSEEVENTF_MOVE,
                 dx = x,
-                dy = y
+                dy = y,
             };
 
-        SafeNativeMethods.MOUSEKEYBDHARDWAREINPUT mkhInput = new SafeNativeMethods.MOUSEKEYBDHARDWAREINPUT
+        LibraryImport.MOUSEKEYBDHARDWAREINPUT mkhInput = new LibraryImport.MOUSEKEYBDHARDWAREINPUT
             {
-                mi = mi
+                mi = mi,
             };
 
-        SafeNativeMethods.INPUT input = new SafeNativeMethods.INPUT
+        LibraryImport.INPUT input = new LibraryImport.INPUT
             {
-                type = SafeNativeMethods.INPUT_TYPE.MOUSE,
-                mkhi = mkhInput
+                type = LibraryImport.INPUT_TYPE.MOUSE,
+                mkhi = mkhInput,
             };
 
-        SafeNativeMethods.SendInput(1, ref input, Marshal.SizeOf(input));
+        LibraryImport.SendInput(1, ref input, Marshal.SizeOf(input));
     }
 
-    public static void SetAsToolWindow([NotNull] this Window window)
+    public static void SetAsToolWindow(this Window window)
     {
         nint handle = new WindowInteropHelper(window).EnsureHandle();
-        nint oldFlags = SafeNativeMethods.GetWindowLongPtr(handle, GWL.GWL_EXSTYLE);
+        nint oldFlags = LibraryImport.GetWindowLongPtr(handle, GWL.GWL_EXSTYLE);
         if (oldFlags != nint.Zero)
         {
             nint newFlags = new nint(oldFlags.ToInt64() | ExtendedWindowStyles.WS_EX_TOOLWINDOW);
-            SafeNativeMethods.SetWindowLongPtr(handle, GWL.GWL_EXSTYLE, newFlags);
+            LibraryImport.SetWindowLongPtr(handle, GWL.GWL_EXSTYLE, newFlags);
         }
+    }
+
+    public static bool PickIconDialog(ref string path, ref int index)
+    {
+        // We need to have a string that is long enough to handle a more complex path than the default one (more characters in length).
+        char[] pathBuffer = new char[32 * 1024]; // https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation
+        path.CopyTo(pathBuffer);
+
+        // Method returns one when pressing OK in the dialog.
+        if (LibraryImport.PickIconDlg(nint.Zero, pathBuffer, (uint)pathBuffer.Length, ref index) == 1)
+        {
+            path = new string(pathBuffer, 0, Array.IndexOf(pathBuffer, '\0')); // Extract string from null terminated string.
+            return true;
+        }
+        return false;
     }
 }

@@ -1,0 +1,108 @@
+﻿<Project>
+  <PropertyGroup>
+    <!-- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/language#langversion -->
+    <LangVersion>preview</LangVersion>
+    <!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#analysislevel -->
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#enforcecodestyleinbuild -->
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <!-- https://learn.microsoft.com/en-us/dotnet/csharp/nullable-references#nullable-contexts -->
+    <Nullable>enable</Nullable>
+    <!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/overview#implicit-using-directives -->
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <NeutralLanguage>en</NeutralLanguage>
+
+    <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+    <UseArtifactsOutput>true</UseArtifactsOutput>
+    <DefaultItemExcludes>$(DefaultItemExcludes);**\*.DotSettings</DefaultItemExcludes>
+
+    <IsTestProjectName>false</IsTestProjectName>
+    <IsTestProjectName Condition="$(MSBuildProjectName.EndsWith('.Tests')) OR $(MSBuildProjectName.EndsWith('.IntegrationTests')) OR $(MSBuildProjectName.EndsWith('.TestHelper'))">true</IsTestProjectName>
+    <IsSetupProjectName>false</IsSetupProjectName>
+    <IsSetupProjectName Condition="$(MSBuildProjectName.Contains('.Setup.'))">true</IsSetupProjectName>
+    <IsProdProjectName>true</IsProdProjectName>
+    <IsProdProjectName Condition="$(IsTestProjectName) OR $(IsSetupProjectName)">false</IsProdProjectName>
+  </PropertyGroup>
+
+  <Import Condition="$(IsProdProjectName)" Project="Product.props"/>
+
+  <!-- #region Workaround for https://github.com/dotnet/roslyn/issues/41640 -->
+  <!-- We skip documentation for publishing (dotnet publish), as we do not need it in the final bits. -->
+  <PropertyGroup>
+    <!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#generatedocumentationfile -->
+    <GenerateDocumentationFile Condition="'$(_IsPublishing)' != 'yes'" >true</GenerateDocumentationFile>
+    <!-- CS1591: Missing XML comment for publicly visible type or member -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+  <!-- #endregion -->
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <Choose>
+    <!-- #region - 🚀 Production code projects 🚀 -->
+    <When Condition="$(IsProdProjectName)">
+      <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+
+        <IsPublishable>false</IsPublishable>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+      </PropertyGroup>
+      <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <DebugType>embedded</DebugType>
+      </PropertyGroup>
+
+      <ItemGroup>
+        <Using Include="JetBrains.Annotations"/>
+      </ItemGroup>
+
+      <ItemGroup>
+        <InternalsVisibleTo Include="$(AssemblyName).Tests"/>
+        <!-- https://fakeiteasy.github.io/docs/8.3.0/how-to-fake-internal-types/ -->
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+      </ItemGroup>
+    </When>
+    <!-- #endregion -->
+
+    <!-- #region - 🧪 Test projects 🧪 -->
+    <When Condition="$(IsTestProjectName)">
+      <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+
+        <IsPackable>false</IsPackable>
+        <IsPublishable>false</IsPublishable>
+
+        <RunSettingsFilePath>$(MSBuildThisFileDirectory)\Default.runsettings</RunSettingsFilePath>
+      </PropertyGroup>
+
+      <ItemGroup>
+        <Using Include="fm.Extensions.Testing"/>
+        <Using Include="JetBrains.Annotations"/>
+        <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting"/>
+      </ItemGroup>
+
+      <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk">
+          <TreatAsUsed>true</TreatAsUsed>
+        </PackageReference>
+        <PackageReference Include="MSTest">
+          <TreatAsUsed>true</TreatAsUsed>
+        </PackageReference>
+      </ItemGroup>
+    </When>
+    <!-- #endregion -->
+
+    <!-- #region - 📦 Setup projects 📦 -->
+    <When Condition="$(IsSetupProjectName)">
+      <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+
+        <IsPublishable>false</IsPublishable>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+      </PropertyGroup>
+    </When>
+    <!-- #endregion -->
+  </Choose>
+</Project>

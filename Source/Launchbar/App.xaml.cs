@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Immutable;
+﻿using Launchbar.Properties;
+using Microsoft.Win32;
 using System.ComponentModel;
 using System.Security;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Launchbar.Properties;
-using Microsoft.Win32;
 using WpfScreenHelper;
 
 namespace Launchbar;
 
-/// <summary>
-/// Interaction logic for App.xaml
-/// </summary>
-public partial class App : Application
+public sealed partial class App : Application, IDisposable
 {
 #if DEBUG
     private const string MutexName = @"Global\LaunchbarSingleInstanceMutex(Debug)";
@@ -25,29 +19,25 @@ public partial class App : Application
 
     #region Fields
 
-    private static SplashScreen splashScreen;
+    private static SplashScreen? splashScreen;
 
-    // ReSharper disable NotAccessedField.Local
-#pragma warning disable IDE0052 // Remove unread private members - We need to keep the mutex alive during the lifetime of the app.
-    private static Mutex instanceMutex;
-#pragma warning restore IDE0052 // Remove unread private members
-    // ReSharper restore NotAccessedField.Local
+    private readonly Mutex instanceMutex;
 
-    private WindowBar barLeft;
+    private WindowBar? barLeft;
 
-    private WindowBar barTop;
+    private WindowBar? barTop;
 
-    private WindowBar barRight;
+    private WindowBar? barRight;
 
-    private WindowBar barBottom;
+    private WindowBar? barBottom;
 
-    private WindowBar barLeftSecondary;
+    private WindowBar? barLeftSecondary;
 
-    private WindowBar barTopSecondary;
+    private WindowBar? barTopSecondary;
 
-    private WindowBar barRightSecondary;
+    private WindowBar? barRightSecondary;
 
-    private WindowBar barBottomSecondary;
+    private WindowBar? barBottomSecondary;
 
     private readonly Area primaryArea = new Area();
 
@@ -74,7 +64,7 @@ public partial class App : Application
 
         #region Make sure that only one instance of the application is running at any given time.
 
-        instanceMutex = new Mutex(false, MutexName, out bool instantiated);
+        this.instanceMutex = new Mutex(false, MutexName, out bool instantiated);
         if (!instantiated)
         {
             MessageBox.Show(Launchbar.Properties.Resources.SingleInstanceWarning,
@@ -82,10 +72,11 @@ public partial class App : Application
                 MessageBoxImage.Information);
             try
             {
-                splashScreen.Close(TimeSpan.Zero);
+                splashScreen?.Close(TimeSpan.Zero);
             }
             catch (Win32Exception) { }
             this.Shutdown();
+            this.contextMenu = default!;
             return;
         }
 
@@ -106,22 +97,20 @@ public partial class App : Application
             SystemEvents.DisplaySettingsChanged += this.displaySettingsChanged;
         }
         catch (SecurityException) { }
-        this.displaySettingsChanged(null, null); // Do primary initialization.
+        this.displaySettingsChanged(null, EventArgs.Empty); // Do primary initialization.
 
         setting.PropertyChanged += this.settingsPropertyChanged;
 
-        // ReSharper disable PossibleNullReferenceException
-        this.contextMenu = (ContextMenu)this.FindResource("contextMenuTemplate");
-        // ReSharper restore PossibleNullReferenceException
+        this.contextMenu = this.FindResource("ContextMenuTemplate") as ContextMenu ?? throw new InvalidOperationException("Missing 'contextMenuTemplate'.");
         this.forceContextMenuLayout();
 
         try
         {
-            splashScreen.Close(new TimeSpan(TimeSpan.TicksPerSecond));
+            splashScreen?.Close(new TimeSpan(TimeSpan.TicksPerSecond));
         }
         catch (Win32Exception)
         {
-            splashScreen.Close(TimeSpan.Zero);
+            splashScreen?.Close(TimeSpan.Zero);
         }
         finally
         {
@@ -153,7 +142,7 @@ public partial class App : Application
 
     #endregion
 
-    private void settingsPropertyChanged(object sender, PropertyChangedEventArgs e)
+    private void settingsPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         switch (e.PropertyName)
         {
@@ -188,14 +177,14 @@ public partial class App : Application
         }
     }
 
-    private void displaySettingsChanged(object sender, EventArgs e)
+    private void displaySettingsChanged(object? sender, EventArgs e)
     {
-        ImmutableArray<Screen> screens = Screen.AllScreens.ToImmutableArray();
+        Screen[] screens = Screen.AllScreens.ToArray();
         int count = screens.Length;
 
         if (count > 0)
         {
-            Rect area = screens[0].WorkingArea;
+            Rect area = screens[0].WpfWorkingArea;
             this.primaryArea.Update(area.X, area.Y, area.Width, area.Height);
 
             if (this.currentDisplayCount < 1)
@@ -217,19 +206,15 @@ public partial class App : Application
 
         if (count > 1)
         {
-            Rect area = screens[1].WorkingArea;
+            Rect area = screens[1].WpfWorkingArea;
             this.secondaryArea.Update(area.X, area.Y, area.Width, area.Height);
 
             if (this.currentDisplayCount < 2)
             {
-                openOrCloseBar(Dock.Left, Settings.Default.BarLeftSecondary, this.secondaryArea,
-                    ref this.barLeftSecondary);
-                openOrCloseBar(Dock.Top, Settings.Default.BarTopSecondary, this.secondaryArea,
-                    ref this.barTopSecondary);
-                openOrCloseBar(Dock.Right, Settings.Default.BarRightSecondary, this.secondaryArea,
-                    ref this.barRightSecondary);
-                openOrCloseBar(Dock.Bottom, Settings.Default.BarBottomSecondary, this.secondaryArea,
-                    ref this.barBottomSecondary);
+                openOrCloseBar(Dock.Left, Settings.Default.BarLeftSecondary, this.secondaryArea, ref this.barLeftSecondary);
+                openOrCloseBar(Dock.Top, Settings.Default.BarTopSecondary, this.secondaryArea, ref this.barTopSecondary);
+                openOrCloseBar(Dock.Right, Settings.Default.BarRightSecondary, this.secondaryArea, ref this.barRightSecondary);
+                openOrCloseBar(Dock.Bottom, Settings.Default.BarBottomSecondary, this.secondaryArea, ref this.barBottomSecondary);
                 this.currentDisplayCount = 2;
             }
         }
@@ -242,14 +227,14 @@ public partial class App : Application
         }
     }
 
-    private static void openOrCloseBar(Dock dock, bool open, Area area, ref WindowBar windowBar)
+    private static void openOrCloseBar(Dock dock, bool open, Area? area, ref WindowBar? windowBar)
     {
-        if (windowBar == null && open && area != null && area.IsActive)
+        if (windowBar is null && open && area is { IsActive: true })
         {
             windowBar = new WindowBar(dock, area);
             windowBar.Show();
         }
-        else if (windowBar != null && !open)
+        else if (windowBar is { } && !open)
         {
             windowBar.Close();
             windowBar = null;
@@ -261,13 +246,10 @@ public partial class App : Application
         WindowCollection wc = Current.Windows;
         lock (wc.SyncRoot!)
         {
-            foreach (Window w in wc)
+            foreach (WindowSettings w in wc.OfType<WindowSettings>())
             {
-                if (w is WindowSettings)
-                {
-                    w.Activate();
-                    return;
-                }
+                w.Activate();
+                return;
             }
         }
         new WindowSettings().Show();
@@ -288,5 +270,17 @@ public partial class App : Application
         ((FrameworkElement)app.contextMenu.Parent).ContextMenu = null;
         // Attach to this object.
         return app.contextMenu;
+    }
+
+    protected override void OnExit(ExitEventArgs e)
+    {
+        base.OnExit(e);
+
+        this.instanceMutex.Dispose();
+    }
+
+    public void Dispose()
+    {
+        this.instanceMutex.Dispose();
     }
 }

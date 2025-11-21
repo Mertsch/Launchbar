@@ -1,0 +1,39 @@
+﻿name: Build Launchbar
+
+on:
+  push:
+    branches:
+    - '*'
+    tags:
+    - '*'
+  pull_request:
+    branches:
+    - '*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v6 # https://github.com/marketplace/actions/checkout
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v5 # https://github.com/marketplace/actions/setup-net-core-sdk
+      with:
+        global-json-file: Source/global.json
+
+    - name: Build
+      run: dotnet build Source/Launchbar.slnx --configuration Release
+
+    - name: Test
+      run: dotnet test Source/Launchbar.slnx --configuration Release
+
+    - name: Publish
+      run: dotnet publish Source/Launchbar.slnx --configuration Release
+
+    - name: Upload
+      uses: actions/upload-artifact@v4 # https://github.com/marketplace/actions/upload-a-build-artifact
+      with:
+        name: Launchbar
+        path: Source/artifacts/publish/Launchbar/release/**
+        if-no-files-found: error

@@ -3,9 +3,6 @@ using System.Windows.Controls;
 
 namespace Launchbar.Shapes;
 
-/// <summary>
-/// Interaction logic for ShapeMonitor.xaml
-/// </summary>
 public sealed partial class ShapeMonitor : UserControl
 {
     public ShapeMonitor()
@@ -13,8 +10,10 @@ public sealed partial class ShapeMonitor : UserControl
         this.InitializeComponent();
     }
 
-    private void sizeChanged(object sender, SizeChangedEventArgs e)
+    protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
     {
+        base.OnRenderSizeChanged(sizeInfo);
+
         this.scaler.ScaleX = this.ActualWidth / this.shape.Width;
         this.scaler.ScaleY = this.ActualHeight / this.shape.Height;
     }

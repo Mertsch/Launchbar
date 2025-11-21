@@ -4,12 +4,13 @@ namespace Launchbar;
 
 public static class MenuItemExtensions
 {
-    public static void SetIconTemplate(DependencyObject d, DataTemplate value)
+    public static void SetIconTemplate(DependencyObject d, DataTemplate? value)
     {
         d.SetValue(IconTemplateProperty, value);
     }
 
-    public static DataTemplate GetIconTemplate(DependencyObject d)
+    [MustUseReturnValue]
+    public static DataTemplate? GetIconTemplate(DependencyObject d)
     {
         return (DataTemplate)d.GetValue(IconTemplateProperty);
     }

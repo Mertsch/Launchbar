@@ -1,11 +1,10 @@
-﻿using System;
+﻿using fm.Extensions;
+using Launchbar.Properties;
+using Launchbar.Win32;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using fm.Extensions;
-using Launchbar.Properties;
-using Launchbar.Win32;
 
 namespace Launchbar;
 
@@ -67,10 +66,10 @@ public sealed partial class WindowBar : Window
         this.Dock = dock;
         this.WorkArea = area;
         area.Updated += this.areaUpdated;
-        this.areaUpdated(null, null);
+        this.areaUpdated(null, EventArgs.Empty);
     }
 
-    private void areaUpdated(object sender, EventArgs e)
+    private void areaUpdated(object? sender, EventArgs e)
     {
         Area area = this.WorkArea;
 

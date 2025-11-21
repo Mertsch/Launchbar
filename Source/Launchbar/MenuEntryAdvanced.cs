@@ -1,7 +1,6 @@
-using System.Text;
+﻿using Launchbar.Win32;
 using System.Windows.Media;
 using System.Xml.Serialization;
-using Launchbar.Win32;
 
 namespace Launchbar;
 
@@ -14,15 +13,9 @@ public class MenuEntryAdvanced : MenuEntry
 {
     #region Fields
 
-    private string text;
-
-    private string iconPath;
+    private string? iconPath;
 
     private int iconIndex;
-
-    private ImageSource icon;
-
-    private IconType iconType = IconType.Default;
 
     #endregion
 
@@ -31,16 +24,16 @@ public class MenuEntryAdvanced : MenuEntry
     /// <summary>
     /// Get or set the text to be shown for this entry.
     /// </summary>
-    public string Text
+    public string? Text
     {
-        get { return this.text; }
+        get;
         set
         {
-            if (this.text == value)
+            if (field == value)
             {
                 return;
             }
-            this.text = value;
+            field = value;
             this.OnPropertyChanged(nameof(this.Text));
         }
     }
@@ -48,9 +41,9 @@ public class MenuEntryAdvanced : MenuEntry
     /// <summary>
     /// Path to a file that contains an icon at the specified icon index
     /// </summary>
-    public string IconPath
+    public string? IconPath
     {
-        get { return this.iconPath; }
+        get => this.iconPath;
         set
         {
             if (value == string.Empty)
@@ -72,7 +65,7 @@ public class MenuEntryAdvanced : MenuEntry
     /// </summary>
     public int IconIndex
     {
-        get { return this.iconIndex; }
+        get => this.iconIndex;
         set
         {
             if (this.iconIndex == value)
@@ -91,32 +84,32 @@ public class MenuEntryAdvanced : MenuEntry
     [XmlIgnore]
     public IconType IconType
     {
-        get { return this.iconType; }
+        get;
         private set
         {
-            if (this.iconType == value)
+            if (field == value)
             {
                 return;
             }
-            this.iconType = value;
+            field = value;
             this.OnPropertyChanged(nameof(this.IconType));
         }
-    }
+    } = IconType.Default;
 
     /// <summary>
     /// Gets the icon to display when <see cref="IconType"/> is set to <see cref="Launchbar.IconType.Custom"/>.
     /// </summary>
     [XmlIgnore]
-    public ImageSource Icon
+    public ImageSource? Icon
     {
-        get { return this.icon; }
+        get;
         private set
         {
-            if (this.icon == value)
+            if (field == value)
             {
                 return;
             }
-            this.icon = value;
+            field = value;
             this.OnPropertyChanged(nameof(this.Icon));
         }
     }
@@ -128,7 +121,7 @@ public class MenuEntryAdvanced : MenuEntry
     /// </summary>
     public void UpdateIcon()
     {
-        ImageSource newIcon = null;
+        ImageSource? newIcon = null;
         IconType newType = IconType.Warning;
 
         if (!string.IsNullOrEmpty(this.iconPath))
@@ -141,7 +134,7 @@ public class MenuEntryAdvanced : MenuEntry
         }
         else
         {
-            Program p = this as Program;
+            Program? p = this as Program;
             if (p == null) // Not a program - use the default icon.
             {
                 newType = IconType.Default;
@@ -150,7 +143,7 @@ public class MenuEntryAdvanced : MenuEntry
             {
                 if (p.IsValidFile) // Valid file?
                 {
-                    newIcon = WinHelper.ExtractAssociatedIcon(p.PathAbsolute);
+                    newIcon = WinHelper.ExtractAssociatedIcon(p.PathAbsolute!); // IsValidFile tests the path
                     newType = IconType.Custom;
                 }
                 else if (p.IsValidPath) // Valid dictionary?
@@ -179,20 +172,15 @@ public class MenuEntryAdvanced : MenuEntry
         }
         else
         {
-            if (this is Program p && p.IsValidFile) // When the program path is valid, use that path as default.
+            if (this is Program { IsValidFile: true } p) // When the program path is valid, use that path as default.
             {
-                path = p.Path;
+                path = p.Path!; // IsValidFile tests the path
             }
         }
 
-        // We need to have a string that is long enough to handle a more complex path than
-        // the default one (more characters in length).
-        StringBuilder sb = new StringBuilder(path, 4096); // 4095 + null-char should be enough
-
-        // Methods returns one when pressing OK in the dialog.
-        if (SafeNativeMethods.PickIconDlg(nint.Zero, sb, (uint)sb.Capacity, ref index) == 1)
+        if (WinHelper.PickIconDialog(ref path, ref index))
         {
-            this.IconPath = sb.ToString(); //save the information
+            this.IconPath = path;
             this.IconIndex = index;
         }
         this.UpdateIcon();
