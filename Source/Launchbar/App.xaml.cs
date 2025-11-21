@@ -1,6 +1,5 @@
 ﻿using Launchbar.Properties;
 using Microsoft.Win32;
-using System.Collections.Immutable;
 using System.ComponentModel;
 using System.Security;
 using System.Windows;
@@ -180,12 +179,12 @@ public sealed partial class App : Application, IDisposable
 
     private void displaySettingsChanged(object? sender, EventArgs e)
     {
-        ImmutableArray<Screen> screens = Screen.AllScreens.ToImmutableArray();
+        Screen[] screens = Screen.AllScreens.ToArray();
         int count = screens.Length;
 
         if (count > 0)
         {
-            Rect area = screens[0].WorkingArea;
+            Rect area = screens[0].WpfWorkingArea;
             this.primaryArea.Update(area.X, area.Y, area.Width, area.Height);
 
             if (this.currentDisplayCount < 1)
@@ -207,19 +206,15 @@ public sealed partial class App : Application, IDisposable
 
         if (count > 1)
         {
-            Rect area = screens[1].WorkingArea;
+            Rect area = screens[1].WpfWorkingArea;
             this.secondaryArea.Update(area.X, area.Y, area.Width, area.Height);
 
             if (this.currentDisplayCount < 2)
             {
-                openOrCloseBar(Dock.Left, Settings.Default.BarLeftSecondary, this.secondaryArea,
-                    ref this.barLeftSecondary);
-                openOrCloseBar(Dock.Top, Settings.Default.BarTopSecondary, this.secondaryArea,
-                    ref this.barTopSecondary);
-                openOrCloseBar(Dock.Right, Settings.Default.BarRightSecondary, this.secondaryArea,
-                    ref this.barRightSecondary);
-                openOrCloseBar(Dock.Bottom, Settings.Default.BarBottomSecondary, this.secondaryArea,
-                    ref this.barBottomSecondary);
+                openOrCloseBar(Dock.Left, Settings.Default.BarLeftSecondary, this.secondaryArea, ref this.barLeftSecondary);
+                openOrCloseBar(Dock.Top, Settings.Default.BarTopSecondary, this.secondaryArea, ref this.barTopSecondary);
+                openOrCloseBar(Dock.Right, Settings.Default.BarRightSecondary, this.secondaryArea, ref this.barRightSecondary);
+                openOrCloseBar(Dock.Bottom, Settings.Default.BarBottomSecondary, this.secondaryArea, ref this.barBottomSecondary);
                 this.currentDisplayCount = 2;
             }
         }

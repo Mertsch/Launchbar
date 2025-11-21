@@ -5,6 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [5.3.0] - 2025-11-21
 ### Changed
+- Re-enabled DPI awareness. Launchbar now looks sharp and natural on high-DPI displays.
+- Increased the maximum menu scale from **2** to **4**.
 - Upgrade to .NET 10.0, requires the [.NET Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0/runtime) to run.
 
 ## [5.2.0] - 2025-06-18
