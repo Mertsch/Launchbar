@@ -5,7 +5,7 @@ No precise mouse movement required, no bloat, no extensions, just a simple launc
 
 **[Download Launchbar here](https://github.com/Mertsch/Launchbar/releases)**
 
-![Launchbar in action](<Screenshot.png>)
+![Launchbar in action](<Screenshot.jpg>)
 
 ### What do others say?
 Check out these sites for a pretty accurate description of Launchbar.
