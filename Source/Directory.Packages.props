@@ -4,8 +4,8 @@
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="fm.Extensions.Wpf" Version="6.1.0" />
-    <PackageVersion Include="JetBrains.Annotations" Version="2025.1.0-eap1" />
+    <PackageVersion Include="fm.Extensions.Wpf" Version="7.0.0" />
+    <PackageVersion Include="JetBrains.Annotations" Version="2025.2.2" />
     <PackageVersion Include="Markdig.Wpf" Version="0.5.0.1" />
     <PackageVersion Include="WpfScreenHelper" Version="2.1.1" />
   </ItemGroup>

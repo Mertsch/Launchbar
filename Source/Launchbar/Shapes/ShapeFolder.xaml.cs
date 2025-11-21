@@ -5,9 +5,6 @@ using System.Windows.Controls;
 
 namespace Launchbar.Shapes;
 
-/// <summary>
-/// Interaction logic for ShapeFolder.xaml
-/// </summary>
 public sealed partial class ShapeFolder : UserControl
 {
     /// <summary>
@@ -25,11 +22,12 @@ public sealed partial class ShapeFolder : UserControl
     public ShapeFolder()
     {
         this.InitializeComponent();
-        this.shape.DataContext = this;
     }
 
-    private void sizeChanged(object sender, SizeChangedEventArgs e)
+    protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
     {
+        base.OnRenderSizeChanged(sizeInfo);
+
         this.scaler.ScaleX = this.ActualWidth / this.shape.Width;
         this.scaler.ScaleY = this.ActualHeight / this.shape.Height;
     }

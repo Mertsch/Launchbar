@@ -251,13 +251,10 @@ public sealed partial class App : Application, IDisposable
         WindowCollection wc = Current.Windows;
         lock (wc.SyncRoot!)
         {
-            foreach (Window w in wc)
+            foreach (WindowSettings w in wc.OfType<WindowSettings>())
             {
-                if (w is WindowSettings)
-                {
-                    w.Activate();
-                    return;
-                }
+                w.Activate();
+                return;
             }
         }
         new WindowSettings().Show();

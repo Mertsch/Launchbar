@@ -283,7 +283,7 @@
                                   VerticalAlignment="Center"
                                   ContentSource="Icon"
                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                <Border x:Name="GlyphPanel"
+                <Border x:Name="GlyphPanel" Grid.Column="0"
                         Background="#E6EFF4"
                         BorderBrush="#CDD3E6"
                         BorderThickness="1"
@@ -385,7 +385,7 @@
                                   VerticalAlignment="Center"
                                   ContentSource="Icon"
                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                <Border x:Name="GlyphPanel"
+                <Border x:Name="GlyphPanel" Grid.Column="0"
                         Background="#E6EFF4"
                         BorderBrush="#CDD3E6"
                         BorderThickness="1"
