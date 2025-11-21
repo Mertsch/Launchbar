@@ -3,6 +3,7 @@
     <File Path="../.editorconfig" />
     <File Path="../.github/workflows/Launchbar-CI.yaml" />
     <File Path="../CHANGELOG.md" />
+    <File Path="../README.md" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
     <File Path="global.json" />
