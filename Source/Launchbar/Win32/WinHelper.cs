@@ -1,8 +1,12 @@
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.UI.Input.KeyboardAndMouse;
+using Windows.Win32.UI.WindowsAndMessaging;
+using INPUT_TYPE_UNION = Windows.Win32.UI.Input.KeyboardAndMouse.INPUT._Anonymous_e__Union;
 
 namespace Launchbar.Win32;
 
@@ -19,15 +23,15 @@ internal static class WinHelper
     /// <returns>The extracted icon as <see cref="BitmapSource"/>.</returns>
     public static BitmapSource? ExtractAssociatedIcon(string path)
     {
-        int i = 0;
-        nint hIcon = LibraryImport.ExtractAssociatedIcon(nint.Zero, path, ref i);
-        if (hIcon != nint.Zero)
+        ushort iconIndex = 0;
+        Span<char> pathBuffer = new char[path.Length + 1];
+        path.CopyTo(pathBuffer);
+        using DestroyIconSafeHandle iconHandle = PInvoke.ExtractAssociatedIcon(ref pathBuffer, ref iconIndex);
+        if (iconHandle.IsInvalid)
         {
-            BitmapSource bms = Imaging.CreateBitmapSourceFromHIcon(hIcon, Int32Rect.Empty, null);
-            LibraryImport.DestroyIcon(hIcon);
-            return bms;
+            return null;
         }
-        return null;
+        return Imaging.CreateBitmapSourceFromHIcon(iconHandle.DangerousGetHandle(), Int32Rect.Empty, null);
     }
 
     /// <summary>
@@ -39,110 +43,111 @@ internal static class WinHelper
     /// <returns>The extracted icon as <see cref="BitmapSource"/>.</returns>
     public static BitmapSource? ExtractIcon(string path, int index)
     {
-        nint hIcon = LibraryImport.ExtractIcon(nint.Zero, path, (uint)index);
-        if (hIcon != nint.Zero)
+        using DestroyIconSafeHandle iconHandle = PInvoke.ExtractIcon(path, (uint)index);
+        if (iconHandle.IsInvalid)
         {
-            BitmapSource bms = Imaging.CreateBitmapSourceFromHIcon(hIcon, Int32Rect.Empty, null);
-            LibraryImport.DestroyIcon(hIcon);
-            return bms;
+            return null;
         }
-        return null;
+        return Imaging.CreateBitmapSourceFromHIcon(iconHandle.DangerousGetHandle(), Int32Rect.Empty, null);
     }
 
     /// <summary>
     /// Send a mouse button down signal.
     /// <remarks>Errors will not be handled.</remarks>
     /// </summary>
-    public static void SendMouseButtonDown(MouseButton button)
+    public static unsafe void SendMouseButtonDown(MouseButton button)
     {
-        LibraryImport.MOUSEINPUT mi = new LibraryImport.MOUSEINPUT
+        INPUT input = new INPUT
             {
-                dwFlags = button switch
+                type = INPUT_TYPE.INPUT_MOUSE,
+                Anonymous = new INPUT_TYPE_UNION
                     {
-                        MouseButton.Left => LibraryImport.MOUSEINPUTFLAGS.MOUSEEVENTF_LEFTDOWN,
-                        MouseButton.Right => LibraryImport.MOUSEINPUTFLAGS.MOUSEEVENTF_RIGHTDOWN,
-                        _ => throw new NotSupportedException(),
+                        mi = new MOUSEINPUT
+                            {
+                                dwFlags = button switch
+                                    {
+                                        MouseButton.Left => MOUSE_EVENT_FLAGS.MOUSEEVENTF_LEFTDOWN,
+                                        MouseButton.Right => MOUSE_EVENT_FLAGS.MOUSEEVENTF_RIGHTDOWN,
+                                        _ => throw new NotSupportedException(),
+                                    },
+                            },
                     },
             };
 
-        LibraryImport.MOUSEKEYBDHARDWAREINPUT mkhInput = new LibraryImport.MOUSEKEYBDHARDWAREINPUT { mi = mi };
-
-        LibraryImport.INPUT input = new LibraryImport.INPUT { type = LibraryImport.INPUT_TYPE.MOUSE, mkhi = mkhInput };
-
-        LibraryImport.SendInput(1, ref input, Marshal.SizeOf(input));
+        PInvoke.SendInput([input], sizeof(INPUT));
     }
 
     /// <summary>
     /// Send a mouse button up signal.
     /// <remarks>Errors will not be handled.</remarks>
     /// </summary>
-    public static void SendMouseButtonUp(MouseButton button)
+    public static unsafe void SendMouseButtonUp(MouseButton button)
     {
-        LibraryImport.MOUSEINPUT mi = new LibraryImport.MOUSEINPUT
+        INPUT input = new INPUT
             {
-                dwFlags = button switch
+                type = INPUT_TYPE.INPUT_MOUSE,
+                Anonymous = new INPUT_TYPE_UNION
                     {
-                        MouseButton.Left => LibraryImport.MOUSEINPUTFLAGS.MOUSEEVENTF_LEFTUP,
-                        MouseButton.Right => LibraryImport.MOUSEINPUTFLAGS.MOUSEEVENTF_RIGHTUP,
-                        _ => throw new NotSupportedException(),
+                        mi = new MOUSEINPUT
+                            {
+                                dwFlags = button switch
+                                    {
+                                        MouseButton.Left => MOUSE_EVENT_FLAGS.MOUSEEVENTF_LEFTUP,
+                                        MouseButton.Right => MOUSE_EVENT_FLAGS.MOUSEEVENTF_RIGHTUP,
+                                        _ => throw new NotSupportedException(),
+                                    },
+                            },
                     },
             };
 
-        LibraryImport.MOUSEKEYBDHARDWAREINPUT mkhInput = new LibraryImport.MOUSEKEYBDHARDWAREINPUT { mi = mi };
-
-        LibraryImport.INPUT input = new LibraryImport.INPUT { type = LibraryImport.INPUT_TYPE.MOUSE, mkhi = mkhInput };
-
-        LibraryImport.SendInput(1, ref input, Marshal.SizeOf(input));
+        PInvoke.SendInput([input], sizeof(INPUT));
     }
 
     /// <summary>
     /// Send a mouse move signal.
     /// <remarks>Errors will not be handled.</remarks>
     /// </summary>
-    public static void SendMouseMoveRelative(int x, int y)
+    public static unsafe void SendMouseMoveRelative(int x, int y)
     {
-        LibraryImport.MOUSEINPUT mi = new LibraryImport.MOUSEINPUT
+        INPUT input = new INPUT
             {
-                dwFlags = LibraryImport.MOUSEINPUTFLAGS.MOUSEEVENTF_MOVE,
-                dx = x,
-                dy = y,
+                type = INPUT_TYPE.INPUT_MOUSE,
+                Anonymous = new INPUT_TYPE_UNION
+                    {
+                        mi = new MOUSEINPUT
+                            {
+                                dwFlags = MOUSE_EVENT_FLAGS.MOUSEEVENTF_MOVE,
+                                dx = x,
+                                dy = y,
+                            },
+                    },
             };
 
-        LibraryImport.MOUSEKEYBDHARDWAREINPUT mkhInput = new LibraryImport.MOUSEKEYBDHARDWAREINPUT
-            {
-                mi = mi,
-            };
-
-        LibraryImport.INPUT input = new LibraryImport.INPUT
-            {
-                type = LibraryImport.INPUT_TYPE.MOUSE,
-                mkhi = mkhInput,
-            };
-
-        LibraryImport.SendInput(1, ref input, Marshal.SizeOf(input));
+        PInvoke.SendInput([input], sizeof(INPUT));
     }
 
     public static void SetAsToolWindow(this Window window)
     {
         nint handle = new WindowInteropHelper(window).EnsureHandle();
-        nint oldFlags = LibraryImport.GetWindowLongPtr(handle, GWL.GWL_EXSTYLE);
+        nint oldFlags = PInvoke.GetWindowLongPtr(new HWND(handle), WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
         if (oldFlags != nint.Zero)
         {
-            nint newFlags = new nint(oldFlags.ToInt64() | ExtendedWindowStyles.WS_EX_TOOLWINDOW);
-            LibraryImport.SetWindowLongPtr(handle, GWL.GWL_EXSTYLE, newFlags);
+            nint newFlags = new nint(oldFlags | (long)WINDOW_EX_STYLE.WS_EX_TOOLWINDOW);
+            PInvoke.SetWindowLongPtr(new HWND(handle), WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, newFlags);
         }
     }
 
     public static bool PickIconDialog(ref string path, ref int index)
     {
         // We need to have a string that is long enough to handle a more complex path than the default one (more characters in length).
-        char[] pathBuffer = new char[32 * 1024]; // https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation
-        path.CopyTo(pathBuffer);
+        Span<char> pathBuffer = new char[32 * 1024]; // https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation
+        path.CopyTo(pathBuffer); // We assume that 'path' is shorter than 'pathBuffer' and thus we have a null terminated buffer.
 
-        // Method returns one when pressing OK in the dialog.
-        if (LibraryImport.PickIconDlg(nint.Zero, pathBuffer, (uint)pathBuffer.Length, ref index) == 1)
+        // https://learn.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-pickicondlg#return-value
+        const int Success = 1;
+        if (PInvoke.PickIconDlg(HWND.Null, ref pathBuffer, (uint)pathBuffer.Length, ref index) is Success)
         {
-            path = new string(pathBuffer, 0, Array.IndexOf(pathBuffer, '\0')); // Extract string from null terminated string.
+            path = pathBuffer.ToString(); // The friendly helper already limits the buffer to the strings length.
             return true;
         }
         return false;

@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <Product>Launchbar</Product>
-    <Version>5.3.0</Version>
-    <FileVersion>5.3.0.3</FileVersion>
+    <Version>5.4.0-preview.1</Version>
+    <FileVersion>5.4.0.1</FileVersion>
 
     <Copyright>Copyright © Mertsch $([System.DateTime]::UtcNow.Year)</Copyright>
   </PropertyGroup>
