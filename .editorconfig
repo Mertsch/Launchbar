@@ -1,4 +1,5 @@
-﻿root = true # Do NOT inherit any higher level settings.
+﻿# Do NOT inherit any higher level settings.
+root = true
 
 [*.cs]
 # IDE0005: Remove unnecessary using directives (https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0005)
@@ -39,7 +40,8 @@ dotnet_diagnostic.IDE0280.severity = warning
 # IDE0290: Use primary constructor - It's a case by case choice.
 dotnet_diagnostic.IDE0290.severity = silent
 # IDE0305: Collection initialization can be simplified (https://github.com/dotnet/roslyn/issues/70656)
-dotnet_diagnostic.IDE0305.severity = silent # Some suggestions are bad.
+# Reason: We don't like this suggestion.
+dotnet_diagnostic.IDE0305.severity = silent
 # IDE1006: Naming rule violation - Sadly, the 'Naming styles' are not sufficient enough, use ReSharper!
 dotnet_diagnostic.IDE1006.severity = none
 
@@ -55,7 +57,8 @@ dotnet_diagnostic.CA1305.severity = none
 dotnet_diagnostic.CA1309.severity = none 
 # CA1507: Use nameof to express symbol names
 dotnet_diagnostic.CA1507.severity = suggestion
-# CA1716: Identifiers should not match keywords
+# CA1716: Identifiers should not match keywords (https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1716)
+# Reason: There is just too many false positives, especially with 'Step' and 'Get'.
 dotnet_diagnostic.CA1716.severity = none
 # CA1720: Identifier contains type name
 dotnet_diagnostic.CA1720.severity = none
@@ -73,12 +76,17 @@ dotnet_diagnostic.CA1822.severity = silent
 dotnet_diagnostic.CA1847.severity = warning
 # CA1848: Use the LoggerMessage delegates
 dotnet_diagnostic.CA1848.severity = silent
-# CA1863: Use 'CompositeFormat' - The default is warning and in some cases it's not true
+# CA1863: Use 'CompositeFormat' (https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1863)
+# Reason: The default is warning and in some cases it's not true.
 dotnet_diagnostic.CA1863.severity = suggestion
+# CA1873: Avoid potentially expensive logging (https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1873)
+# Reason: Let's slowly migrate to a better pattern.
+dotnet_diagnostic.CA1873.severity = suggestion
 # CA2007: Consider calling ConfigureAwait on the awaited task
 dotnet_diagnostic.CA2007.severity = none
 # CA2016: Forward the 'CancellationToken' parameter to methods
-dotnet_diagnostic.CA2016.severity = suggestion # R# is better at this, pointing to the corect method, instead of the whole call.
+# Reason: R# is better at this, pointing to the correct method, instead of the whole call.
+dotnet_diagnostic.CA2016.severity = suggestion
 # CA2201: Do not raise reserved exception types
 dotnet_diagnostic.CA2201.severity = error
 # CA2234: Pass system uri objects instead of strings
@@ -89,6 +97,10 @@ dotnet_diagnostic.CS1591.severity = none
 # CS8602: Dereference of a possibly null reference (https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/nullable-warnings#possible-dereference-of-null)
 dotnet_diagnostic.CS8602.severity = error
 
+# LOGGEN036: A value being logged doesn't have an effective way to be converted into a string (https://github.com/dotnet/extensions/blob/main/docs/list-of-diagnostics.md#loggermessage)
+# Reason: This seems to a false positive, every object has a .ToString().
+dotnet_diagnostic.LOGGEN036.severity = warning
+
 # MSTEST0016: Test class should have test method (https://learn.microsoft.com/en-us/dotnet/core/testing/mstest-analyzers/mstest0016)
 dotnet_diagnostic.MSTEST0016.severity = warning
 # MSTEST0039: Use newer methods to assert exceptions (https://learn.microsoft.com/en-us/dotnet/core/testing/mstest-analyzers/mstest0039)
@@ -98,10 +110,20 @@ dotnet_diagnostic.MSTEST0042.severity = warning
 # MSTEST0049: Flow TestContext.CancellationToken to async operations (https://learn.microsoft.com/en-us/dotnet/core/testing/mstest-analyzers/mstest0049)
 dotnet_diagnostic.MSTEST0049.severity = warning
 
+# ■■■ MAUI Rules ■■■
+
+# CsWinRT1028: Class should be marked partial
+dotnet_diagnostic.CsWinRT1028.severity = warning
+
+# MVVMTK0034: Direct field reference to [ObservableProperty] backing field
+dotnet_diagnostic.MVVMTK0034.severity = error
+
 [*.{cs,vb}]
 csharp_style_expression_bodied_methods = when_on_single_line
-csharp_style_expression_bodied_accessors = when_on_single_line # https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0027
-csharp_style_expression_bodied_operators = when_on_single_line # https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0023
+# Use expression body for accessors (https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0027)
+csharp_style_expression_bodied_accessors = when_on_single_line
+# Use expression body for operators (https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0023)
+csharp_style_expression_bodied_operators = when_on_single_line
 csharp_style_namespace_declarations = file_scoped
 
 dotnet_sort_system_directives_first = false
@@ -116,20 +138,20 @@ dotnet_style_qualification_for_event = true:silent
 # ■■ Non-functional Rules (matching only happens on the 'symbols' (Specification), not the 'style' (Suffix)).
 
 # ■ Dependency Property backend field - public static readonly DependencyProperty MyProperty = DependencyProperty.Register(...)
-dotnet_naming_rule.PublicStaticReadonlyField.severity = warning
-dotnet_naming_rule.PublicStaticReadonlyField.symbols = public_static_readonly_fields
-dotnet_naming_rule.PublicStaticReadonlyField.style = PascalCaseProperty
+dotnet_naming_rule.DependencyProperty.severity = warning
+dotnet_naming_rule.DependencyProperty.symbols = public_static_readonly_fields
+dotnet_naming_rule.DependencyProperty.style = PascalCaseProperty
 # ■ Public static readonly field (Default) - public static readonly TypeOfField MyFieldName = ...
 dotnet_naming_rule.PublicStaticReadonlyField.severity = warning
 dotnet_naming_rule.PublicStaticReadonlyField.symbols = public_static_readonly_fields
 dotnet_naming_rule.PublicStaticReadonlyField.style = PascalCase
 
 # ■ Dependency Property backend field - private static readonly DependencyPropertyKey MyPropertyKey = DependencyProperty.RegisterReadOnly(...)
-dotnet_naming_rule.PrivateStaticReadonlyField.severity = warning # Should be warning
-dotnet_naming_rule.PrivateStaticReadonlyField.symbols = private_static_readonly_fields
-dotnet_naming_rule.PrivateStaticReadonlyField.style = PascalCasePropertyKey
+dotnet_naming_rule.DependencyPropertyReadOnly.severity = warning
+dotnet_naming_rule.DependencyPropertyReadOnly.symbols = private_static_readonly_fields
+dotnet_naming_rule.DependencyPropertyReadOnly.style = PascalCasePropertyKey
 # ■ Private static readonly field (Default) - private static readonly TypeOfField myFieldName = ...
-dotnet_naming_rule.PrivateStaticReadonlyField.severity = information # Should be warning
+dotnet_naming_rule.PrivateStaticReadonlyField.severity = suggestion
 dotnet_naming_rule.PrivateStaticReadonlyField.symbols = private_static_readonly_fields
 dotnet_naming_rule.PrivateStaticReadonlyField.style = CamelCase
 
@@ -180,11 +202,6 @@ dotnet_naming_style.CamelCase.required_suffix =
 dotnet_naming_style.CamelCase.word_separator = 
 dotnet_naming_style.CamelCase.capitalization = camel_case
 
-dotnet_naming_style.IPascalCase.required_prefix = I
-dotnet_naming_style.IPascalCase.required_suffix = 
-dotnet_naming_style.IPascalCase.word_separator = 
-dotnet_naming_style.IPascalCase.capitalization = pascal_case
-
 dotnet_naming_style.PascalCaseProperty.required_suffix = Property
 dotnet_naming_style.PascalCaseProperty.capitalization = pascal_case
 
@@ -199,11 +216,6 @@ resx_formatter_remove_xsd_schema = false
 resx_formatter_remove_documentation_comment = true
 resx_formatter_sort_comparer = OrdinalIgnoreCase
 
-# ■■■ MAUI Rules ■■■
-
-[*.cs]
-# CsWinRT1028: Class should be marked partial
-dotnet_diagnostic.CsWinRT1028.severity = warning
-
-# MVVMTK0034: Direct field reference to [ObservableProperty] backing field
-dotnet_diagnostic.MVVMTK0034.severity = error
+[*.md]
+md_blanks_around_headings = false:none
+md_blanks_around_lists = false:none

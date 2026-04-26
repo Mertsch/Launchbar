@@ -1,5 +1,6 @@
 ﻿<Project>
   <PropertyGroup>
+    <vNet>10.0</vNet>
     <!-- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/language#langversion -->
     <LangVersion>preview</LangVersion>
     <!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#analysislevel -->
@@ -12,20 +13,22 @@
     <ImplicitUsings>enable</ImplicitUsings>
 
     <NeutralLanguage>en</NeutralLanguage>
+    <!-- We only support English and German - https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#satelliteresourcelanguages -->
+    <SatelliteResourceLanguages>en;de</SatelliteResourceLanguages>
 
     <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
     <UseArtifactsOutput>true</UseArtifactsOutput>
-    <DefaultItemExcludes>$(DefaultItemExcludes);**\*.DotSettings</DefaultItemExcludes>
+    <DefaultItemExcludes>$(DefaultItemExcludes);**/*.DotSettings</DefaultItemExcludes>
 
     <IsTestProjectName>false</IsTestProjectName>
-    <IsTestProjectName Condition="$(MSBuildProjectName.EndsWith('.Tests')) OR $(MSBuildProjectName.EndsWith('.IntegrationTests')) OR $(MSBuildProjectName.EndsWith('.TestHelper'))">true</IsTestProjectName>
+    <IsTestProjectName Condition="$(MSBuildProjectName.EndsWith('.Tests')) OR $(MSBuildProjectName.EndsWith('.IntegrationTests')) OR $(MSBuildProjectName.EndsWith('TestHelper'))">true</IsTestProjectName>
     <IsSetupProjectName>false</IsSetupProjectName>
     <IsSetupProjectName Condition="$(MSBuildProjectName.Contains('.Setup.'))">true</IsSetupProjectName>
     <IsProdProjectName>true</IsProdProjectName>
     <IsProdProjectName Condition="$(IsTestProjectName) OR $(IsSetupProjectName)">false</IsProdProjectName>
   </PropertyGroup>
 
-  <Import Condition="$(IsProdProjectName)" Project="Product.props"/>
+  <Import Condition="$(IsProdProjectName) AND Exists('Product.props')" Project="Product.props"/>
 
   <!-- #region Workaround for https://github.com/dotnet/roslyn/issues/41640 -->
   <PropertyGroup>
@@ -44,8 +47,6 @@
     <!-- #region - 🚀 Production code projects 🚀 -->
     <When Condition="$(IsProdProjectName)">
       <PropertyGroup>
-        <TargetFramework>net10.0</TargetFramework>
-
         <IsPublishable>false</IsPublishable>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
       </PropertyGroup>
@@ -55,6 +56,11 @@
       </PropertyGroup>
 
       <ItemGroup>
+        <PackageReference Include="JetBrains.Annotations.Sources">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+
         <Using Include="JetBrains.Annotations"/>
       </ItemGroup>
 
@@ -63,31 +69,44 @@
         <!-- https://fakeiteasy.github.io/docs/8.3.0/how-to-fake-internal-types/ -->
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
       </ItemGroup>
+
+      <Choose>
+        <!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#continuousintegrationbuild -->
+        <When Condition="'$(TF_BUILD)' == 'true' OR '$(GITHUB_ACTIONS)' == 'true'">
+          <PropertyGroup>
+            <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+          </PropertyGroup>
+          <ItemGroup>
+            <SourceRoot Include="$([MSBuild]::EnsureTrailingSlash('$(MSBuildThisFileDirectory)'))"/>
+          </ItemGroup>
+        </When>
+      </Choose>
     </When>
     <!-- #endregion -->
 
     <!-- #region - 🧪 Test projects 🧪 -->
     <When Condition="$(IsTestProjectName)">
       <PropertyGroup>
-        <TargetFramework>net10.0</TargetFramework>
-
         <IsPackable>false</IsPackable>
         <IsPublishable>false</IsPublishable>
+        <MSTestAnalysisMode>All</MSTestAnalysisMode>
 
-        <RunSettingsFilePath>$(MSBuildThisFileDirectory)\Default.runsettings</RunSettingsFilePath>
+        <RunSettingsFilePath>$(MSBuildThisFileDirectory)/Default.runsettings</RunSettingsFilePath>
       </PropertyGroup>
 
       <ItemGroup>
+        <PackageReference Include="JetBrains.Annotations.Sources">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+
         <Using Include="fm.Extensions.Testing"/>
         <Using Include="JetBrains.Annotations"/>
-        <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting"/>
       </ItemGroup>
 
-      <ItemGroup>
+      <!-- We don't actually need these package references, they are only to work around a R# bug https://youtrack.jetbrains.com/issue/RSRP-498677/ -->
+      <ItemGroup Condition=" '$(BuildingInsideVisualStudio)' == 'true' ">
         <PackageReference Include="Microsoft.NET.Test.Sdk">
-          <TreatAsUsed>true</TreatAsUsed>
-        </PackageReference>
-        <PackageReference Include="MSTest">
           <TreatAsUsed>true</TreatAsUsed>
         </PackageReference>
       </ItemGroup>
@@ -97,12 +116,43 @@
     <!-- #region - 📦 Setup projects 📦 -->
     <When Condition="$(IsSetupProjectName)">
       <PropertyGroup>
-        <TargetFramework>net10.0</TargetFramework>
-
         <IsPublishable>false</IsPublishable>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <AcceptEula>wix7</AcceptEula>
       </PropertyGroup>
     </When>
     <!-- #endregion -->
   </Choose>
+
+  <!-- Workaround for duplicate JetBrains annotations: https://github.com/dotnet/aspnetcore/issues/64378 -->
+  <Target Name="RemoveXmlDocsFromJetBrainsAnnotations"
+          AfterTargets="CoreCompile"
+          BeforeTargets="CoreBuild"
+          Condition="'$(GenerateDocumentationFile)' == 'true' AND Exists('$(OutputPath)$(AssemblyName).xml')">
+
+    <PropertyGroup>
+      <_XslContent>
+        <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+          <xsl:template match="@*|node()">
+            <xsl:copy>
+              <xsl:apply-templates select="@*|node()"/>
+            </xsl:copy>
+          </xsl:template>
+          <xsl:template match="member[starts-with(@name, 'F:JetBrains')]"/>
+          <xsl:template match="member[starts-with(@name, 'M:JetBrains')]"/>
+          <xsl:template match="member[starts-with(@name, 'P:JetBrains')]"/>
+          <xsl:template match="member[starts-with(@name, 'T:JetBrains')]"/>
+        </xsl:stylesheet>
+      </_XslContent>
+    </PropertyGroup>
+
+    <XslTransformation
+      OutputPaths="$(OutputPath)$(AssemblyName).xml.tmp"
+      XmlInputPaths="$(OutputPath)$(AssemblyName).xml"
+      XslContent="$(_XslContent)"/>
+
+    <Move
+      DestinationFiles="$(OutputPath)$(AssemblyName).xml"
+      SourceFiles="$(OutputPath)$(AssemblyName).xml.tmp"/>
+  </Target>
 </Project>
