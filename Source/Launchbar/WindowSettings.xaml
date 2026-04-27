@@ -8,7 +8,7 @@
     xmlns:diag="clr-namespace:System.Diagnostics;assembly=System.Diagnostics.Process"
     xmlns:shapes="clr-namespace:Launchbar.Shapes"
     xmlns:s="clr-namespace:System;assembly=System.Runtime"
-    xmlns:md="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
+    xmlns:md="clr-namespace:MarkdownWPF;assembly=MarkdownWPF"
 
     Title="Launchbar Settings"
     MinHeight="550" MinWidth="400" Height="600" Width="450"
@@ -16,9 +16,9 @@
     DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}, Mode=OneTime}"
     Hyperlink.RequestNavigate="requestNavigateHyperlink">
 
-    <Window.CommandBindings>
+    <!--<Window.CommandBindings>
         <CommandBinding Command="{x:Static md:Commands.Hyperlink}" Executed="requestNavigateCommand"/>
-    </Window.CommandBindings>
+    </Window.CommandBindings>-->
 
     <Grid>
         <Grid.RowDefinitions>
@@ -545,7 +545,16 @@ released under the <Hyperlink NavigateUri="http://creativecommons.org/licenses/b
 
                     <Rectangle Grid.Row="3" Margin="4,2" Height="2" Fill="CornflowerBlue"/>
 
-                    <md:MarkdownViewer Grid.Row="4" Markdown="{Binding Source={x:Static p:Resources.Changelog}, Mode=OneTime}"/>
+                    <md:MarkdownViewer Grid.Row="4" Markdown="{Binding Source={x:Static p:Resources.Changelog}, Mode=OneTime}">
+                        <Control.Template>
+                            <ControlTemplate TargetType="{x:Type md:MarkdownViewer}">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <ItemsPresenter/>
+                                </ScrollViewer>
+                            </ControlTemplate>
+                        </Control.Template>
+                    </md:MarkdownViewer>
+
                 </Grid>
             </TabItem>
         </TabControl>

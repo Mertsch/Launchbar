@@ -116,10 +116,10 @@ internal sealed partial class WindowSettings : Window
         requestNavigate(e);
     }
 
-    private void requestNavigateCommand(object? sender, ExecutedRoutedEventArgs e)
-    {
-        requestNavigate(e);
-    }
+    //private void requestNavigateCommand(object? sender, ExecutedRoutedEventArgs e)
+    //{
+    //    requestNavigate(e);
+    //}
 
     private static void requestNavigate(RoutedEventArgs e)
     {

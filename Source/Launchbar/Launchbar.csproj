@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <PackageReference Include="fm.Extensions.Wpf" />
-    <PackageReference Include="Markdig.Wpf" />
+    <PackageReference Include="MarkdownWPF" />
     <PackageReference Include="Microsoft.Windows.CsWin32">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
