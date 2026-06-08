@@ -12,16 +12,16 @@ namespace Launchbar;
 public sealed partial class App : Application, IDisposable
 {
 #if DEBUG
-    private const string MutexName = @"Global\LaunchbarSingleInstanceMutex(Debug)";
+    private const string SingleInstanceHandleName = @"LaunchbarSingleInstance(Debug)";
 #else
-        private const string MutexName = @"Global\LaunchbarSingleInstanceMutex";
+    private const string SingleInstanceHandleName = @"LaunchbarSingleInstance";
 #endif
 
     #region Fields
 
     private static SplashScreen? splashScreen;
 
-    private readonly Mutex instanceMutex;
+    private readonly EventWaitHandle singleInstanceHandle;
 
     private WindowBar? barLeft;
 
@@ -64,21 +64,34 @@ public sealed partial class App : Application, IDisposable
 
         #region Make sure that only one instance of the application is running at any given time.
 
-        this.instanceMutex = new Mutex(false, MutexName, out bool instantiated);
-        if (!instantiated)
+        this.singleInstanceHandle = new EventWaitHandle(false, EventResetMode.AutoReset, SingleInstanceHandleName, new NamedWaitHandleOptions { CurrentUserOnly = true }, out bool createdNew);
+        if (!createdNew)
         {
-            MessageBox.Show(Launchbar.Properties.Resources.SingleInstanceWarning,
-                Launchbar.Properties.Resources.ApplicationName, MessageBoxButton.OK,
+            MessageBoxResult messageBoxResult = MessageBox.Show(Launchbar.Properties.Resources.SingleInstanceWarning,
+                Launchbar.Properties.Resources.ApplicationName, MessageBoxButton.OKCancel,
                 MessageBoxImage.Information);
-            try
+
+            if (messageBoxResult is MessageBoxResult.OK)
             {
-                splashScreen?.Close(TimeSpan.Zero);
+                this.singleInstanceHandle.Set(); // Signal the other instance to shut down.
             }
-            catch (Win32Exception) { }
-            this.Shutdown();
-            this.contextMenu = default!;
-            return;
+            else
+            {
+                // Close this instance
+                try
+                {
+                    splashScreen?.Close(TimeSpan.Zero);
+                }
+                catch (Win32Exception) { }
+                this.Shutdown();
+                this.contextMenu = null!;
+                return;
+            }
         }
+
+        ThreadPool.RegisterWaitForSingleObject(this.singleInstanceHandle,
+            (_, _) => this.Dispatcher.Invoke(this.Shutdown),
+            state: null, Timeout.Infinite, executeOnlyOnce: true);
 
         #endregion
 
@@ -276,11 +289,11 @@ public sealed partial class App : Application, IDisposable
     {
         base.OnExit(e);
 
-        this.instanceMutex.Dispose();
+        this.singleInstanceHandle.Dispose();
     }
 
     public void Dispose()
     {
-        this.instanceMutex.Dispose();
+        this.singleInstanceHandle.Dispose();
     }
 }

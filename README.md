@@ -1,5 +1,4 @@
-﻿Launchbar
-===
+﻿# Launchbar
 Access all your favorite applications and files with only 2 clicks.
 No precise mouse movement required, no bloat, no extensions, just a simple launcher.
 
@@ -7,7 +6,7 @@ No precise mouse movement required, no bloat, no extensions, just a simple launc
 
 ![Launchbar in action](<Screenshot.jpg>)
 
-### What do others say?
+## What do others say?
 Check out these sites for a pretty accurate description of Launchbar.
 
 - [Looking for a simple, practical launcher? Try Launchbar 4 for Windows](https://www.freewaregenius.com/looking-for-a-simple-practical-launcher-try-launchbar-4-for-windows)

@@ -148,8 +148,8 @@ public sealed partial class WindowBar : Window
 
     /// <summary>
     /// Catch left mouse button and send it to the underlying window.
+    /// We move one pixel next to this windows and simulate a click there.
     /// </summary>
-    /// <param name="e"></param>
     protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
     {
         WinHelper.SendMouseButtonUp(MouseButton.Left);

@@ -1,0 +1,7 @@
+GetWindowLongPtrW
+SetWindowLongPtrW
+PickIconDlg
+ExtractIcon
+ExtractAssociatedIcon
+SendInput
+WINDOW_EX_STYLE

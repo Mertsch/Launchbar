@@ -65,7 +65,7 @@
     <value>Program</value>
   </data>
   <data name="SingleInstanceWarning" xml:space="preserve">
-    <value>Launchbar is already running! Please shutdown any existing instances of this application before starting a new one.</value>
+    <value>Launchbar is already running! Do you want to shutdown any existing instances and use this one instead?</value>
     <comment>Warning displayed when duplicate instance detected.</comment>
   </data>
   <data name="QuestionUpgradeConfig" xml:space="preserve">

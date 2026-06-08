@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.4.0] - 2026-06-08
+### Changed
+- Optimize calls to the Windows API by using [C#/Win32 Interop Projection](https://github.com/microsoft/CsWin32).
+- The app now asks you to shut down an existing instance when trying to start a new instance.
+
 ## [5.3.0] - 2025-11-21
 ### Changed
 - Re-enabled DPI awareness. Launchbar now looks sharp and natural on high-DPI displays.
@@ -57,12 +62,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [4.1.0] - 2012-10-17
 ### Changed
 - Assembly renamed and signed with strong name
+
 ### Removed
 - Removed tray icon
 
 ## [4.0.0] - 2012-09-16
 ### Added
 - Added click through support (left clicks are no longer blocken when menu is closed)
+
 ### Changed
 - Now based on .NET 4.5
 
@@ -83,6 +90,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [3.0.9] - 2009-06-06
 ### Added
 - Support for multiple activation zones on the working area.
+
 ### Changed
 - Keyboard shortcuts are now accepted from any level, not only the main level.
 
@@ -91,10 +99,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Application has been fully ported to WPF (.NET 3.5 SP1).
 - Every setting is applied immediately for instant feedback.
 - Making use of vector based icons for much better looks.
+
 ### Changed
 - Icons have been updated to the latest Kempelton 3.1 (2009-05-21).
 - Context menu scaling instead of icon scaling.
 - Compiled with Visual Studio 2008 SP1.
+
 ### Fixed
 - Memory leak on icon extraction
 - Bug where the application would pop up in the taskbar
@@ -102,6 +112,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.2.0] - 2009-05-31
 ### Added
 - Show the location of the profile file on the disk.
+
 ### Changed
 - Activation zone can be placed on any side of the screen.
 - Activation zone change is now applied instantly.
@@ -118,6 +129,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.1] - 2007-12-29
 ### Added
 - Now detecting desktop resolution changes.
+
 ### Changed
 - Changed icons to Kempelton 2.0 theme.
 - Dynamically applying properties to bar (to preview changes in the configuration).
@@ -125,6 +137,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.0] - 2007-12-01
 ### Added
 - Programs can now be started with a different priority.
+
 ### Changed
 - Complete redesign of the underlying code to make the program more efficient, structured and much more stable.
 - Compiled with Visual Studio 2008.
@@ -144,12 +157,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.7] - 2007-03-18
 ### Added
 - The downloader supports compression (much smaller update)
+
 ### Changed
 - Redesigned the downloader - its fully stable and gives more feedback
 
 ## [1.6] - 2007-03-11
 ### Added
-+ You can now choose an individual icon for any entry
+- You can now choose an individual icon for any entry
+
 ### Changed
 - Internal restructuring to make this possible
 - A few GUI changes
@@ -158,19 +173,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Automatic update is now possible (see advanced options)
 - Prevents multiple instances on the same executable
+
 ### Changed
 - A few internal changes
 
 ## [1.4] - 2007-03-03
 ### Added
 - An update-in-progress window
+
 ### Changed
 - Checking for updates does no longer block the application
 - You can now retry updating when it fails
 - A bit of GUI tweaking
 - Reduced the size of the application
-## [
-1.32] - 2007-03-03
+
+## [1.32] - 2007-03-03
 ### Changed
 - Tweaked the updater (much more reliable and gives feedback)
 
@@ -191,6 +208,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - The program does no longer show up in alt-tab manager
 - You can now close the application from the options window
+
 ### Changed
 - Improved the ? warning icon
 - A very minor code change
@@ -201,9 +219,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Define size of context menu-icons
 - Icon preview in context menu-configuration
 - Ability to open a Folder instead of an executable
+
 ### Changed
 - Tweaked icons for "new ..." buttons
 - A few minor GUI improvements
+
 ### Fixed
 - Forgot to save 2 settings
 
