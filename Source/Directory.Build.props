@@ -112,16 +112,6 @@
       </ItemGroup>
     </When>
     <!-- #endregion -->
-
-    <!-- #region - 📦 Setup projects 📦 -->
-    <When Condition="$(IsSetupProjectName)">
-      <PropertyGroup>
-        <IsPublishable>false</IsPublishable>
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-        <AcceptEula>wix7</AcceptEula>
-      </PropertyGroup>
-    </When>
-    <!-- #endregion -->
   </Choose>
 
   <!-- Workaround for duplicate JetBrains annotations: https://github.com/dotnet/aspnetcore/issues/64378 -->
