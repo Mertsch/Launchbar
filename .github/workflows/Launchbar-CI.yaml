@@ -32,7 +32,7 @@ jobs:
       run: dotnet publish Source/Launchbar.slnx --configuration Release
 
     - name: Upload
-      uses: actions/upload-artifact@v4 # https://github.com/marketplace/actions/upload-a-build-artifact
+      uses: actions/upload-artifact@v7 # https://github.com/marketplace/actions/upload-a-build-artifact
       with:
         name: Launchbar
         path: Source/artifacts/publish/Launchbar/release/**
