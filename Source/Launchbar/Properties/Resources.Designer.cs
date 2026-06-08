@@ -19,7 +19,7 @@ namespace Launchbar.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -83,18 +83,16 @@ namespace Launchbar.Properties {
         /// <summary>
         ///   Looks up a localized string similar to # Changelog
         ///All notable changes to this project will be documented in this file.
-        ///
-        ///The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+        ///The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
         ///and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
         ///
-        ///## [5.0.0] - 2021-12-15
+        ///## [5.4.0] - 2026-01-14
         ///### Changed
-        ///- Upgrade to .NET 6.0, requires the [.NET Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/6.0/runtime) to run
-        ///- Changelog is now rendered with Markdown
-        ///### Removed
-        ///- Assembly Strong Name
+        ///- Optimize calls to the Windows API by using [C#/Win32 Interop Projection](https://github.com/microsoft/CsWin32).
         ///
-        ///## [4.6.0 [rest of string was truncated]&quot;;.
+        ///## [5.3.0] - 2025-11-21
+        ///### Changed
+        ///- Re-enabled DPI awareness. Launchbar now looks sharp and natur [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Changelog {
             get {
@@ -148,7 +146,7 @@ namespace Launchbar.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Launchbar is already running! Please shutdown any existing instances of this application before starting a new one..
+        ///   Looks up a localized string similar to Launchbar is already running! Do you want to shutdown any existing instances and use this one instead?.
         /// </summary>
         public static string SingleInstanceWarning {
             get {

@@ -3,9 +3,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [5.4.0] - 2026-01-14
+## [5.4.0] - 2026-06-08
 ### Changed
 - Optimize calls to the Windows API by using [C#/Win32 Interop Projection](https://github.com/microsoft/CsWin32).
+- The app now asks you to shut down an existing instance when trying to start a new instance.
 
 ## [5.3.0] - 2025-11-21
 ### Changed
