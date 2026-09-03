@@ -2,7 +2,7 @@
   <PropertyGroup>
     <vNet>10.0</vNet>
     <!-- https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/language#langversion -->
-    <LangVersion>preview</LangVersion>
+    <LangVersion>latest</LangVersion>
     <!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#analysislevel -->
     <AnalysisLevel>latest-recommended</AnalysisLevel>
     <!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#enforcecodestyleinbuild -->
