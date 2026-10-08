@@ -3,7 +3,7 @@
     <Product>Launchbar</Product>
     <Copyright>Copyright © freedom manufaktur GmbH $([System.DateTime]::UtcNow.Year)</Copyright>
 
-    <Version>5.5.0-preview.1</Version>
-    <FileVersion>5.5.0.1</FileVersion>
+    <Version>5.5.0</Version>
+    <FileVersion>5.5.0.2</FileVersion>
   </PropertyGroup>
 </Project>
