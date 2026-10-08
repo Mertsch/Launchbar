@@ -8,17 +8,13 @@
     xmlns:diag="clr-namespace:System.Diagnostics;assembly=System.Diagnostics.Process"
     xmlns:shapes="clr-namespace:Launchbar.Shapes"
     xmlns:s="clr-namespace:System;assembly=System.Runtime"
-    xmlns:md="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
+    xmlns:md="clr-namespace:MarkdownWPF;assembly=MarkdownWPF"
 
     Title="Launchbar Settings"
     MinHeight="550" MinWidth="400" Height="600" Width="450"
     Icon="Resources/Settings.ico"
     DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}, Mode=OneTime}"
     Hyperlink.RequestNavigate="requestNavigateHyperlink">
-
-    <Window.CommandBindings>
-        <CommandBinding Command="{x:Static md:Commands.Hyperlink}" Executed="requestNavigateCommand"/>
-    </Window.CommandBindings>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -545,7 +541,18 @@ released under the <Hyperlink NavigateUri="http://creativecommons.org/licenses/b
 
                     <Rectangle Grid.Row="3" Margin="4,2" Height="2" Fill="CornflowerBlue"/>
 
-                    <md:MarkdownViewer Grid.Row="4" Markdown="{Binding Source={x:Static p:Resources.Changelog}, Mode=OneTime}"/>
+                    <md:MarkdownViewer Grid.Row="4" Margin="0" Padding="2"
+                                       Markdown="{Binding Source={x:Static p:Resources.Changelog}, Mode=OneTime}"
+                                       IsTabStop="False">
+                        <md:MarkdownViewer.Template>
+                            <ControlTemplate TargetType="{x:Type md:MarkdownViewer}">
+                                <ScrollViewer Padding="{TemplateBinding Padding}">
+                                    <!-- We set this template to remove the default 15px margin - https://github.com/IgorShaposhnikov/MarkdownWPF/blob/73beec5bb6c4d1ef9b16b227dc7f0fb758578467/src/MarkdownWPF/MarkdownViewer.cs#L85 -->
+                                    <ItemsPresenter/>
+                                </ScrollViewer>
+                            </ControlTemplate>
+                        </md:MarkdownViewer.Template>
+                    </md:MarkdownViewer>
                 </Grid>
             </TabItem>
         </TabControl>

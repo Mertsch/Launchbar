@@ -1,11 +1,9 @@
 ﻿<Project>
-
   <PropertyGroup>
     <Product>Launchbar</Product>
-    <Version>5.4.0</Version>
-    <FileVersion>5.4.0.3</FileVersion>
+    <Copyright>Copyright © freedom manufaktur GmbH $([System.DateTime]::UtcNow.Year)</Copyright>
 
-    <Copyright>Copyright © Mertsch $([System.DateTime]::UtcNow.Year)</Copyright>
+    <Version>5.5.0-preview.1</Version>
+    <FileVersion>5.5.0.1</FileVersion>
   </PropertyGroup>
-
 </Project>
